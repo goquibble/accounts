@@ -1,5 +1,3 @@
-import "./App.css";
-
 export default function App() {
-  return "Log in";
+  return <h1 className="text-2xl font-semibold">Welcome Back</h1>;
 }
