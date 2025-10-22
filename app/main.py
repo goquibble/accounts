@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 
-from .routers.login import router as login_router
+from .internal import admin
+from .routers import login
 
 app = FastAPI()
-app.include_router(login_router)
+app.include_router(login.router)
+app.include_router(admin.router, prefix="/admin")
 
 
 @app.get("/")
