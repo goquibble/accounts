@@ -16,7 +16,8 @@ export default function LoginPassword() {
           type="email"
           placeholder="Email address"
           autoComplete="off"
-          defaultValue={location.state.email}
+          value={location.state.email}
+          readOnly
         />
         <Input
           name="password"
