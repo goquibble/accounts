@@ -15,7 +15,7 @@ export default function Header() {
           href="https://github.com/orgs/goquibble/discussions/new?category=q-a"
           target="_blank"
           rel="noreferrer"
-          className="text-primary underline font-medium"
+          className="text-primary underline"
         >
           Need help?
         </a>

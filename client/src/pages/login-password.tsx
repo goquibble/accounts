@@ -52,7 +52,7 @@ export default function LoginPassword() {
           </Input>
           <NavLink
             to="/forgot-password"
-            className="text-primary text-sm hover:underline w-max"
+            className="text-primary text-sm hover:underline w-max font-medium"
           >
             Forgot password?
           </NavLink>
