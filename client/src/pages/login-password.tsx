@@ -1,8 +1,9 @@
-import { useLocation } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 
 export default function LoginPassword() {
+  document.title = "Log in — GoQuibble";
   const location = useLocation();
 
   return (
@@ -25,6 +26,9 @@ export default function LoginPassword() {
         />
         <Button className="font-medium">Continue</Button>
       </form>
+      <NavLink to="/forgot-password" className="text-primary hover:underline">
+        Forgot Password?
+      </NavLink>
     </>
   );
 }

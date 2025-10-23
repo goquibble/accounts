@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="flex items-center gap-2 mt-auto">
+    <footer className="flex items-center gap-2 mt-auto sm:mt-4">
       <a
         href="https://legal.goquibble.online/terms-of-use"
         target="_blank"

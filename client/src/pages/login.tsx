@@ -7,7 +7,7 @@ import Input from "@/components/ui/input";
 import Seperator from "@/components/ui/seperator";
 
 export default function Login() {
-  document.title = "Login — GoQuibble";
+  document.title = "Log in — GoQuibble";
   const navigate = useNavigate();
 
   const {
