@@ -1,4 +1,4 @@
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ComponentProps<"button"> {
   variant?: "default" | "outline";

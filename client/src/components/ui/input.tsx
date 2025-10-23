@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef } from "react";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 interface InputProps extends React.ComponentProps<"input"> {
   wrapperClassName?: string;

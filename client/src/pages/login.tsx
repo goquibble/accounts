@@ -1,8 +1,8 @@
 import { NavLink } from "react-router";
-import Button from "../components/button";
-import DiscordIcon from "../components/icons/discord";
-import GoogleIcon from "../components/icons/google";
-import Input from "../components/input";
+import DiscordIcon from "@/components/icons/discord";
+import GoogleIcon from "@/components/icons/google";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
 
 export default function Login() {
   document.title = "Login — GoQuibble";
