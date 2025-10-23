@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router";
-import DiscordIcon from "@/components/icons/discord";
-import GoogleIcon from "@/components/icons/google";
 import InfoIcon from "@/components/icons/info";
+import OAuthBtns from "@/components/oauth-btns";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
+import Seperator from "@/components/ui/seperator";
 import BaseLayout from "@/layouts/base";
 
 export default function Login() {
   document.title = "Login — GoQuibble";
+
   const {
     register,
     handleSubmit,
@@ -51,27 +52,15 @@ export default function Login() {
       </form>
       <span className="text-muted-foreground">
         Don't have an account?{" "}
-        <NavLink to={"/register"} className="text-primary hover:underline">
+        <NavLink
+          to={"/create-account"}
+          className="text-primary hover:underline"
+        >
           Sign up
         </NavLink>
       </span>
-      <span className="inline-flex items-center gap-4 w-full">
-        <span className="h-px w-full bg-border"></span>
-        <span className="text-sm font-medium">OR</span>
-        <span className="h-px w-full bg-border"></span>
-      </span>
-      <Button
-        variant="outline"
-        className="justify-start"
-        disabled={isSubmitting}
-      >
-        <GoogleIcon className="size-5" />
-        Continue with Google
-      </Button>
-      <Button variant="outline" className="justify-start" disabled>
-        <DiscordIcon className="size-5" />
-        Continue with Discord
-      </Button>
+      <Seperator>OR</Seperator>
+      <OAuthBtns disabled={isSubmitting} />
     </BaseLayout>
   );
 }
