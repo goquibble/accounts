@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import InfoIcon from "@/components/icons/info";
 import OAuthBtns from "@/components/oauth-btns";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Seperator from "@/components/ui/seperator";
-import BaseLayout from "@/layouts/base";
 
 export default function Login() {
   document.title = "Login — GoQuibble";
+  const navigate = useNavigate();
 
   const {
     register,
@@ -18,11 +18,13 @@ export default function Login() {
 
   const onSubmit = async (data: { email: string }) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(data);
+    navigate("./password", {
+      state: { email: data.email },
+    });
   };
 
   return (
-    <BaseLayout>
+    <>
       <img src="/favicon.svg" alt="Quibble" className="size-10" />
       <h1 className="text-3xl font-medium">Welcome back</h1>
       <form className="space-y-4 w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -61,6 +63,6 @@ export default function Login() {
       </span>
       <Seperator>OR</Seperator>
       <OAuthBtns disabled={isSubmitting} />
-    </BaseLayout>
+    </>
   );
 }

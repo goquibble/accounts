@@ -1,12 +1,12 @@
+import { Outlet } from "react-router";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
-  children: React.ReactNode;
   className?: string;
 }
 
-export default function BaseLayout({ children, className }: LayoutProps) {
+export default function BaseLayout({ className }: LayoutProps) {
   return (
     <main
       className={cn(
@@ -14,7 +14,7 @@ export default function BaseLayout({ children, className }: LayoutProps) {
         className,
       )}
     >
-      {children}
+      <Outlet />
       <Footer />
     </main>
   );
