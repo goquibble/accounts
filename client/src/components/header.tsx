@@ -8,7 +8,7 @@ export default function Header() {
         className="flex items-center gap-2"
       >
         <img src="/favicon.svg" alt="Quibble" className="size-6" />
-        <span className="font-medium">Platform</span>
+        <span className="font-medium">GoQuibble Platform</span>
       </a>
       <div className="flex items-center gap-4">
         <a
