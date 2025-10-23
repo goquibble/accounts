@@ -8,7 +8,7 @@ interface OAuthBtnsProps {
 
 export default function OAuthBtns({ disabled }: OAuthBtnsProps) {
   return (
-    <>
+    <div className="space-y-3 w-full">
       <Button variant="outline" className="justify-start" disabled={disabled}>
         <GoogleIcon className="size-5" />
         Continue with Google
@@ -17,6 +17,6 @@ export default function OAuthBtns({ disabled }: OAuthBtnsProps) {
         <DiscordIcon className="size-5" />
         Continue with Discord
       </Button>
-    </>
+    </div>
   );
 }

@@ -14,7 +14,7 @@ export default function LoginPassword() {
   return (
     <>
       <h1 className="text-3xl font-medium">Enter Password</h1>
-      <form className="space-y-4 w-full">
+      <form className="space-y-3 w-full">
         <Input
           name="email"
           type="email"
@@ -52,7 +52,7 @@ export default function LoginPassword() {
           </Input>
           <NavLink
             to="/forgot-password"
-            className="text-primary text-sm hover:underline"
+            className="text-primary text-sm hover:underline w-max"
           >
             Forgot password?
           </NavLink>

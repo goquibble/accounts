@@ -4,7 +4,7 @@ interface SeperatorProps {
 
 export default function Seperator({ children }: SeperatorProps) {
   return (
-    <span className="inline-flex items-center gap-4 w-full">
+    <span className="inline-flex items-center gap-4 w-full my-2">
       <span className="h-px w-full bg-border"></span>
       {children && (
         <>
