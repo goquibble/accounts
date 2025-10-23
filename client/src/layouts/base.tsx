@@ -10,7 +10,7 @@ export default function BaseLayout({ children, className }: LayoutProps) {
   return (
     <main
       className={cn(
-        "max-w-90 mx-auto p-4 pt-14 flex flex-col items-center gap-4",
+        "max-w-90 min-h-dvh sm:min-h-auto mx-auto p-4 pt-14 flex flex-col items-center gap-4",
         className,
       )}
     >

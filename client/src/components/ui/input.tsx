@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef } from "react";
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 interface InputProps extends React.ComponentProps<"input"> {
@@ -14,17 +14,11 @@ export default function Input({
   ...props
 }: InputProps) {
   const id = useId();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   return (
     <div className={cn("relative w-full", wrapperClassName)}>
       <input
         id={id}
-        ref={inputRef}
         placeholder=""
         className={cn(
           "peer border-2 border-border focus:border-primary focus:outline-none transition-colors h-13 px-4 rounded-xl w-full",

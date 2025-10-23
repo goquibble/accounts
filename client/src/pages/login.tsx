@@ -9,7 +9,6 @@ import BaseLayout from "@/layouts/base";
 
 export default function Login() {
   document.title = "Login — GoQuibble";
-
   const {
     register,
     handleSubmit,
@@ -37,6 +36,7 @@ export default function Login() {
             })}
             name="email"
             placeholder="Email address"
+            autoFocus
             autoComplete="off"
           />
           {errors.email && (
