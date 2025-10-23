@@ -3,12 +3,13 @@ import DiscordIcon from "@/components/icons/discord";
 import GoogleIcon from "@/components/icons/google";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
+import BaseLayout from "@/layouts/base";
 
 export default function Login() {
   document.title = "Login — GoQuibble";
 
   return (
-    <main className="max-w-90 mx-auto p-4 pt-14 flex flex-col items-center gap-4">
+    <BaseLayout>
       <img src="/favicon.svg" alt="Quibble" className="size-10" />
       <h1 className="text-3xl font-medium">Welcome back</h1>
       <form className="space-y-4 w-full">
@@ -34,25 +35,6 @@ export default function Login() {
         <DiscordIcon className="size-5" />
         Continue with Discord
       </Button>
-      <div className="flex items-center gap-2">
-        <a
-          href="https://legal.goquibble.online/terms-of-use"
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm text-muted-foreground underline"
-        >
-          Terms of Use
-        </a>
-        <span className="text-muted-foreground text-sm">—</span>
-        <a
-          href="https://legal.goquibble.online/privacy-policy"
-          target="_blank"
-          rel="noreferrer"
-          className="text-sm text-muted-foreground underline"
-        >
-          Privacy Policy
-        </a>
-      </div>
-    </main>
+    </BaseLayout>
   );
 }
