@@ -1,6 +1,8 @@
+import { useForm } from "react-hook-form";
 import { NavLink } from "react-router";
 import DiscordIcon from "@/components/icons/discord";
 import GoogleIcon from "@/components/icons/google";
+import InfoIcon from "@/components/icons/info";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import BaseLayout from "@/layouts/base";
@@ -8,12 +10,40 @@ import BaseLayout from "@/layouts/base";
 export default function Login() {
   document.title = "Login — GoQuibble";
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ email: string }>();
+
+  const onSubmit = (data: { email: string }) => {
+    console.log(data);
+  };
+
   return (
     <BaseLayout>
       <img src="/favicon.svg" alt="Quibble" className="size-10" />
       <h1 className="text-3xl font-medium">Welcome back</h1>
-      <form className="space-y-4 w-full">
-        <Input type="email" name="email" placeholder="Email address" />
+      <form className="space-y-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-1">
+          <Input
+            {...register("email", {
+              required: "Email is required.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Email is not valid.",
+              },
+            })}
+            name="email"
+            placeholder="Email address"
+            autoComplete="off"
+          />
+          {errors.email && (
+            <span className="text-destructive text-sm inline-flex items-center gap-2">
+              <InfoIcon className="size-4" /> {errors.email.message}
+            </span>
+          )}
+        </div>
         <Button className="font-medium">Continue</Button>
       </form>
       <span className="text-muted-foreground">
