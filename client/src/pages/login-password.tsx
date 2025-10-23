@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
@@ -11,12 +12,22 @@ export default function LoginPassword() {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<{ password: string }>();
+
+  const onSubmit = async (data: { password: string }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log(data);
+  };
+
   return (
     <>
       <h1 className="text-3xl font-medium">Enter Password</h1>
-      <form className="space-y-3 w-full">
+      <form className="space-y-3 w-full" onSubmit={handleSubmit(onSubmit)}>
         <Input
-          name="email"
           type="email"
           placeholder="Email address"
           autoComplete="off"
@@ -34,6 +45,9 @@ export default function LoginPassword() {
         </Input>
         <div className="flex flex-col gap-1">
           <Input
+            {...register("password", {
+              required: "Password is required.",
+            })}
             name="password"
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -50,6 +64,11 @@ export default function LoginPassword() {
               />
             </button>
           </Input>
+          {errors.password && (
+            <span className="text-destructive text-sm inline-flex items-center gap-2">
+              <Icons.info className="size-4" /> {errors.password.message}
+            </span>
+          )}
           <NavLink
             to="/forgot-password"
             className="text-primary text-sm hover:underline w-max font-medium"
@@ -57,7 +76,9 @@ export default function LoginPassword() {
             Forgot password?
           </NavLink>
         </div>
-        <Button className="font-medium">Continue</Button>
+        <Button className="font-medium" disabled={isSubmitting}>
+          Continue
+        </Button>
       </form>
     </>
   );
