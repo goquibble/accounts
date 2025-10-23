@@ -26,7 +26,7 @@ export default function Login() {
   return (
     <>
       <h1 className="text-3xl font-medium">Welcome back</h1>
-      <form className="space-y-3 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-3 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-1">
           <Input
             {...register("email", {

@@ -26,7 +26,7 @@ export default function LoginPassword() {
   return (
     <>
       <h1 className="text-3xl font-medium">Enter Password</h1>
-      <form className="space-y-3 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-3 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="email"
           placeholder="Email address"
