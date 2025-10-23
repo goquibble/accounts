@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface InputProps extends React.ComponentProps<"input"> {
@@ -11,17 +11,20 @@ export default function Input({
   placeholder,
   wrapperClassName,
   placeholderClassName,
+  children,
   ...props
 }: InputProps) {
   const id = useId();
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div className={cn("relative w-full", wrapperClassName)}>
       <input
+        ref={inputRef}
         id={id}
         placeholder=""
         className={cn(
-          "peer border-2 border-border focus:border-primary focus:outline-none transition-colors h-13 px-4 rounded-xl w-full",
+          "peer border border-border focus:border-primary focus:outline-none transition-colors h-13 px-4 rounded-xl w-full",
           className,
         )}
         {...props}
@@ -37,6 +40,7 @@ export default function Input({
       >
         {placeholder}
       </label>
+      {children}
     </div>
   );
 }

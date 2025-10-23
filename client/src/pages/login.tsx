@@ -25,7 +25,6 @@ export default function Login() {
 
   return (
     <>
-      <img src="/favicon.svg" alt="Quibble" className="size-10" />
       <h1 className="text-3xl font-medium">Welcome back</h1>
       <form className="space-y-4 w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-1">
