@@ -13,10 +13,11 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<{ email: string }>();
 
-  const onSubmit = (data: { email: string }) => {
+  const onSubmit = async (data: { email: string }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log(data);
   };
 
@@ -44,7 +45,9 @@ export default function Login() {
             </span>
           )}
         </div>
-        <Button className="font-medium">Continue</Button>
+        <Button className="font-medium" disabled={isSubmitting}>
+          Continue
+        </Button>
       </form>
       <span className="text-muted-foreground">
         Don't have an account?{" "}
@@ -57,7 +60,11 @@ export default function Login() {
         <span className="text-sm font-medium">OR</span>
         <span className="h-px w-full bg-border"></span>
       </span>
-      <Button variant="outline" className="justify-start">
+      <Button
+        variant="outline"
+        className="justify-start"
+        disabled={isSubmitting}
+      >
         <GoogleIcon className="size-5" />
         Continue with Google
       </Button>
