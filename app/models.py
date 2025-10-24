@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleVariableOverride=none
 import uuid
 from datetime import datetime, timezone
 from pydantic import EmailStr
@@ -13,6 +14,8 @@ class BaseModel(SQLModel):
 
 
 class User(BaseModel, table=True):
+    __tablename__: str = "users"
+
     email: EmailStr = Field(unique=True, max_length=255)
     hashed_password: str
     username: str = Field(unique=True, index=True)
