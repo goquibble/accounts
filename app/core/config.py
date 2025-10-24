@@ -48,7 +48,7 @@ class Settings(BaseSettings):
             return self.DATABASE_URL
 
         return PostgresDsn.build(
-            scheme="postgresql",
+            scheme="postgresql+psycopg",
             host=self.POSTGRES_HOST,
             port=self.POSTGRES_PORT,
             username=self.POSTGRES_USER,
