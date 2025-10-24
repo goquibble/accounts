@@ -3,6 +3,8 @@ from datetime import datetime, timezone
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
 
+__all__ = ["SQLModel"]
+
 
 # base model to use within other models
 class BaseModel(SQLModel):
