@@ -36,10 +36,10 @@ class Settings(BaseSettings):
     DATABASE_URL: PostgresDsn | None = None
     # (optional: for prod)
     POSTGRES_HOST: str = "localhost"
-    POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str = ""
-    POSTGRES_PASSWORD: str = ""
-    POSTGRES_DB: str = "auth_db"
+    POSTGRES_PORT: int = 5433
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_DB: str = "accounts"
 
     @computed_field
     @property
@@ -48,12 +48,12 @@ class Settings(BaseSettings):
             return self.DATABASE_URL
 
         return PostgresDsn.build(
-            scheme="postgresql+psycopg",
+            scheme="postgresql",
             host=self.POSTGRES_HOST,
             port=self.POSTGRES_PORT,
             username=self.POSTGRES_USER,
             password=self.POSTGRES_PASSWORD,
-            path=f"/{self.POSTGRES_DB}",
+            path=self.POSTGRES_DB,
         )
 
     FIRST_SUPERUSER: EmailStr = "admin@admin.com"
