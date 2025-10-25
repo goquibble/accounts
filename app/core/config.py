@@ -1,6 +1,6 @@
 from enum import Enum
 import secrets
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any
 from pydantic import (
     AnyUrl,
     BeforeValidator,
