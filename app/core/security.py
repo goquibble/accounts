@@ -27,7 +27,7 @@ def get_password_hash(password: str) -> str:
     return password_hash.hash(password)
 
 
-def create_token(subject: str, token_type: TokenType | None = TokenType.ACCESS) -> str:
+def create_token(subject: str, token_type: TokenType) -> str:
     expires = (
         datetime.now(UTC).replace(tzinfo=None)
         + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
