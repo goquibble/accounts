@@ -19,7 +19,7 @@ class User(BaseModel, table=True):
     email: EmailStr = Field(unique=True, max_length=255)
     hashed_password: str
     username: str = Field(unique=True, index=True)
-    avatar: str | None
+    avatar: str | None = None
     name: str | None = None
     about: str | None = None
     is_active: bool = True
