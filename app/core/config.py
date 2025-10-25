@@ -57,7 +57,7 @@ class Settings(BaseSettings):
         )
 
     FIRST_SUPERUSER: EmailStr = "admin@admin.com"
-    FIRST_SUPERUSER_PASSWORD: str = "admin"
+    FIRST_SUPERUSER_PASSWORD: str = "adminpass"
 
 
 # global config
