@@ -6,12 +6,14 @@ from app.schemas import UserCreate
 
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
-    user_obj = User.model_validate(
-        user_create, update={"password": get_password_hash(user_create.password)}
+    user = User(
+        email=user_create.email,
+        hashed_password=get_password_hash(user_create.password),
+        username=user_create.email.split("@")[0],
     )
 
-    session.add(user_obj)
+    session.add(user)
     session.commit()
-    session.refresh(user_obj)
+    session.refresh(user)
 
-    return user_obj
+    return user
