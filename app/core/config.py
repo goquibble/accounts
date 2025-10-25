@@ -1,5 +1,6 @@
+from enum import Enum
 import secrets
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -19,8 +20,14 @@ def parse_cors(v: Any) -> list[str] | str:
     raise ValueError(v)
 
 
+class Environment(str, Enum):
+    LOCAL = "local"
+    PRODUCTION = "production"
+
+
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
+    ENVIRONMENT: Environment = Environment.LOCAL
 
     SECRET_KEY: SecretStr = SecretStr(secrets.token_urlsafe(32))
     ALGORITHM: str = "HS256"
