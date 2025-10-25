@@ -7,7 +7,6 @@ from sqlmodel import Field, SQLModel
 __all__ = ["SQLModel"]
 
 
-# base model to use within other models
 class BaseModel(SQLModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
