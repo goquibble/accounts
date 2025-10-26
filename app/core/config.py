@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # 15 mins
 
+    COOKIE_DOMAIN: str = "localhost"
     FRONTEND_HOST: str = "http://localhost:3000"
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyUrl] | str, BeforeValidator(parse_cors)

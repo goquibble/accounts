@@ -40,6 +40,7 @@ def login(
         secure=secure,
         samesite="lax",
         max_age=max_age,
+        domain=settings.COOKIE_DOMAIN,
     )
 
     return Token(access_token=access_token)
