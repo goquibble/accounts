@@ -24,6 +24,11 @@ class UserRead(SQLModel):
     created_at: datetime
 
 
+class UserUpdate(SQLModel):
+    username: Annotated[str | None, Field(min_length=3, max_length=32, default=None)]
+    name: Annotated[str | None, Field(max_length=32, default=None)]
+
+
 # --------------- TOKEN ---------------
 class Token(SQLModel):
     access_token: str
