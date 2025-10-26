@@ -56,8 +56,8 @@ def register(session: SessionDep, user_create: UserCreate) -> User:
     return user
 
 
-@router.post("/refresh/access-token", response_model=Token)
-def refresh_access_token(request: Request) -> Token:
+@router.post("/refresh-token", response_model=Token)
+def refresh_token(request: Request) -> Token:
     refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Refresh token missing.")
