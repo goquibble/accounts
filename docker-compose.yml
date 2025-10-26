@@ -1,13 +1,29 @@
 services:
-  db:
+  init-db:
     image: postgres:17-alpine
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: accounts
-    ports:
-      - "5433:5432"
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/init-db.sh:ro
+    entrypoint: ["/bin/sh", "/init-db.sh"]
+    networks:
+      - goquibble_net
 
-volumes:
-  db_data:
+  init-minio:
+    image: minio/mc
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+    volumes:
+      - ./scripts/init-minio.sh:/init-minio.sh:ro
+    entrypoint: ["/bin/sh", "/init-minio.sh"]
+    networks:
+      - goquibble_net
+
+networks:
+  goquibble_net:
+    external: true
