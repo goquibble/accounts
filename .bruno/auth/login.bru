@@ -15,6 +15,11 @@ body:form-urlencoded {
   password: adminpass
 }
 
+script:post-response {
+  let data = res.body;
+  bru.setVar("token", data.access_token);
+}
+
 settings {
   encodeUrl: true
   timeout: 0

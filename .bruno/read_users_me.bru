@@ -7,11 +7,12 @@ meta {
 get {
   url: http://localhost:8000/api/v1/users/me
   body: none
-  auth: bearer
+  auth: none
 }
 
-auth:bearer {
-  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MTM3NDg4NS0zMGZjLTRmZTQtOTcxNi0xMjgyZTNiZjM0ZDkiLCJleHAiOjE3NjE0NTgxMTMsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.BZwYCS8Et1DyJjYLIiVjDSolM4rxF3J80IdqE38vjFE
+script:pre-request {
+  const token = bru.getVar("token");
+  req.setHeader("Authorization", `Bearer ${token}`);
 }
 
 settings {

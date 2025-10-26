@@ -8,7 +8,7 @@ from app.core.config import Environment, settings
 from app.core.security import TokenType, create_token, verify_token
 from app.crud import create_user, get_user_by_email
 from app.models import User
-from app.schemas import Token, UserCreate
+from app.schemas import Token, UserCreate, UserRead
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -45,7 +45,7 @@ def login(
     return Token(access_token=access_token)
 
 
-@router.post("/register", response_model=User)
+@router.post("/register", response_model=UserRead)
 def register(session: SessionDep, user_create: UserCreate) -> User:
     if get_user_by_email(session=session, email=user_create.email):
         raise HTTPException(
