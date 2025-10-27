@@ -46,6 +46,8 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # 15 mins
 
+    CLIENT_CACHE_MAX_AGE: int = 60  # 60s
+
     COOKIE_DOMAIN: str = "localhost"
     FRONTEND_HOST: str = "http://localhost:3000"
     BACKEND_CORS_ORIGINS: Annotated[
@@ -60,6 +62,9 @@ class Settings(BaseSettings):
         ]
 
     PROJECT_NAME: str = "Accounts — GoQuibble"
+    FIRST_SUPERUSER: EmailStr = "admin@admin.com"
+    FIRST_SUPERUSER_PASSWORD: str = "adminpass"
+
     # for prod (cloud services provides direct url)
     DATABASE_URL: PostgresDsn | None = None
     # (optional: for prod)
@@ -83,9 +88,6 @@ class Settings(BaseSettings):
             password=self.POSTGRES_PASSWORD,
             path=self.POSTGRES_DB,
         )
-
-    FIRST_SUPERUSER: EmailStr = "admin@admin.com"
-    FIRST_SUPERUSER_PASSWORD: str = "adminpass"
 
 
 @lru_cache

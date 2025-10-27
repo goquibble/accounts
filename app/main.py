@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
+from app.middleware.client_cache_middleware import ClientCacheMiddleware
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -17,8 +18,10 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
     swagger_ui_parameters={"displayOperationId": True},
 )
-
+# join all routers
 app.include_router(api_router, prefix=settings.API_V1_STR)
+# add middlewares
+app.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)
 # set all CORS enabled origins
 if settings.all_cors_origins:
     app.add_middleware(
