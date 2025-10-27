@@ -3,6 +3,7 @@ import uuid
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
+from app.core.storages import s3storage
 from app.crud import update_user
 from app.models import User
 from app.schemas import UserRead, UserUpdate
@@ -27,19 +28,19 @@ def update_users_me(
     db_user = current_user
     user_update_data: dict[str, str | None] = {}
 
-    if username is not None and username.strip() != "":
+    if username and username.strip() != "":
         user_update_data["username"] = username
     if name is not None:
         user_update_data["name"] = name or None
-    # dump filtered data
-    user_update = UserUpdate(**user_update_data)
-
-    if avatar is not None:
+    if avatar:
         transformed = transform_image(avatar.file)
-        filename = user_update.username or db_user.username
-        transformed.name = f"avatars/{filename}.webp"
-        setattr(db_user, "avatar_url", transformed)
+        filename = user_update_data.get("username") or db_user.username
+        # upload to s3 and store url
+        user_update_data["avatar_url"] = s3storage.write(
+            transformed, f"avatars/{filename}.webp"
+        )
 
+    user_update = UserUpdate(**user_update_data)
     user = update_user(session=session, db_user=db_user, user_update=user_update)
     return user
 

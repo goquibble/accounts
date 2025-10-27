@@ -28,7 +28,7 @@ class Environment(str, Enum):
 
 class Settings(BaseSettings):
     model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
-        env_file="../../.env",
+        env_file=".env",
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -88,6 +88,12 @@ class Settings(BaseSettings):
             password=self.POSTGRES_PASSWORD,
             path=self.POSTGRES_DB,
         )
+
+    # aws
+    AWS_ACCESS_KEY_ID: str = "minioadmin"
+    AWS_SECRET_ACCESS_KEY: str = "minioadmin"
+    AWS_S3_BUCKET_NAME: str = "accounts-media-dev-ap-south-1"
+    AWS_S3_ENDPOINT_URL: str = "localhost:9000"
 
 
 @lru_cache

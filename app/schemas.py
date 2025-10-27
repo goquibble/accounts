@@ -25,6 +25,7 @@ class UserRead(SQLModel):
 
 
 class UserUpdate(SQLModel):
+    avatar_url: str | None = None
     username: Annotated[
         str | None,
         Field(

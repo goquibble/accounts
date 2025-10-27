@@ -1,11 +1,8 @@
 # pyright: reportIncompatibleVariableOverride=none
 import uuid
 from datetime import datetime, timezone
-from fastapi_storages.integrations.sqlalchemy import ImageType
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel
-
-from app.core.storages import s3storage
 
 __all__ = ["SQLModel"]
 
@@ -22,6 +19,6 @@ class User(BaseModel, table=True):
     hashed_password: str
     username: str = Field(unique=True, index=True, max_length=32)
     name: str | None = Field(default=None, max_length=64)
-    avatar_url: str | None = Field(default=None, sa_column=ImageType(storage=s3storage))
+    avatar_url: str | None = None
     is_active: bool = True
     is_superuser: bool = False
