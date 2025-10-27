@@ -20,7 +20,7 @@ class UserRead(SQLModel):
     email: EmailStr
     username: str
     name: str | None
-    avatar: str | None
+    avatar_url: str | None
     created_at: datetime
 
 
