@@ -1,5 +1,4 @@
 # pyright: reportIncompatibleVariableOverride=none
-from typing import Annotated
 import uuid
 from datetime import datetime, timezone
 from fastapi_storages.integrations.sqlalchemy import ImageType
@@ -12,21 +11,17 @@ __all__ = ["SQLModel"]
 
 
 class BaseModel(SQLModel):
-    id: Annotated[uuid.UUID, Field(default_factory=uuid.uuid4, primary_key=True)]
-    created_at: Annotated[
-        datetime, Field(default_factory=lambda: datetime.now(timezone.utc))
-    ]
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class User(BaseModel, table=True):
     __tablename__: str = "users"
 
-    email: Annotated[EmailStr, Field(unique=True, max_length=255)]
+    email: EmailStr = Field(unique=True, max_length=255)
     hashed_password: str
-    username: Annotated[str, Field(unique=True, index=True)]
-    avatar_url: Annotated[
-        str | None, Field(default=None, sa_column=ImageType(storage=s3storage))
-    ]
+    username: str = Field(unique=True, index=True)
+    avatar_url: str | None = Field(default=None, sa_column=ImageType(storage=s3storage))
     name: str | None = None
     about: str | None = None
     is_active: bool = True
