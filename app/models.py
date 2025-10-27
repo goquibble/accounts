@@ -20,9 +20,8 @@ class User(BaseModel, table=True):
 
     email: EmailStr = Field(unique=True, max_length=255)
     hashed_password: str
-    username: str = Field(unique=True, index=True)
+    username: str = Field(unique=True, index=True, max_length=32)
+    name: str | None = Field(default=None, max_length=64)
     avatar_url: str | None = Field(default=None, sa_column=ImageType(storage=s3storage))
-    name: str | None = None
-    about: str | None = None
     is_active: bool = True
     is_superuser: bool = False

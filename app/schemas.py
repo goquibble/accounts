@@ -7,7 +7,7 @@ from sqlmodel import SQLModel
 
 # --------------- USER ---------------
 class UserCreate(SQLModel):
-    email: Annotated[EmailStr, Field(max_length=255)]
+    email: Annotated[EmailStr, Field(max_length=255, examples=["johndoe@gmail.com"])]
     password: Annotated[str, Field(min_length=8, max_length=128)]
 
 
@@ -24,9 +24,27 @@ class UserRead(SQLModel):
     created_at: datetime
 
 
-class UserUpdate(SQLModel):
-    username: Annotated[str | None, Field(min_length=3, max_length=32, default=None)]
-    name: Annotated[str | None, Field(max_length=32, default=None)]
+class UserUpdateMe(SQLModel):
+    username: Annotated[
+        str | None,
+        Field(
+            default=None,
+            min_length=3,
+            max_length=32,
+            pattern=r"^[a-zA-Z0-9_]+$",
+            examples=["johndoe"],
+        ),
+    ]
+    name: Annotated[
+        str | None,
+        Field(
+            default=None,
+            min_length=1,
+            max_length=64,
+            pattern=r"^[a-zA-ZÀ-ÿ'’\- ]+$",
+            examples=["John Doe"],
+        ),
+    ]
 
 
 # --------------- TOKEN ---------------

@@ -1,8 +1,8 @@
 """create users table
 
-Revision ID: cd3555407eb9
+Revision ID: f44e62bc24ee
 Revises:
-Create Date: 2025-10-27 12:13:54.901463
+Create Date: 2025-10-27 17:08:44.918105
 
 """
 
@@ -13,7 +13,7 @@ import sqlmodel.sql.sqltypes
 
 
 # revision identifiers, used by Alembic.
-revision: str = "cd3555407eb9"
+revision: str = "f44e62bc24ee"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
@@ -32,10 +32,11 @@ def upgrade() -> None:
         sa.Column(
             "hashed_password", sqlmodel.sql.sqltypes.AutoString(), nullable=False
         ),
-        sa.Column("username", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+        sa.Column(
+            "username", sqlmodel.sql.sqltypes.AutoString(length=32), nullable=False
+        ),
+        sa.Column("name", sqlmodel.sql.sqltypes.AutoString(length=64), nullable=True),
         sa.Column("avatar_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-        sa.Column("name", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-        sa.Column("about", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
         sa.Column("is_active", sa.Boolean(), nullable=False),
         sa.Column("is_superuser", sa.Boolean(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
