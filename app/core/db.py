@@ -19,4 +19,4 @@ def init_db(session: Session):
         )
 
         # create admin user on db
-        _ = create_user(session=session, user_create=admin_in)
+        create_user(session=session, user_create=admin_in)

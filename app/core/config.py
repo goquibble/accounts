@@ -1,6 +1,6 @@
 from enum import Enum
 import secrets
-from typing import Annotated, Any
+from typing import Annotated, Any, ClassVar
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -9,7 +9,7 @@ from pydantic import (
     SecretStr,
     computed_field,
 )
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 def parse_cors(v: Any) -> list[str] | str:
@@ -26,6 +26,12 @@ class Environment(str, Enum):
 
 
 class Settings(BaseSettings):
+    model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
+        env_file="../../.env",
+        env_ignore_empty=True,
+        extra="ignore",
+    )
+
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: Environment = Environment.LOCAL
 
