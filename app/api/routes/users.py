@@ -25,13 +25,19 @@ def update_users_me(
     avatar: Annotated[UploadFile | None, File()] = None,
 ) -> User:
     db_user = current_user
-    user_update = UserUpdate(username=username, name=name)
+    user_update_data: dict[str, str | None] = {}
 
-    if avatar:
+    if username is not None and username.strip() != "":
+        user_update_data["username"] = username
+    if name is not None:
+        user_update_data["name"] = name or None
+    # dump filtered data
+    user_update = UserUpdate(**user_update_data)
+
+    if avatar is not None:
         transformed = transform_image(avatar.file)
-        filename = user_update.username or current_user.username
+        filename = user_update.username or db_user.username
         transformed.name = f"avatars/{filename}.webp"
-        # let s3storage do the work
         setattr(db_user, "avatar_url", transformed)
 
     user = update_user(session=session, db_user=db_user, user_update=user_update)

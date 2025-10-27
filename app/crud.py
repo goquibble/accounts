@@ -21,7 +21,7 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
 
 
 def update_user(*, session: Session, db_user: User, user_update: UserUpdate) -> User:
-    user_data = user_update.model_dump(exclude_unset=True, exclude_none=True)
+    user_data = user_update.model_dump(exclude_unset=True)
     db_user.sqlmodel_update(user_data)
 
     session.add(db_user)
