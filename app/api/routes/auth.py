@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.deps import SessionDep
 from app.auth import authenticate_user
-from app.core.config import Environment, settings
+from app.core.config import settings
 from app.core.security import TokenType, create_token, verify_token
 from app.crud import create_user, get_user_by_email
 from app.models import User
@@ -31,7 +31,7 @@ def login(
     refresh_token = create_token(str(user.id), TokenType.REFRESH)
 
     max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
-    secure = settings.ENVIRONMENT == Environment.PRODUCTION
+    secure = not settings.DEBUG
     # set refresh token as cookie
     response.set_cookie(
         key="refresh_token",

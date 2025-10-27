@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: Environment = Environment.LOCAL
 
+    @computed_field
+    @property
+    def DEBUG(self) -> bool:
+        return self.ENVIRONMENT != Environment.PRODUCTION
+
     SECRET_KEY: SecretStr = SecretStr(secrets.token_urlsafe(32))
     ALGORITHM: str = "HS256"
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
