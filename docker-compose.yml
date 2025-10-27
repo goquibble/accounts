@@ -17,7 +17,7 @@ services:
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+      AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME}
     volumes:
       - ./scripts/init-minio.sh:/init-minio.sh:ro
     entrypoint: ["/bin/sh", "/init-minio.sh"]
