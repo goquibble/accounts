@@ -1,0 +1,25 @@
+meta {
+  name: update_users_me
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:8000/api/v1/users/me
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  name: Admin
+}
+
+script:pre-request {
+  const token = bru.getVar("token");
+  req.setHeader("Authorization", `Bearer ${token}`);
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -24,7 +24,7 @@ class UserRead(SQLModel):
     created_at: datetime
 
 
-class UserUpdateMe(SQLModel):
+class UserUpdate(SQLModel):
     username: Annotated[
         str | None,
         Field(
