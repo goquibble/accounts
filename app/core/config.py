@@ -1,4 +1,5 @@
 from enum import Enum
+from functools import lru_cache
 import secrets
 from typing import Annotated, Any, ClassVar
 from pydantic import (
@@ -87,5 +88,10 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str = "adminpass"
 
 
-# global config
-settings = Settings()
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+# use cached result
+settings = get_settings()
