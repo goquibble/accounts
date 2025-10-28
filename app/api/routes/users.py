@@ -3,11 +3,10 @@ import uuid
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
-from app.core.storages import s3storage
 from app.crud import update_user
 from app.models import User
 from app.schemas import UserRead, UserUpdate
-from app.utils import transform_image
+from app.utils import transform_image, upload_to_s3storage
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -36,7 +35,7 @@ def update_users_me(
         transformed = transform_image(avatar.file)
         filename = user_update_data.get("username") or db_user.username
         # upload to s3 and store url
-        user_update_data["avatar_url"] = s3storage.write(
+        user_update_data["avatar_url"] = upload_to_s3storage(
             transformed, f"avatars/{filename}.webp"
         )
 
