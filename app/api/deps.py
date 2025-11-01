@@ -21,7 +21,7 @@ async def get_current_user(session: SessionDep, token: TokenDep) -> User:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "User not found.")
     elif not user.is_active:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Inactive user.")
-    print(type(user.avatar_url))
+
     return user
 
 

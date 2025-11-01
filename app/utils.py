@@ -2,6 +2,9 @@ import asyncio
 from io import BytesIO
 from typing import BinaryIO
 from PIL import Image
+from async_storages import StorageImage
+
+from app.models import User
 
 
 async def transform_image(
@@ -32,3 +35,16 @@ async def transform_image(
 
     # run transformation in seperate thread
     return await asyncio.to_thread(_transform)
+
+
+async def process_user_avatar_url(user: User) -> User:
+    """
+    Asynchronously converts the `StorageImage` object in `user.avatar_url`
+    to its string path representation if it exists.
+    """
+    if avatar_type := user.avatar_url:
+        # if user.avatar_url is not None and DB processed instance
+        if isinstance(avatar_type, StorageImage):
+            user.avatar_url = await avatar_type.get_path()
+    # return modified user object
+    return user
