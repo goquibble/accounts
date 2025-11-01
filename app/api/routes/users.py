@@ -5,7 +5,7 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.storages import storage
-from app.crud import update_user
+from app.crud import get_user_by_email, update_user
 from app.models import User
 from app.schemas import UserRead, UserUpdate
 from app.utils import process_storage_fields, transform_image

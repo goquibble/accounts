@@ -69,3 +69,9 @@ def refresh_token(request: Request) -> Token:
 
     new_access_token = create_token(token_data.user_id, TokenType.ACCESS)
     return Token(access_token=new_access_token)
+
+
+@router.get("/check-email/{email}/exists")
+async def check_email_exists(session: SessionDep, email: str) -> bool:
+    user = await get_user_by_email(session=session, email=email)
+    return user is not None
