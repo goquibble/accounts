@@ -1,5 +1,6 @@
 from typing import Annotated
 import uuid
+from async_storages import StorageImage
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
@@ -13,7 +14,11 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.get("/me", response_model=UserRead)
-def read_user_me(current_user: CurrentUser) -> User:
+async def read_user_me(current_user: CurrentUser) -> User:
+    if avatar_type := current_user.avatar_url:
+        assert isinstance(avatar_type, StorageImage)
+        current_user.avatar_url = await avatar_type.get_path()
+
     return current_user
 
 
@@ -48,6 +53,11 @@ async def update_users_me(
 
     user_update = UserUpdate(**user_update_data)
     user = await update_user(session=session, db_user=db_user, user_update=user_update)
+
+    if avatar_type := user.avatar_url:
+        assert isinstance(avatar_type, StorageImage)
+        user.avatar_url = await avatar_type.get_path()
+
     return user
 
 
