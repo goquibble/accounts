@@ -7,14 +7,15 @@ from app.core.storages import storage
 from app.crud import update_user
 from app.models import User
 from app.schemas import UserRead, UserUpdate
-from app.utils import process_user_avatar_url, transform_image
+from app.utils import process_storage_fields, transform_image
 
 router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.get("/me", response_model=UserRead)
 async def read_user_me(current_user: CurrentUser) -> User:
-    return await process_user_avatar_url(current_user)
+    # process current_user.avatar_url field
+    return await process_storage_fields(current_user, ["avatar_url"])
 
 
 @router.patch("/me", response_model=UserRead)
@@ -48,8 +49,8 @@ async def update_users_me(
 
     user_update = UserUpdate(**user_update_data)
     user = await update_user(session=session, db_user=db_user, user_update=user_update)
-
-    return await process_user_avatar_url(user)
+    # process user.avatar_url field
+    return await process_storage_fields(user, ["avatar_url"])
 
 
 @router.get("/{user_id}", response_model=UserRead)
@@ -57,5 +58,5 @@ async def read_user_by_id(user_id: uuid.UUID, session: SessionDep) -> User:
     user = await session.get(User, user_id)
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
-
-    return await process_user_avatar_url(user)
+    # process user.avatar_url field
+    return await process_storage_fields(user, ["avatar_url"])

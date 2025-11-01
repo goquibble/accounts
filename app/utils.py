@@ -1,10 +1,11 @@
 import asyncio
 from io import BytesIO
-from typing import BinaryIO
+from typing import BinaryIO, TypeVar
 from PIL import Image
-from async_storages import StorageImage
+from async_storages import StorageFile
+from sqlmodel import SQLModel
 
-from app.models import User
+SQLModelT = TypeVar("SQLModelT", bound=SQLModel)
 
 
 async def transform_image(
@@ -37,14 +38,17 @@ async def transform_image(
     return await asyncio.to_thread(_transform)
 
 
-async def process_user_avatar_url(user: User) -> User:
+async def process_storage_fields(model: SQLModelT, field_names: list[str]) -> SQLModelT:
     """
-    Asynchronously converts the `StorageImage` object in `user.avatar_url`
-    to its string path representation if it exists.
+    Asynchronously converts multiple `StorageFile` objects on a model
+    to their public URL path (str) representations.
     """
-    if avatar_type := user.avatar_url:
-        # if user.avatar_url is not None and DB processed instance
-        if isinstance(avatar_type, StorageImage):
-            user.avatar_url = await avatar_type.get_path()
-    # return modified user object
-    return user
+    for field_name in field_names:
+        storage_field = getattr(model, field_name, None)
+        # check if storage_field exists and is instance of `StorageFile`
+        if storage_field and isinstance(storage_field, StorageFile):
+            path = await storage_field.get_path()
+            # update field with path
+            setattr(model, field_name, path)
+    # return updated model object
+    return model
