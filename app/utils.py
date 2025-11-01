@@ -3,8 +3,6 @@ from io import BytesIO
 from typing import BinaryIO
 from PIL import Image
 
-from app.core.storages import storage
-
 
 async def transform_image(
     image: BinaryIO,
@@ -34,9 +32,3 @@ async def transform_image(
 
     # run transformation in seperate thread
     return await asyncio.to_thread(_transform)
-
-
-async def upload_to_s3storage(file: BinaryIO, name: str) -> str:
-    """Upload a file-like object to S3Storage and return its public URL."""
-    path = await storage.upload(file, name)
-    return await storage.get_path(path)

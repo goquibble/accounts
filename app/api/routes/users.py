@@ -3,10 +3,11 @@ import uuid
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
+from app.core.storages import storage
 from app.crud import update_user
 from app.models import User
 from app.schemas import UserRead, UserUpdate
-from app.utils import transform_image, upload_to_s3storage
+from app.utils import transform_image
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -23,6 +24,7 @@ async def update_users_me(
     username: Annotated[str | None, Form()] = None,
     name: Annotated[str | None, Form()] = None,
     avatar: Annotated[UploadFile | None, File()] = None,
+    delete_avatar: Annotated[bool, File()] = False,
 ) -> User:
     db_user = current_user
     user_update_data: dict[str, str | None] = {}
@@ -31,11 +33,16 @@ async def update_users_me(
         user_update_data["username"] = username
     if name is not None:
         user_update_data["name"] = name or None
-    if avatar:
+
+    if delete_avatar:
+        if db_user.avatar_url:
+            await storage.delete(db_user.avatar_url)
+            user_update_data["avatar_url"] = None
+    elif avatar:
         transformed = await transform_image(avatar.file)
         filename = user_update_data.get("username") or db_user.username
         # upload to s3 and store url
-        user_update_data["avatar_url"] = await upload_to_s3storage(
+        user_update_data["avatar_url"] = await storage.upload(
             transformed, f"avatars/{filename}.webp"
         )
 
