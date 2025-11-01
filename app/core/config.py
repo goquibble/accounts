@@ -49,7 +49,7 @@ class Settings(BaseSettings):
     CLIENT_CACHE_MAX_AGE: int = 60  # 60s
 
     COOKIE_DOMAIN: str = "localhost"
-    FRONTEND_HOST: str = "http://localhost:3000"
+    FRONTEND_HOST: str = "http://localhost:5173"
     BACKEND_CORS_ORIGINS: Annotated[
         list[AnyUrl] | str, BeforeValidator(parse_cors)
     ] = []

@@ -5,6 +5,8 @@ import OAuthBtns from "@/components/oauth-btns";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Seperator from "@/components/ui/seperator";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 
 export default function Login() {
   document.title = "Log in — GoQuibble";
@@ -14,13 +16,22 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<{ email: string }>();
 
   const onSubmit = async (data: { email: string }) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    navigate("./password", {
-      state: { email: data.email },
-    });
+    const url = API_ENDPOINTS.AUTH_EMAIL_AVAILABLE(data.email);
+    const { data: isEmailAvailable } = await api.get<boolean>(url);
+
+    if (isEmailAvailable) {
+      setError("email", {
+        message: "No account found with this email address.",
+      });
+    } else {
+      navigate("./password", {
+        state: { email: data.email },
+      });
+    }
   };
 
   return (
