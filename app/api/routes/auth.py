@@ -14,12 +14,12 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/login", response_model=Token)
-def login(
+async def login(
     session: SessionDep,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     response: Response,
 ) -> Token:
-    user = authenticate_user(
+    user = await authenticate_user(
         session=session, email=form_data.username, password=form_data.password
     )
     if not user:
@@ -47,13 +47,13 @@ def login(
 
 
 @router.post("/register", response_model=UserRead)
-def register(session: SessionDep, user_create: UserCreate) -> User:
-    if get_user_by_email(session=session, email=user_create.email):
+async def register(session: SessionDep, user_create: UserCreate) -> User:
+    if await get_user_by_email(session=session, email=user_create.email):
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST, "User with email already exists."
         )
 
-    user = create_user(session=session, user_create=user_create)
+    user = await create_user(session=session, user_create=user_create)
     return user
 
 

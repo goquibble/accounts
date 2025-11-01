@@ -17,7 +17,7 @@ def read_user_me(current_user: CurrentUser) -> User:
 
 
 @router.patch("/me", response_model=UserRead)
-def update_users_me(
+async def update_users_me(
     current_user: CurrentUser,
     session: SessionDep,
     username: Annotated[str | None, Form()] = None,
@@ -32,21 +32,21 @@ def update_users_me(
     if name is not None:
         user_update_data["name"] = name or None
     if avatar:
-        transformed = transform_image(avatar.file)
+        transformed = await transform_image(avatar.file)
         filename = user_update_data.get("username") or db_user.username
         # upload to s3 and store url
-        user_update_data["avatar_url"] = upload_to_s3storage(
+        user_update_data["avatar_url"] = await upload_to_s3storage(
             transformed, f"avatars/{filename}.webp"
         )
 
     user_update = UserUpdate(**user_update_data)
-    user = update_user(session=session, db_user=db_user, user_update=user_update)
+    user = await update_user(session=session, db_user=db_user, user_update=user_update)
     return user
 
 
 @router.get("/{user_id}", response_model=UserRead)
-def read_user_by_id(user_id: uuid.UUID, session: SessionDep) -> User:
-    user = session.get(User, user_id)
+async def read_user_by_id(user_id: uuid.UUID, session: SessionDep) -> User:
+    user = await session.get(User, user_id)
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
 

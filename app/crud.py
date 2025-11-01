@@ -1,4 +1,5 @@
-from sqlmodel import Session, select
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.security import get_password_hash
 from app.models import User
@@ -6,7 +7,7 @@ from app.schemas import UserCreate, UserUpdate
 
 
 # --------------- USER ---------------
-def create_user(*, session: Session, user_create: UserCreate) -> User:
+async def create_user(*, session: AsyncSession, user_create: UserCreate) -> User:
     user = User(
         email=user_create.email,
         hashed_password=get_password_hash(user_create.password),
@@ -14,24 +15,26 @@ def create_user(*, session: Session, user_create: UserCreate) -> User:
     )
 
     session.add(user)
-    session.commit()
-    session.refresh(user)
+    await session.commit()
+    await session.refresh(user)
 
     return user
 
 
-def update_user(*, session: Session, db_user: User, user_update: UserUpdate) -> User:
+async def update_user(
+    *, session: AsyncSession, db_user: User, user_update: UserUpdate
+) -> User:
     user_data = user_update.model_dump(exclude_unset=True)
     db_user.sqlmodel_update(user_data)
 
     session.add(db_user)
-    session.commit()
-    session.refresh(db_user)
+    await session.commit()
+    await session.refresh(db_user)
 
     return db_user
 
 
-def get_user_by_email(*, session: Session, email: str) -> User | None:
+async def get_user_by_email(*, session: AsyncSession, email: str) -> User | None:
     statement = select(User).where(User.email == email)
-    user = session.exec(statement).first()
+    user = (await session.exec(statement)).first()
     return user
