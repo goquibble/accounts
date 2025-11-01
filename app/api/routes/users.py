@@ -1,5 +1,6 @@
 from typing import Annotated
 import uuid
+from async_storages import StorageImage
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
@@ -36,9 +37,12 @@ async def update_users_me(
         user_update_data["name"] = name or None
 
     if delete_avatar:
-        if db_user.avatar_url:
-            await storage.delete(db_user.avatar_url)
-            user_update_data["avatar_url"] = None
+        avatar_url = db_user.avatar_url
+        # check if db_user.avatar_url is db processed
+        if avatar_url and isinstance(avatar_url, StorageImage):
+            await storage.delete(avatar_url.name)
+        # make db value null anyway
+        user_update_data["avatar_url"] = None
     elif avatar:
         transformed = await transform_image(avatar.file)
         filename = user_update_data.get("username") or db_user.username
