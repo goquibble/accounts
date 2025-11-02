@@ -1,8 +1,8 @@
 """create users table
 
-Revision ID: f44e62bc24ee
+Revision ID: f032d3b911b4
 Revises:
-Create Date: 2025-10-27 17:08:44.918105
+Create Date: 2025-11-02 18:13:17.538675
 
 """
 
@@ -10,10 +10,11 @@ from collections.abc import Sequence
 from alembic import op
 import sqlalchemy as sa
 import sqlmodel.sql.sqltypes
+import app.core.sqlalchemy_types
 
 
 # revision identifiers, used by Alembic.
-revision: str = "f44e62bc24ee"
+revision: str = "f032d3b911b4"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
@@ -36,7 +37,7 @@ def upgrade() -> None:
             "username", sqlmodel.sql.sqltypes.AutoString(length=32), nullable=False
         ),
         sa.Column("name", sqlmodel.sql.sqltypes.AutoString(length=64), nullable=True),
-        sa.Column("avatar_url", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
+        sa.Column("avatar_url", app.core.sqlalchemy_types.ImageType(), nullable=True),
         sa.Column("is_active", sa.Boolean(), nullable=False),
         sa.Column("is_superuser", sa.Boolean(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
