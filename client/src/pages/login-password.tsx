@@ -4,6 +4,8 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 
 export default function LoginPassword() {
   document.title = "Log in — GoQuibble";
@@ -16,11 +18,21 @@ export default function LoginPassword() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<{ password: string }>();
 
   const onSubmit = async (data: { password: string }) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(data);
+    const formData = new FormData();
+    formData.append("username", location.state.email);
+    formData.append("password", data.password);
+
+    try {
+      const res = await api.post(API_ENDPOINTS.AUTH_LOGIN, formData);
+      console.log(res.data);
+    } catch (err) {
+      // @ts-expect-error: error response isn't typed
+      setError("password", { message: err.response.data.detail });
+    }
   };
 
   return (
