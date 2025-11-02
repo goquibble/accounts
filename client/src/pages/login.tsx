@@ -20,13 +20,11 @@ export default function Login() {
   } = useForm<{ email: string }>();
 
   const onSubmit = async (data: { email: string }) => {
-    const url = API_ENDPOINTS.AUTH_EMAIL_AVAILABLE(data.email);
-    const { data: isEmailAvailable } = await api.get<boolean>(url);
+    const url = API_ENDPOINTS.AUTH_CHECK_EMAIL(data.email);
+    const { data: checkPassed } = await api.get<boolean>(url);
 
-    if (isEmailAvailable) {
-      setError("email", {
-        message: "No account found with this email address.",
-      });
+    if (!checkPassed) {
+      setError("email", { message: "This account is inactive." });
     } else {
       navigate("./password", {
         state: { email: data.email },

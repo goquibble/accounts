@@ -71,7 +71,10 @@ def refresh_token(request: Request) -> Token:
     return Token(access_token=new_access_token)
 
 
-@router.get("/email/{email}/available")
-async def email_available(session: SessionDep, email: str) -> bool:
+@router.get("/check-email/{email}")
+async def check_email(session: SessionDep, email: str) -> bool:
     user = await get_user_by_email(session=session, email=email)
-    return user is None
+
+    if user and not user.is_active:
+        return False
+    return True
