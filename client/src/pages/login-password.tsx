@@ -6,6 +6,7 @@ import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
+import { tokenStore } from "@/lib/token-store";
 
 export default function LoginPassword() {
   document.title = "Log in — GoQuibble";
@@ -27,8 +28,15 @@ export default function LoginPassword() {
     formData.append("password", data.password);
 
     try {
-      const res = await api.post(API_ENDPOINTS.AUTH_LOGIN, formData);
-      console.log(res.data);
+      const {
+        data: { access_token },
+      } = await api.post<{ access_token: string }>(
+        API_ENDPOINTS.AUTH_LOGIN,
+        formData,
+      );
+      // store access_token in memory
+      tokenStore.set(access_token);
+      navigate("/");
     } catch (err) {
       // @ts-expect-error: error response isn't typed
       setError("password", { message: err.response.data.detail });
