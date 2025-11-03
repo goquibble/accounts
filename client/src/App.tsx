@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import BaseLayout from "./layouts/base";
 import { refreshToken } from "./lib/auth";
@@ -8,12 +8,15 @@ import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    refreshToken().then(({ access_token }) => {
-      tokenStore.set(access_token);
-    });
+    refreshToken()
+      .then(({ access_token }) => tokenStore.set(access_token))
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) return null;
   return (
     <BrowserRouter>
       <Routes>
