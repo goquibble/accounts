@@ -4,8 +4,7 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import api from "@/lib/api";
+import { authenticate } from "@/lib/auth";
 import { tokenStore } from "@/lib/token-store";
 
 export default function LoginPassword() {
@@ -23,18 +22,12 @@ export default function LoginPassword() {
   } = useForm<{ password: string }>();
 
   const onSubmit = async (data: { password: string }) => {
-    const formData = new FormData();
-    formData.append("username", location.state.email);
-    formData.append("password", data.password);
-
     try {
-      const {
-        data: { access_token },
-      } = await api.post<{ access_token: string }>(
-        API_ENDPOINTS.AUTH_LOGIN,
-        formData,
-      );
-      // store access_token in memory
+      const { access_token } = await authenticate({
+        email: location.state.email,
+        password: data.password,
+      });
+
       tokenStore.set(access_token);
       navigate("/");
     } catch (err) {

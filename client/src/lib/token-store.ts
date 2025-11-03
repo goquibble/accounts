@@ -1,17 +1,28 @@
 class TokenStore {
   private token: string | null = null;
+  private subscribers: Array<() => void> = [];
 
-  get(): string | null {
+  private notify() {
+    this.subscribers.forEach((cb) => {
+      cb();
+    });
+  }
+
+  public get(): string | null {
     return this.token;
   }
 
-  set(value: string): void {
+  public set(value: string): void {
     if (this.token === value) return;
     this.token = value;
+    this.notify();
   }
 
-  clear(): void {
-    this.token = null;
+  public subscribe(cb: () => void) {
+    this.subscribers.push(cb);
+    return () => {
+      this.subscribers = this.subscribers.filter((sub) => sub !== cb);
+    };
   }
 }
 

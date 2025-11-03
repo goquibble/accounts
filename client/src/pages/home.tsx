@@ -1,5 +1,7 @@
-import { tokenStore } from "@/lib/token-store";
+import useToken from "@/hooks/use-token";
 
 export default function Home() {
-  return <span>{tokenStore.get()}</span>;
+  const token = useToken();
+
+  return <span>{token}</span>;
 }
