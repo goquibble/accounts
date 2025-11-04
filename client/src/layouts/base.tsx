@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router";
+import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useAuth } from "@/contexts/auth";
@@ -23,6 +24,7 @@ export default function BaseLayout() {
       <section className="p-4 max-w-200 mx-auto">
         <Outlet />
       </section>
+      <Footer />
     </main>
   );
 }

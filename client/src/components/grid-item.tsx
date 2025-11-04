@@ -1,9 +1,11 @@
+import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 
 interface GridItemProps {
   title: string;
   subTitle: string;
   imageSrc: string;
+  iconClassName?: string;
   children: React.ReactNode;
 }
 
@@ -11,6 +13,7 @@ export default function GridItem({
   title,
   subTitle,
   imageSrc,
+  iconClassName,
   children,
 }: GridItemProps) {
   return (
@@ -24,7 +27,9 @@ export default function GridItem({
       </div>
       <div className="p-4 hover:bg-muted/25 transition-colors rounded-b-xl flex items-center">
         {children}
-        <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
+        <Icons.arrowRight
+          className={cn("text-muted-foreground size-4 ml-auto", iconClassName)}
+        />
       </div>
     </div>
   );

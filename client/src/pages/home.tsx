@@ -24,6 +24,7 @@ export default function Home() {
           title="Connected Apps"
           subTitle="GoQuibble apps that are connected to this account."
           imageSrc="/icons/connected-apps.png"
+          iconClassName="-rotate-45"
         >
           <a
             href="http://goquibble.online"
@@ -52,7 +53,7 @@ export default function Home() {
         >
           <Icons.info className="text-muted-foreground size-5" />
           <span className="text-muted-foreground">Need help?</span>
-          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
+          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto -rotate-45" />
         </a>
         <button
           type="button"
@@ -60,9 +61,12 @@ export default function Home() {
         >
           <Icons.logout className="text-muted-foreground size-5" />
           <span className="text-muted-foreground">Log out</span>
-          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
         </button>
       </div>
+      <p className="text-sm text-muted-foreground mt-4 text-center">
+        Only you can see your settings.
+        <br /> We keeps your data private, safe, and secure.
+      </p>
     </div>
   );
 }
