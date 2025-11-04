@@ -22,9 +22,9 @@ export default function GridItem({
         </div>
         <img src={imageSrc} alt={title} className="size-16" />
       </div>
-      <div className="p-4 hover:bg-muted/25 transition-colors rounded-b-xl group flex items-center">
+      <div className="p-4 hover:bg-muted/25 transition-colors rounded-b-xl flex items-center">
         {children}
-        <Icons.arrowRight className="text-muted-foreground size-5 ml-auto mr-1 group-hover:translate-x-1 transition-transform" />
+        <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
       </div>
     </div>
   );

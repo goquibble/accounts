@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import GridItem from "@/components/grid-item";
+import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
 
@@ -31,7 +32,7 @@ export default function Home() {
             className="flex items-center gap-2"
           >
             <img src="/favicon.svg" alt="Quibble" className="size-6" />
-            <span className="font-medium text-muted-foreground">Quibble</span>
+            <span className="text-muted-foreground">Quibble</span>
           </a>
         </GridItem>
         <GridItem
@@ -39,13 +40,28 @@ export default function Home() {
           subTitle="Info about you and your preferences across GoQuibble services"
           imageSrc="/icons/data-and-personalization.png"
         >
-          <NavLink
-            to="/personal-info"
-            className="font-medium text-muted-foreground"
-          >
+          <NavLink to="/personal-info" className="text-muted-foreground">
             Manage your personal info
           </NavLink>
         </GridItem>
+        <a
+          href="https://github.com/orgs/goquibble/discussions"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl border border-border p-4 flex items-center gap-2 hover:bg-muted/25 transition-colors"
+        >
+          <Icons.info className="text-muted-foreground size-5" />
+          <span className="text-muted-foreground">Need help?</span>
+          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
+        </a>
+        <button
+          type="button"
+          className="rounded-xl border border-border p-4 flex items-center gap-2 hover:bg-muted/25 transition-colors"
+        >
+          <Icons.logout className="text-muted-foreground size-5" />
+          <span className="text-muted-foreground">Log out</span>
+          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
+        </button>
       </div>
     </div>
   );
