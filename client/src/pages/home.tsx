@@ -9,9 +9,18 @@ export default function Home() {
   useEffect(() => {
     api.get<User>(API_ENDPOINTS.USERS_ME).then((res) => {
       setUser(res.data);
+      document.title = `${res.data.name ?? res.data.username} — GoQuibble`;
     });
   }, []);
 
   if (!user) return null;
-  return <span>Hi, {user.username}!</span>;
+  return (
+    <div>
+      <span>Hi, {user.username}!</span>
+      <img
+        src={`http://localhost:8001/1.x/avatar/png?seed=${user.username}`}
+        alt={user.username}
+      />
+    </div>
+  );
 }
