@@ -1,6 +1,12 @@
-export default function Header() {
+import { cn } from "@/lib/utils";
+
+interface HeaderProps {
+  className?: string;
+}
+
+export default function Header({ className }: HeaderProps) {
   return (
-    <header className="sticky top-0 inset-x-0 p-3 flex items-center justify-between">
+    <header className={cn("sticky top-0 inset-x-0 p-4", className)}>
       <a
         href="https://github.com/goquibble"
         target="_blank"
@@ -8,9 +14,8 @@ export default function Header() {
         className="flex items-center gap-2 w-max"
       >
         <img src="/favicon.svg" alt="Quibble" className="size-6" />
-        <span className="font-medium">GoQuibble Platform</span>
+        <span className="font-medium">GoQuibble</span>
       </a>
-      <nav className="flex items-center gap-2"></nav>
     </header>
   );
 }

@@ -17,6 +17,7 @@ export default function App() {
       .finally(() => setLoading(false));
   }, []);
 
+  // block rendering
   if (loading) return null;
   return (
     <BrowserRouter>

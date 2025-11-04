@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router";
-import InfoIcon from "@/components/icons/info";
+import { Icons } from "@/components/icons";
 import OAuthBtns from "@/components/oauth-btns";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -52,7 +52,7 @@ export default function Login() {
           />
           {errors.email && (
             <span className="text-destructive text-sm inline-flex items-center gap-2">
-              <InfoIcon className="size-4" /> {errors.email.message}
+              <Icons.info className="size-4" /> {errors.email.message}
             </span>
           )}
         </div>
