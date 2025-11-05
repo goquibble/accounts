@@ -20,6 +20,10 @@ export async function authenticate({
   return data;
 }
 
+export async function logOut(): Promise<void> {
+  await api.post(API_ENDPOINTS.AUTH_LOGOUT);
+}
+
 export async function refreshToken(): Promise<{ access_token: string }> {
   const { data } = await api.post<{ access_token: string }>(
     API_ENDPOINTS.AUTH_REFRESH_TOKEN,

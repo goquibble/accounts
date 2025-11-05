@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.api.deps import SessionDep
@@ -46,6 +46,21 @@ async def login(
     return Token(access_token=access_token)
 
 
+@router.post("/logout")
+async def logout(
+    response: Response,
+    refresh_token: Annotated[str | None, Cookie()] = None,
+) -> dict[str, str]:
+    if not refresh_token:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Refresh token missing.")
+
+    if not verify_token(refresh_token, TokenType.REFRESH):
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid refresh token.")
+
+    response.delete_cookie("refresh_token")
+    return {"message": "Logged out!"}
+
+
 @router.post("/register", response_model=UserRead)
 async def register(session: SessionDep, user_create: UserCreate) -> User:
     if await get_user_by_email(session=session, email=user_create.email):
@@ -58,8 +73,7 @@ async def register(session: SessionDep, user_create: UserCreate) -> User:
 
 
 @router.post("/refresh-token", response_model=Token)
-def refresh_token(request: Request) -> Token:
-    refresh_token = request.cookies.get("refresh_token")
+def refresh_token(refresh_token: Annotated[str | None, Cookie()] = None) -> Token:
     if not refresh_token:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Refresh token missing.")
 

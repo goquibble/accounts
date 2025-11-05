@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -8,10 +9,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { logOut } from "@/lib/auth";
 import { Icons } from "./icons";
 import Button from "./ui/button";
 
 export default function LogoutBtn() {
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogOut = async () => {
+    try {
+      setLoggingOut(true);
+      await logOut();
+      // redirect with refresh states
+      window.location.replace("/log-in");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoggingOut(false);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger className="border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-input/25 transition-colors">
@@ -32,7 +49,11 @@ export default function LogoutBtn() {
               Cancel
             </Button>
           </DialogClose>
-          <Button className="h-11 gap-2">
+          <Button
+            className="h-11 gap-2"
+            onClick={handleLogOut}
+            disabled={loggingOut}
+          >
             <Icons.logout className="size-4" />
             Log out
           </Button>
