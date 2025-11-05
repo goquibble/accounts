@@ -25,7 +25,7 @@ export default function GridItem({
         </div>
         <img src={imageSrc} alt={title} className="size-16" />
       </div>
-      <div className="p-4 hover:bg-muted/25 transition-colors rounded-b-xl flex items-center">
+      <div className="p-4 hover:bg-input/25 transition-colors rounded-b-xl flex items-center">
         {children}
         <Icons.arrowRight
           className={cn("text-muted-foreground size-4 ml-auto", iconClassName)}

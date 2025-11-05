@@ -23,8 +23,8 @@ export default function BaseLayout() {
       <Header />
       <section className="p-4 max-w-200 mx-auto">
         <Outlet />
+        <Footer />
       </section>
-      <Footer />
     </main>
   );
 }

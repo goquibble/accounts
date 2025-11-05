@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import GridItem from "@/components/grid-item";
 import { Icons } from "@/components/icons";
+import LogoutBtn from "@/components/logout-btn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
 
@@ -19,7 +20,26 @@ export default function Home() {
       <span className="mt-2 text-muted-foreground">
         Manage your account to make GoQuibble work better for you.
       </span>
-      <div className="grid grid-cols-2 gap-4 mt-8 w-full">
+      <div className="flex items-center gap-4 mt-8">
+        <a
+          href="https://github.com/orgs/goquibble/discussions"
+          target="_blank"
+          rel="noreferrer"
+          className="border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-input/25 transition-colors"
+        >
+          <Icons.info className="text-muted-foreground size-4" />
+          Need help?
+        </a>
+        <NavLink
+          to="/password"
+          className="border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-input/25 transition-colors"
+        >
+          <Icons.password className="text-muted-foreground size-4" />
+          My password
+        </NavLink>
+        <LogoutBtn />
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4 w-full">
         <GridItem
           title="Connected Apps"
           subTitle="GoQuibble apps that are connected to this account."
@@ -33,7 +53,7 @@ export default function Home() {
             className="flex items-center gap-2"
           >
             <img src="/favicon.svg" alt="Quibble" className="size-6" />
-            <span className="text-muted-foreground">Quibble</span>
+            <span>Quibble</span>
           </a>
         </GridItem>
         <GridItem
@@ -41,31 +61,12 @@ export default function Home() {
           subTitle="Info about you and your preferences across GoQuibble services"
           imageSrc="/icons/data-and-personalization.png"
         >
-          <NavLink to="/personal-info" className="text-muted-foreground">
-            Manage your personal info
-          </NavLink>
+          <NavLink to="/personal-info">Manage your personal info</NavLink>
         </GridItem>
-        <a
-          href="https://github.com/orgs/goquibble/discussions"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-xl border border-border p-4 flex items-center gap-2 hover:bg-muted/25 transition-colors"
-        >
-          <Icons.info className="text-muted-foreground size-5" />
-          <span className="text-muted-foreground">Need help?</span>
-          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto -rotate-45" />
-        </a>
-        <button
-          type="button"
-          className="rounded-xl border border-border p-4 flex items-center gap-2 hover:bg-muted/25 transition-colors"
-        >
-          <Icons.logout className="text-muted-foreground size-5" />
-          <span className="text-muted-foreground">Log out</span>
-        </button>
       </div>
-      <p className="text-sm text-muted-foreground mt-4 text-center">
-        Only you can see your settings.
-        <br /> We keeps your data private, safe, and secure.
+      <p className="text-sm text-muted-foreground mt-8 text-center">
+        Only you can see your settings. <br />
+        GoQuibble keeps your data private, safe, and secure.
       </p>
     </div>
   );
