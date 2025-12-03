@@ -1,7 +1,8 @@
+import secrets
 from enum import Enum
 from functools import lru_cache
-import secrets
 from typing import Annotated, Any, ClassVar
+
 from pydantic import (
     AnyUrl,
     BeforeValidator,
@@ -65,40 +66,17 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr = "admin@admin.com"
     FIRST_SUPERUSER_PASSWORD: str = "adminpass"
 
-    # for prod (cloud services provides direct url)
-    DATABASE_URL: PostgresDsn | None = None
-    # (optional: for prod)
-    POSTGRES_HOST: str = "localhost"
-    POSTGRES_PORT: int = 5432
-    POSTGRES_USER: str = "goquibble"
-    POSTGRES_PASSWORD: str = "supersecretpassword"
-    POSTGRES_DB: str = "accounts"
+    DATABASE_URL: PostgresDsn
 
-    @computed_field
-    @property
-    def DATABASE_URI(self) -> PostgresDsn:
-        if self.DATABASE_URL:
-            return self.DATABASE_URL
-
-        return PostgresDsn.build(
-            scheme="postgresql+psycopg",
-            host=self.POSTGRES_HOST,
-            port=self.POSTGRES_PORT,
-            username=self.POSTGRES_USER,
-            password=self.POSTGRES_PASSWORD,
-            path=self.POSTGRES_DB,
-        )
-
-    # aws
-    AWS_ACCESS_KEY_ID: str = "minioadmin"
-    AWS_SECRET_ACCESS_KEY: str = "minioadmin"
-    AWS_S3_BUCKET_NAME: str = "accounts-media-dev-ap-south-1"
-    AWS_S3_ENDPOINT_URL: str = "localhost:9000"
+    AWS_ACCESS_KEY_ID: str
+    AWS_SECRET_ACCESS_KEY: str
+    AWS_S3_BUCKET_NAME: str
+    AWS_S3_ENDPOINT_URL: str
 
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    return Settings()  # pyright: ignore[reportCallIssue]
 
 
 # use cached result

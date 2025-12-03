@@ -1,14 +1,15 @@
 from collections.abc import AsyncGenerator
+
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app.core.config import settings
 from app.crud import create_user
 from app.models import User
 from app.schemas import UserCreateAdmin
 
-async_engine = create_async_engine(str(settings.DATABASE_URI), echo=False, future=True)
+async_engine = create_async_engine(str(settings.DATABASE_URL), echo=False, future=True)
 async_session = async_sessionmaker(
     async_engine, class_=AsyncSession, expire_on_commit=False
 )
