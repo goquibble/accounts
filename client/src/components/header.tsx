@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import { cn } from "@/lib/utils";
 
 interface HeaderProps {
@@ -7,15 +8,12 @@ interface HeaderProps {
 export default function Header({ className }: HeaderProps) {
   return (
     <header className={cn("sticky top-0 inset-x-0 p-4", className)}>
-      <a
-        href="https://github.com/goquibble"
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-2 w-max"
-      >
+      <NavLink to="/" className="flex items-center gap-2 w-max">
         <img src="/favicon.svg" alt="Quibble" className="size-6" />
-        <span className="font-medium">GoQuibble</span>
-      </a>
+        <span className="text-xl">
+          <span className="font-medium">Quibble</span> Account
+        </span>
+      </NavLink>
     </header>
   );
 }

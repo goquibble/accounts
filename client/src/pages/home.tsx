@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import { Icons } from "@/components/icons";
 import LogoutBtn from "@/components/logout-btn";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/user-avatar";
 import { useAuth } from "@/contexts/auth";
 
 export default function Home() {
@@ -11,10 +11,7 @@ export default function Home() {
   if (!user) return null;
   return (
     <div className="flex flex-col items-center mx-auto max-w-100">
-      <Avatar className="size-25">
-        <AvatarImage src={user.avatar_url ?? ""} />
-        <AvatarFallback seed={user.username} />
-      </Avatar>
+      <UserAvatar avatar_url={user.avatar_url ?? ""} username={user.username} />
       <h2 className="text-3xl font-medium mt-5 capitalize">
         {user.name ?? user.username}
       </h2>
