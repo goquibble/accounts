@@ -66,7 +66,7 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr = "admin@admin.com"
     FIRST_SUPERUSER_PASSWORD: str = "adminpass"
 
-    DATABASE_URL: PostgresDsn
+    DATABASE_URI: PostgresDsn
 
     AWS_ACCESS_KEY_ID: str
     AWS_SECRET_ACCESS_KEY: str

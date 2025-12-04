@@ -9,7 +9,7 @@ from app.crud import create_user
 from app.models import User
 from app.schemas import UserCreateAdmin
 
-async_engine = create_async_engine(str(settings.DATABASE_URL), echo=False, future=True)
+async_engine = create_async_engine(str(settings.DATABASE_URI), echo=False, future=True)
 async_session = async_sessionmaker(
     async_engine, class_=AsyncSession, expire_on_commit=False
 )
