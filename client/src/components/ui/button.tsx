@@ -17,7 +17,7 @@ export default function Button({
         "disabled:opacity-75 disabled:pointer-events-none",
         variant === "default"
           ? "bg-primary text-primary-foreground hover:bg-primary/90"
-          : "border border-border hover:bg-input/25",
+          : "border border-border hover:bg-muted",
         className,
       )}
       {...props}
