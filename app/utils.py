@@ -1,8 +1,9 @@
 import asyncio
 from io import BytesIO
 from typing import BinaryIO, TypeVar
-from PIL import Image
+
 from async_storages import StorageFile
+from PIL import Image
 from sqlmodel import SQLModel
 
 SQLModelT = TypeVar("SQLModelT", bound=SQLModel)
@@ -14,20 +15,11 @@ async def transform_image(
     output_height: int = 300,
     quality: int = 75,
 ) -> BytesIO:
-    """Crop and convert an uploaded image to a centered WEBP format."""
+    """Resize and convert an uploaded image to a centered WEBP format."""
 
     def _transform():
         with Image.open(image) as im:
-            width, height = im.size
-            # calculate bounding box to crop
-            left = max((width - output_width) // 2, 0)
-            top = max((height - output_height) // 2, 0)
-            right = left + output_width
-            bottom = top + output_height
-            # crop image
-            im = im.crop((left, top, right, bottom))
-
-            # convert to webp with quality
+            im = im.resize((output_width, output_height))
             buffer = BytesIO()
             im.save(buffer, format="WEBP", quality=quality)
             buffer.seek(0)

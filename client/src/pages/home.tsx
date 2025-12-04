@@ -6,8 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
 
 export default function Home() {
+  document.title = "Quibble Account";
   const { user } = useAuth();
-  document.title = `${user?.name ?? user?.username} — GoQuibble`;
 
   if (!user) return null;
   return (
