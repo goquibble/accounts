@@ -26,6 +26,14 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
+  const cleanup = () => {
+    setPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -35,10 +43,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     if (validImageTypes.includes(file.type)) {
       setPreview(URL.createObjectURL(file));
     } else {
-      console.error("Please select a valid image file (JPEG, PNG, or WebP).");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      cleanup();
     }
   };
 
@@ -47,10 +52,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   };
 
   const handleCancel = () => {
-    setPreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    cleanup();
   };
 
   const handleSave = async () => {
@@ -64,15 +66,17 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         ...user, // update avatar url to remove browser cache
         avatar_url: `${user?.avatar_url}?t=${Date.now()}`,
       }));
+      cleanup();
+      setOpen(false);
     } catch (error) {
-      console.error("Failed to update avatar", error);
+      console.error(error);
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="relative">
         <Avatar className="size-25">
           <AvatarImage src={avatar_url} />
