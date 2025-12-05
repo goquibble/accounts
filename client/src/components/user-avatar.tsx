@@ -23,7 +23,17 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (validImageTypes.includes(file.type)) {
+      setPreview(URL.createObjectURL(file));
+    } else {
+      alert("Please select a valid image file (JPEG, PNG, or WebP).");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
   };
 
   const handleChooseFile = () => {
@@ -32,7 +42,9 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
 
   const handleCancel = () => {
     setPreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -62,7 +74,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
           ref={fileInputRef}
           onChange={handleFileChange}
           className="hidden"
-          accept="image/*"
+          accept="image/png, image/jpeg, image/webp"
         />
         <DialogFooter>
           {preview ? (
