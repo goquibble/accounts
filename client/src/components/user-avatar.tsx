@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Icons } from "./icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Button from "./ui/button";
@@ -17,6 +18,23 @@ interface UserAvatarProps {
 }
 
 export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) setPreview(URL.createObjectURL(file));
+  };
+
+  const handleChooseFile = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleCancel = () => {
+    setPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   return (
     <Dialog>
       <DialogTrigger className="relative">
@@ -35,19 +53,44 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
           </DialogDescription>
         </DialogHeader>
         <img
-          src={avatar_url}
+          src={preview ?? avatar_url}
           alt={username}
           className="m-auto rounded-full size-60"
         />
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+          accept="image/*"
+        />
         <DialogFooter>
-          <Button variant="outline" className="h-11 gap-2">
-            <Icons.pencil className="size-4" />
-            Change
-          </Button>
-          <Button className="h-11 gap-2">
-            <Icons.trash className="size-4" />
-            Remove
-          </Button>
+          {preview ? (
+            <>
+              <Button variant="outline" className="h-11" onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button className="h-11 gap-2">
+                <Icons.save className="size-4" />
+                Save
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                className="h-11 gap-2"
+                onClick={handleChooseFile}
+              >
+                <Icons.pencil className="size-4" />
+                Change
+              </Button>
+              <Button className="h-11 gap-2">
+                <Icons.trash className="size-4" />
+                Remove
+              </Button>
+            </>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
