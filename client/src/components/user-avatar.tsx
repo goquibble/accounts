@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { updateAvatar } from "@/lib/user";
 import { Icons } from "./icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Button from "./ui/button";
@@ -20,6 +21,7 @@ interface UserAvatarProps {
 export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -29,7 +31,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     if (validImageTypes.includes(file.type)) {
       setPreview(URL.createObjectURL(file));
     } else {
-      alert("Please select a valid image file (JPEG, PNG, or WebP).");
+      console.error("Please select a valid image file (JPEG, PNG, or WebP).");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -44,6 +46,21 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     setPreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSave = async () => {
+    const file = fileInputRef.current?.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsSaving(true);
+      await updateAvatar(file);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to update avatar", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -82,9 +99,19 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
               <Button variant="outline" className="h-11" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button className="h-11 gap-2">
-                <Icons.save className="size-4" />
-                Save
+              <Button
+                className="h-11 gap-2"
+                onClick={handleSave}
+                disabled={isSaving}
+              >
+                {isSaving ? (
+                  "Saving..."
+                ) : (
+                  <>
+                    <Icons.save className="size-4" />
+                    Save
+                  </>
+                )}
               </Button>
             </>
           ) : (
