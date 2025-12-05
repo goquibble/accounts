@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { updateAvatar } from "@/lib/user";
 import type { User } from "@/types/user";
 import { Icons } from "./icons";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Button from "./ui/button";
 import {
@@ -99,6 +100,16 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
           className="hidden"
           accept="image/png, image/jpeg, image/webp"
         />
+        {preview && (
+          <Alert>
+            <Icons.info />
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              It may take a moment to see the change across all your Quibble
+              services.
+            </AlertDescription>
+          </Alert>
+        )}
         <DialogFooter>
           {preview ? (
             <>

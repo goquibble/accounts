@@ -20,9 +20,12 @@ export default function BaseLayout() {
   });
 
   useEffect(() => {
-    console.log(fetchUser);
     if (fetchUser) setUser(fetchUser);
   }, [fetchUser, setUser]);
+
+  if (!fetchUser) {
+    return null;
+  }
 
   return (
     <main className="min-h-dvh">
