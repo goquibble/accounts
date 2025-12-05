@@ -18,7 +18,11 @@ export default function App() {
   }, []);
 
   // block rendering
-  if (loading) return null;
+  // for TOKEN to fetch and set
+  if (loading) {
+    return null;
+  }
+
   return (
     <BrowserRouter>
       <Routes>

@@ -1,5 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { updateAvatar } from "@/lib/user";
+import type { User } from "@/types/user";
 import { Icons } from "./icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Button from "./ui/button";
@@ -22,6 +24,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -56,7 +59,10 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     try {
       setIsSaving(true);
       await updateAvatar(file);
-      window.location.reload();
+      queryClient.setQueryData(["user"], (user: User | undefined) => ({
+        ...user, // update avatar url to remove browser cache
+        avatar_url: `${user?.avatar_url}?t=${Date.now()}`,
+      }));
     } catch (error) {
       console.error("Failed to update avatar", error);
     } finally {

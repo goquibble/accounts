@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
@@ -9,27 +10,34 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 
 export default function Login() {
-  document.title = "Log in — GoQuibble";
+  document.title = "Log in — Quibble";
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setError,
   } = useForm<{ email: string }>();
 
-  const onSubmit = async (data: { email: string }) => {
-    const url = API_ENDPOINTS.AUTH_CHECK_EMAIL(data.email);
-    const { data: checkPassed } = await api.get<boolean>(url);
+  const mutation = useMutation({
+    mutationFn: (email: string) => {
+      const url = API_ENDPOINTS.AUTH_CHECK_EMAIL(email);
+      return api.get<boolean>(url);
+    },
+    onSuccess: ({ data: isCheckPassed }, email) => {
+      if (!isCheckPassed) {
+        setError("email", { message: "This account is inactive." });
+      } else {
+        navigate("./password", {
+          state: { email },
+        });
+      }
+    },
+  });
 
-    if (!checkPassed) {
-      setError("email", { message: "This account is inactive." });
-    } else {
-      navigate("./password", {
-        state: { email: data.email },
-      });
-    }
+  const onSubmit = (data: { email: string }) => {
+    mutation.mutate(data.email);
   };
 
   return (
@@ -56,7 +64,7 @@ export default function Login() {
             </span>
           )}
         </div>
-        <Button className="font-medium" disabled={isSubmitting}>
+        <Button className="font-medium" disabled={mutation.isPending}>
           Continue
         </Button>
       </form>
@@ -70,7 +78,7 @@ export default function Login() {
         </NavLink>
       </span>
       <Seperator>OR</Seperator>
-      <OAuthBtns disabled={isSubmitting} />
+      <OAuthBtns disabled={mutation.isPending} />
     </>
   );
 }

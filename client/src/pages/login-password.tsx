@@ -8,7 +8,7 @@ import { authenticate } from "@/lib/auth";
 import { tokenStore } from "@/lib/token-store";
 
 export default function LoginPassword() {
-  document.title = "Log in — GoQuibble";
+  document.title = "Log in — Quibble";
 
   const navigate = useNavigate();
   const location = useLocation();
