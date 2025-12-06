@@ -27,7 +27,7 @@ async def update_users_me(
     username: Annotated[str | None, Form()] = None,
     name: Annotated[str | None, Form()] = None,
     avatar: Annotated[UploadFile | None, File()] = None,
-    delete_avatar: Annotated[bool, File()] = False,
+    delete_avatar: Annotated[bool, Form()] = False,
 ) -> User:
     db_user = current_user
     user_update_data: dict[str, str | None] = {}

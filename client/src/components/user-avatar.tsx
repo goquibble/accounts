@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { updateAvatar } from "@/lib/user";
+import { removeAvatar, updateAvatar } from "@/lib/user";
 import type { User } from "@/types/user";
 import { Icons } from "./icons";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
@@ -62,6 +62,24 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
       }));
       cleanup();
       setOpen(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      setIsSaving(true);
+      await removeAvatar();
+      queryClient.setQueryData(["user"], (user: User | undefined) => ({
+        ...user, // update avatar url to remove browser cache
+        avatar_url: null,
+      }));
+      cleanup();
+      setOpen(false);
+      setShowRemoveConfirm(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -138,9 +156,12 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
               >
                 Cancel
               </Button>
-              <Button className="h-11 gap-2">
-                <Icons.trash className="size-4" />
-                Remove
+              <Button
+                className="h-11 gap-2"
+                onClick={handleRemove}
+                disabled={isSaving}
+              >
+                {isSaving ? "Removing..." : "Remove"}
               </Button>
             </>
           ) : preview ? (

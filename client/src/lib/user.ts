@@ -11,3 +11,14 @@ export const updateAvatar = async (avatar: File) => {
 
   return res.data;
 };
+
+export const removeAvatar = async () => {
+  const formData = new FormData();
+  formData.append("delete_avatar", "true");
+
+  const res = await api.patch(API_ENDPOINTS.USERS_ME, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return res.data;
+};
