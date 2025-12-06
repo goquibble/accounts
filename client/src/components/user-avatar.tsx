@@ -61,7 +61,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         avatar_url: `${newUser.avatar_url}?t=${Date.now()}`,
       }));
       cleanup();
-      setOpen(false);
+      setTimeout(() => setOpen(false), 100);
     } catch (error) {
       console.error(error);
     } finally {
@@ -75,8 +75,8 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
       await updateUser({ delete_avatar: true });
       queryClient.invalidateQueries({ queryKey: ["user"] });
       cleanup();
-      setOpen(false);
       setShowRemoveConfirm(false);
+      setTimeout(() => setOpen(false), 100);
     } catch (error) {
       console.error(error);
     } finally {
