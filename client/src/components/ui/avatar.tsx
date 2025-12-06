@@ -32,11 +32,15 @@ function AvatarImage({
 function AvatarFallback({
   className,
   seed,
+  format,
+  size,
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Fallback> & {
   seed?: string;
+  format?: "svg" | "png";
+  size?: number;
 }) {
-  const avatarUrl = getAvatarUrl(seed);
+  const avatarUrl = getAvatarUrl(seed, format, size);
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
