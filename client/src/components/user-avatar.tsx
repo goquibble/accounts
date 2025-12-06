@@ -23,10 +23,12 @@ interface UserAvatarProps {
 
 export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const [preview, setPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   const cleanup = () => {
     setPreview(null);
@@ -45,14 +47,6 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     } else {
       cleanup();
     }
-  };
-
-  const handleChooseFile = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleCancel = () => {
-    cleanup();
   };
 
   const handleSave = async () => {
@@ -75,6 +69,14 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     }
   };
 
+  const title = showRemoveConfirm
+    ? "Remove profile picture?"
+    : "Profile picture";
+
+  const description = showRemoveConfirm
+    ? "Your profile picture will be removed and a default image will be used instead."
+    : "A picture helps people recognize you and lets you know when you're signed in to your account.";
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="relative">
@@ -86,38 +88,64 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Profile picture</DialogTitle>
-          <DialogDescription>
-            A picture helps people recognize you and lets you know when you’re
-            signed in to your account
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <img
-          src={preview ?? avatar_url}
-          alt={username}
-          className="m-auto rounded-full size-60"
-        />
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-          accept="image/png, image/jpeg, image/webp"
-        />
-        {preview && (
-          <Alert>
-            <Icons.info />
-            <AlertTitle>Heads up!</AlertTitle>
-            <AlertDescription>
-              It may take a moment to see the change across all your Quibble
-              services.
-            </AlertDescription>
-          </Alert>
+        {showRemoveConfirm ? (
+          <div className="flex items-center justify-center gap-4">
+            <Avatar className="size-30">
+              <AvatarImage src={avatar_url} />
+              <AvatarFallback seed={username} />
+            </Avatar>
+            <Icons.arrowRight className="size-6" />
+            <Avatar className="size-30">
+              <AvatarFallback seed={username} />
+            </Avatar>
+          </div>
+        ) : (
+          <>
+            <img
+              src={preview ?? avatar_url}
+              alt={username}
+              className="m-auto rounded-full size-60"
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+              accept="image/png, image/jpeg, image/webp"
+            />
+            {preview && (
+              <Alert>
+                <Icons.info />
+                <AlertTitle>Heads up!</AlertTitle>
+                <AlertDescription>
+                  It may take a moment to see the change across all your Quibble
+                  services.
+                </AlertDescription>
+              </Alert>
+            )}
+          </>
         )}
         <DialogFooter>
-          {preview ? (
+          {showRemoveConfirm ? (
             <>
-              <Button variant="outline" className="h-11" onClick={handleCancel}>
+              <Button
+                variant="outline"
+                className="h-11"
+                onClick={() => setShowRemoveConfirm(false)}
+              >
+                Cancel
+              </Button>
+              <Button className="h-11 gap-2">
+                <Icons.trash className="size-4" />
+                Remove
+              </Button>
+            </>
+          ) : preview ? (
+            <>
+              <Button variant="outline" className="h-11" onClick={cleanup}>
                 Cancel
               </Button>
               <Button
@@ -140,12 +168,15 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
               <Button
                 variant="outline"
                 className="h-11 gap-2"
-                onClick={handleChooseFile}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <Icons.pencil className="size-4" />
                 Change
               </Button>
-              <Button className="h-11 gap-2">
+              <Button
+                className="h-11 gap-2"
+                onClick={() => setShowRemoveConfirm(true)}
+              >
                 <Icons.trash className="size-4" />
                 Remove
               </Button>
