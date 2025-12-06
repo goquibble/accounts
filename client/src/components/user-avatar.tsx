@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { removeAvatar, updateAvatar } from "@/lib/user";
+import { updateUser } from "@/lib/user";
 import type { User } from "@/types/user";
 import { Icons } from "./icons";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
@@ -55,10 +55,10 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
 
     try {
       setIsSaving(true);
-      await updateAvatar(file);
-      queryClient.setQueryData(["user"], (user: User | undefined) => ({
-        ...user, // update avatar url to remove browser cache
-        avatar_url: `${user?.avatar_url}?t=${Date.now()}`,
+      const newUser = await updateUser({ avatar: file });
+      queryClient.setQueryData(["user"], () => ({
+        ...newUser, // update avatar url to remove browser cache
+        avatar_url: `${newUser.avatar_url}?t=${Date.now()}`,
       }));
       cleanup();
       setOpen(false);
@@ -72,11 +72,8 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const handleRemove = async () => {
     try {
       setIsSaving(true);
-      await removeAvatar();
-      queryClient.setQueryData(["user"], (user: User | undefined) => ({
-        ...user, // update avatar url to remove browser cache
-        avatar_url: null,
-      }));
+      await updateUser({ delete_avatar: true });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       cleanup();
       setOpen(false);
       setShowRemoveConfirm(false);
