@@ -102,7 +102,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="relative">
         <Avatar className="size-25">
-          {avatar_url && <AvatarImage src={avatar_url} />}
+          <AvatarImage src={avatar_url ?? ""} />
           <AvatarFallback seed={username} />
         </Avatar>
         <Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-7 p-1" />
@@ -115,7 +115,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         {showRemoveConfirm ? (
           <div className="flex items-center justify-center gap-4">
             <Avatar className="size-30">
-              {avatarUrl && <AvatarImage src={avatarUrl} />}
+              <AvatarImage src={avatarUrl ?? ""} />
               <AvatarFallback seed={username} />
             </Avatar>
             <Icons.arrowRight className="size-6" />
@@ -126,7 +126,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         ) : (
           <>
             <Avatar className="m-auto rounded-full size-60">
-              {avatar_url && <AvatarImage src={preview ?? avatar_url} />}
+              <AvatarImage src={preview ?? avatar_url ?? ""} />
               <AvatarFallback seed={username} />
             </Avatar>
             <input
