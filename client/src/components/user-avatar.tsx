@@ -16,7 +16,7 @@ import {
 } from "./ui/dialog";
 
 interface UserAvatarProps {
-  avatar_url: string;
+  avatar_url: string | null;
   username: string;
 }
 
@@ -102,7 +102,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="relative">
         <Avatar className="size-25">
-          <AvatarImage src={avatar_url} />
+          {avatar_url && <AvatarImage src={avatar_url} />}
           <AvatarFallback seed={username} />
         </Avatar>
         <Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-7 p-1" />
@@ -115,7 +115,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         {showRemoveConfirm ? (
           <div className="flex items-center justify-center gap-4">
             <Avatar className="size-30">
-              <AvatarImage src={avatarUrl} />
+              {avatarUrl && <AvatarImage src={avatarUrl} />}
               <AvatarFallback seed={username} />
             </Avatar>
             <Icons.arrowRight className="size-6" />
@@ -126,7 +126,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         ) : (
           <>
             <Avatar className="m-auto rounded-full size-60">
-              <AvatarImage src={preview ?? avatar_url} alt={username} />
+              {avatar_url && <AvatarImage src={preview ?? avatar_url} />}
               <AvatarFallback seed={username} />
             </Avatar>
             <input
@@ -199,6 +199,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
               <Button
                 className="h-11 gap-2"
                 onClick={() => setShowRemoveConfirm(true)}
+                disabled={avatar_url === null}
               >
                 <Icons.trash className="size-4" />
                 Remove

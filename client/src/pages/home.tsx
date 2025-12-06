@@ -11,7 +11,7 @@ export default function Home() {
   if (!user) return null;
   return (
     <div className="flex flex-col items-center mx-auto max-w-100">
-      <UserAvatar avatar_url={user.avatar_url ?? ""} username={user.username} />
+      <UserAvatar avatar_url={user.avatar_url} username={user.username} />
       <h2 className="text-3xl font-medium mt-5 capitalize">
         {user.name ?? user.username}
       </h2>
