@@ -125,11 +125,10 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
           </div>
         ) : (
           <>
-            <img
-              src={preview ?? avatar_url}
-              alt={username}
-              className="m-auto rounded-full size-60"
-            />
+            <Avatar className="m-auto rounded-full size-60">
+              <AvatarImage src={preview ?? avatar_url} alt={username} />
+              <AvatarFallback seed={username} />
+            </Avatar>
             <input
               type="file"
               ref={fileInputRef}
