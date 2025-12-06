@@ -1,7 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updateUser } from "@/lib/user";
-import type { User } from "@/types/user";
 import { Icons } from "./icons";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -26,9 +25,14 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [open, setOpen] = useState(false);
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(avatar_url);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (open) setAvatarUrl(avatar_url);
+  }, [open, avatar_url]);
 
   const cleanup = () => {
     setPreview(null);
@@ -60,8 +64,8 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         ...newUser, // update avatar url to remove browser cache
         avatar_url: `${newUser.avatar_url}?t=${Date.now()}`,
       }));
-      cleanup();
-      setTimeout(() => setOpen(false), 100);
+      setOpen(false);
+      setTimeout(() => cleanup(), 200);
     } catch (error) {
       console.error(error);
     } finally {
@@ -74,9 +78,11 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
       setIsSaving(true);
       await updateUser({ delete_avatar: true });
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      cleanup();
-      setShowRemoveConfirm(false);
-      setTimeout(() => setOpen(false), 100);
+      setOpen(false);
+      setTimeout(() => {
+        cleanup();
+        setShowRemoveConfirm(false);
+      }, 200);
     } catch (error) {
       console.error(error);
     } finally {
@@ -109,7 +115,7 @@ export default function UserAvatar({ avatar_url, username }: UserAvatarProps) {
         {showRemoveConfirm ? (
           <div className="flex items-center justify-center gap-4">
             <Avatar className="size-30">
-              <AvatarImage src={avatar_url} />
+              <AvatarImage src={avatarUrl} />
               <AvatarFallback seed={username} />
             </Avatar>
             <Icons.arrowRight className="size-6" />
