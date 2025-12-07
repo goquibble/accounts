@@ -24,7 +24,7 @@ export default function Sidebar() {
           to={href}
           className={({ isActive }) =>
             cn(
-              "p-2 pr-4 w-max rounded-full hover:bg-accent transition-colors flex items-center gap-2",
+              "p-2 pr-4 w-max rounded-full hover:bg-accent transition-colors flex items-center gap-2 border border-border",
               isActive && "bg-muted",
             )
           }

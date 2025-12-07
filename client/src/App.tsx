@@ -7,6 +7,7 @@ import { tokenStore } from "./lib/token-store";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
+import PersonalInfo from "./pages/personal-info";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ export default function App() {
       <Routes>
         <Route element={<BaseLayout />}>
           <Route index element={<Home />} />
+          <Route path="personal-info" element={<PersonalInfo />} />
         </Route>
         <Route path="log-in" element={<AuthLayout />}>
           <Route index element={<Login />} />

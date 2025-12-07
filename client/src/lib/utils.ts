@@ -17,3 +17,14 @@ export function getAvatarUrl(
   baseUrl.searchParams.set("size", size.toString());
   return baseUrl.toString();
 }
+
+export function formatTimestamp(input: string): string {
+  const date = new Date(input);
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return formatter.format(date);
+}
