@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import LogoutBtn from "@/components/logout-btn";
 import UserAvatar from "@/components/user-avatar";
@@ -54,10 +55,11 @@ export default function Home() {
           <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
         </div>
       </div>
-      <p className="text-sm text-muted-foreground mt-8 text-center">
-        Only you can see your settings. <br />
-        Quibble keeps your data private, safe, and secure.
+      <p className="text-sm text-muted-foreground mt-auto text-center">
+        Only you can see your settings. Review your preferences anytime. Quibble
+        keeps your data private, safe, and secure.
       </p>
+      <Footer />
     </div>
   );
 }

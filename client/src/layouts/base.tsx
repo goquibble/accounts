@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Outlet } from "react-router";
-import Footer from "@/components/footer";
 import Header from "@/components/header";
+import Sidebar from "@/components/sidebar";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useAuth } from "@/contexts/auth";
 import api from "@/lib/api";
@@ -28,11 +28,11 @@ export default function BaseLayout() {
   }
 
   return (
-    <main className="min-h-dvh">
+    <main className="min-h-dvh flex flex-col">
       <Header />
-      <section className="p-4 max-w-200 mx-auto">
+      <section className="flex gap-4 p-4 flex-1">
+        <Sidebar />
         <Outlet />
-        <Footer />
       </section>
     </main>
   );
