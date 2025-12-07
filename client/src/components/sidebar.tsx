@@ -29,7 +29,7 @@ export default function Sidebar() {
             )
           }
         >
-          <div className="size-10 rounded-full bg-secondary grid place-items-center">
+          <div className="size-10 rounded-full bg-secondary/75 grid place-items-center">
             <Icon className="text-secondary-foreground size-5" />
           </div>
           <span className="font-medium text-sm">{label}</span>
