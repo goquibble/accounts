@@ -8,6 +8,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
 import PersonalInfo from "./pages/personal-info";
+import PersonalInfoName from "./pages/personal-info/name";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,10 @@ export default function App() {
       <Routes>
         <Route element={<BaseLayout />}>
           <Route index element={<Home />} />
-          <Route path="personal-info" element={<PersonalInfo />} />
+          <Route path="personal-info">
+            <Route index element={<PersonalInfo />} />
+            <Route path="name" element={<PersonalInfoName />} />
+          </Route>
         </Route>
         <Route path="log-in" element={<AuthLayout />}>
           <Route index element={<Login />} />
