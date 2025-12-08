@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
 
 export default function PersonalInfoName() {
+  document.title = "Name";
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) {
     return null;
@@ -16,6 +19,7 @@ export default function PersonalInfoName() {
         <button
           type="button"
           className="size-8 grid place-items-center hover:bg-muted transition-colors rounded-full border border-border"
+          onClick={() => navigate(-1)}
         >
           <Icons.arrowRight className="-rotate-180 size-5 text-muted-foreground" />
         </button>
@@ -37,7 +41,7 @@ export default function PersonalInfoName() {
         </div>
       </div>
       <div className="flex gap-4">
-        <Button variant="outline" className="h-11">
+        <Button variant="outline" className="h-11" onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button className="h-11" disabled>

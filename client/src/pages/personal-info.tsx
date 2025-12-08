@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
@@ -6,6 +7,7 @@ import { cn, formatTimestamp } from "@/lib/utils";
 export default function PersonalInfo() {
   document.title = "Personal info";
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) {
     return null;
@@ -29,6 +31,7 @@ export default function PersonalInfo() {
       title: "Name",
       description: user.name ?? user.username,
       rounded: "rounded-md",
+      onClick: () => navigate("./name"),
     },
     {
       icon: Icons.cake,
@@ -72,6 +75,7 @@ export default function PersonalInfo() {
               "flex items-center gap-4 text-left bg-muted hover:bg-accent transition-colors p-3 pl-5 border border-border",
               item.rounded,
             )}
+            onClick={item.onClick}
           >
             <item.icon className="size-5" />
             <div className="flex flex-col">
