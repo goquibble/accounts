@@ -68,7 +68,7 @@ export default function PersonalInfoName() {
         </Button>
         <Button
           className="h-11"
-          disabled={user.name === name || mutation.isPending}
+          disabled={(user.name ?? "") === name || mutation.isPending}
           onClick={handleSave}
         >
           {mutation.isPending ? "Saving..." : "Save"}
