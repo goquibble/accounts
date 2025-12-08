@@ -9,7 +9,10 @@ export default function Home() {
   document.title = "Quibble Account";
   const { user } = useAuth();
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col items-center mx-auto max-w-100 w-full">
       <UserAvatar avatar_url={user.avatar_url} username={user.username} />
@@ -17,7 +20,7 @@ export default function Home() {
         {user.name ?? user.username}
       </h2>
       <span className="mt-1">{user.email}</span>
-      <div className="flex items-center justify-between w-full mt-8 overflow-x-scroll gap-3 md:gap-0">
+      <div className="flex items-center justify-between w-full mt-8 overflow-x-scroll scrollbar-hide gap-3 md:gap-0">
         <a
           href="https://github.com/orgs/goquibble/discussions"
           target="_blank"
