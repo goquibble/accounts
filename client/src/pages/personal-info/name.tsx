@@ -29,7 +29,7 @@ export default function PersonalInfoName() {
         Changes to your name will be reflected across your Quibble Account. Your
         previous name may still be searchable or appear on old messages.
       </p>
-      <Input placeholder="Name" defaultValue={user.username} />
+      <Input placeholder="Name" defaultValue={user.name ?? ""} />
       <div className="flex flex-col gap-2">
         <span className="font-medium">Who can you see your name</span>
         <div className="flex gap-2">
@@ -44,7 +44,7 @@ export default function PersonalInfoName() {
         <Button variant="outline" className="h-11" onClick={() => navigate(-1)}>
           Cancel
         </Button>
-        <Button className="h-11" disabled>
+        <Button className="h-11" disabled={user.name === null}>
           Save
         </Button>
       </div>

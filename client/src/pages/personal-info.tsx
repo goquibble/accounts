@@ -29,7 +29,7 @@ export default function PersonalInfo() {
     {
       icon: Icons.idCardLanyard,
       title: "Name",
-      description: user.name ?? user.username,
+      description: user.name ?? "N/A",
       rounded: "rounded-md",
       onClick: () => navigate("./name"),
     },
