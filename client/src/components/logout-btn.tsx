@@ -31,7 +31,7 @@ export default function LogoutBtn() {
 
   return (
     <Dialog>
-      <DialogTrigger className="border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors">
+      <DialogTrigger className="whitespace-nowrap border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors">
         <Icons.logout className="text-muted-foreground size-4" />
         Log out
       </DialogTrigger>
