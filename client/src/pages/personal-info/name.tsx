@@ -1,13 +1,31 @@
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useAuth } from "@/contexts/auth";
+import { updateUser } from "@/lib/user";
 
 export default function PersonalInfoName() {
   document.title = "Name";
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const [name, setName] = useState(user?.name ?? "");
+
+  const mutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess(updatedUser) {
+      setUser(updatedUser);
+      navigate(-1);
+    },
+  });
+
+  function handleSave() {
+    if (name !== user?.name) {
+      mutation.mutate({ name });
+    }
+  }
 
   if (!user) {
     return null;
@@ -29,7 +47,11 @@ export default function PersonalInfoName() {
         Changes to your name will be reflected across your Quibble Account. Your
         previous name may still be searchable or appear on old messages.
       </p>
-      <Input placeholder="Name" defaultValue={user.name ?? ""} />
+      <Input
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <div className="flex flex-col gap-2">
         <span className="font-medium">Who can you see your name</span>
         <div className="flex gap-2">
@@ -44,8 +66,12 @@ export default function PersonalInfoName() {
         <Button variant="outline" className="h-11" onClick={() => navigate(-1)}>
           Cancel
         </Button>
-        <Button className="h-11" disabled={user.name === null}>
-          Save
+        <Button
+          className="h-11"
+          disabled={user.name === name || mutation.isPending}
+          onClick={handleSave}
+        >
+          {mutation.isPending ? "Saving..." : "Save"}
         </Button>
       </div>
     </div>
