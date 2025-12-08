@@ -49,7 +49,7 @@ export default function PersonalInfoName() {
       </p>
       <Input
         placeholder="Name"
-        value={name}
+        defaultValue={user.name ?? name}
         onChange={(e) => setName(e.target.value)}
       />
       <div className="flex flex-col gap-2">
