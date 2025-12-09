@@ -173,14 +173,7 @@ export default function ProfilePictureDialog() {
                 onClick={handleSave}
                 disabled={isSaving}
               >
-                {isSaving ? (
-                  "Saving..."
-                ) : (
-                  <>
-                    <Icons.save className="size-4" />
-                    Save
-                  </>
-                )}
+                {isSaving ? "Saving..." : "Save"}
               </Button>
             </>
           ) : (
