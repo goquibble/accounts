@@ -2,12 +2,14 @@ import { NavLink } from "react-router";
 import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import LogoutBtn from "@/components/logout-btn";
-import UserAvatar from "@/components/user-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
+import { useDialog } from "@/contexts/dialog";
 
 export default function Home() {
   document.title = "Quibble Account";
   const { user } = useAuth();
+  const { openDialog } = useDialog();
 
   if (!user) {
     return null;
@@ -15,7 +17,17 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center mx-auto max-w-100 w-full">
-      <UserAvatar avatar_url={user.avatar_url} username={user.username} />
+      <button
+        type="button"
+        className="relative"
+        onClick={() => openDialog("profile-picture")}
+      >
+        <Avatar className="size-25">
+          <AvatarImage src={user.avatar_url ?? ""} />
+          <AvatarFallback seed={user.username} />
+        </Avatar>
+        <Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-7 p-1" />
+      </button>
       <h2 className="text-3xl font-medium mt-5 capitalize">
         {user.name ?? user.username}
       </h2>

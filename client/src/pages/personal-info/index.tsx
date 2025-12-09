@@ -2,12 +2,14 @@ import { useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
+import { useDialog } from "@/contexts/dialog";
 import { cn, formatTimestamp } from "@/lib/utils";
 
 export default function PersonalInfo() {
   document.title = "Personal info";
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { openDialog } = useDialog();
 
   if (!user) {
     return null;
@@ -19,6 +21,7 @@ export default function PersonalInfo() {
       title: "Profile picture",
       description: "A profile picture that helps personalize your account",
       rounded: "rounded-t-2xl rounded-b-md",
+      onClick: () => openDialog("profile-picture"),
       rightElement: (
         <Avatar className="size-10">
           <AvatarImage src={user.avatar_url ?? ""} />

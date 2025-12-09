@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Outlet } from "react-router";
+import ProfilePictureDialog from "@/components/dialogs/profile-picture";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
@@ -34,6 +35,7 @@ export default function BaseLayout() {
         <Sidebar />
         <Outlet />
       </section>
+      <ProfilePictureDialog />
     </main>
   );
 }
