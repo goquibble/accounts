@@ -1,4 +1,5 @@
 from typing import Any
+
 from async_storages.integrations.sqlalchemy import ImageType as _ImageType
 
 from app.core.storages import storage

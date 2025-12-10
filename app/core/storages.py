@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 from async_storages import S3Storage
 
 from app.core.config import settings

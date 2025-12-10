@@ -1,7 +1,8 @@
 # pyright: reportIncompatibleVariableOverride=none
-from typing import Any
 import uuid
 from datetime import datetime, timezone
+from typing import Any
+
 from async_storages import StorageImage
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel

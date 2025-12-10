@@ -1,6 +1,7 @@
+import uuid
 from datetime import datetime
 from typing import Annotated
-import uuid
+
 from pydantic import EmailStr, Field
 from sqlmodel import SQLModel
 

@@ -1,8 +1,9 @@
 from datetime import UTC, datetime, timedelta
 from enum import Enum
 from typing import Any
-from fastapi.security import OAuth2PasswordBearer
+
 import jwt
+from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash
 from pydantic import SecretStr
 

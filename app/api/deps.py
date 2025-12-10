@@ -1,11 +1,11 @@
 from typing import Annotated
+
 from fastapi import Depends, HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.db import get_async_session
 from app.core.security import TokenType, oauth2_schema, verify_token
 from app.models import User
-
 
 SessionDep = Annotated[AsyncSession, Depends(get_async_session)]
 TokenDep = Annotated[str, Depends(oauth2_schema)]
