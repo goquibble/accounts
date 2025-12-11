@@ -55,6 +55,15 @@ class UserPasswordUpdate(SQLModel):
     new_password: Annotated[str, Field(min_length=8, max_length=128)]
 
 
+class PasswordVerify(SQLModel):
+    password: str
+
+
+class PasswordResetToken(SQLModel):
+    reset_token: str
+    new_password: Annotated[str, Field(min_length=8, max_length=128)]
+
+
 class UsersBulkRequest(SQLModel):
     usernames: Annotated[list[str], Field(min_length=1)]
 

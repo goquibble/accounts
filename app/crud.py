@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime, timezone
 
 from sqlmodel import select
@@ -47,6 +48,13 @@ async def update_user_password(
     await session.refresh(db_user)
 
     return db_user
+
+
+async def get_user_by_id(*, session: AsyncSession, user_id: uuid.UUID) -> User | None:
+    statement = select(User).where(User.id == user_id)
+    user = (await session.exec(statement)).first()
+
+    return user
 
 
 async def get_user_by_email(*, session: AsyncSession, email: str) -> User | None:

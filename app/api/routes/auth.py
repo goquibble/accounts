@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
@@ -12,9 +13,21 @@ from app.core.security import (
     verify_password,
     verify_token,
 )
-from app.crud import create_user, get_user_by_email, update_user_password
+from app.crud import (
+    create_user,
+    get_user_by_email,
+    get_user_by_id,
+    update_user_password,
+)
 from app.models import User
-from app.schemas import Token, UserCreate, UserPasswordUpdate, UserRead
+from app.schemas import (
+    PasswordResetToken,
+    PasswordVerify,
+    Token,
+    UserCreate,
+    UserPasswordUpdate,
+    UserRead,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -90,6 +103,39 @@ async def update_password(
     await update_user_password(
         session=session,
         db_user=current_user,
+        new_password=payload.new_password,
+    )
+
+    return {"message": "Password updated!"}
+
+
+@router.post("/verify-password")
+async def verify_user_password(
+    current_user: CurrentUser, payload: PasswordVerify
+) -> Token:
+    if not verify_password(payload.password, current_user.hashed_password):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid password.")
+
+    reset_token = create_token(str(current_user.id), TokenType.PASSWORD_RESET)
+    return Token(access_token=reset_token)
+
+
+@router.post("/reset-password")
+async def reset_password(session: SessionDep, payload: PasswordResetToken):
+    token_data = verify_token(payload.reset_token, TokenType.PASSWORD_RESET)
+    if not token_data:
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            "Password reset token is invalid or has expired.",
+        )
+
+    user = await get_user_by_id(session=session, user_id=uuid.UUID(token_data.user_id))
+    if not user or not user.is_active:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
+
+    await update_user_password(
+        session=session,
+        db_user=user,
         new_password=payload.new_password,
     )
 

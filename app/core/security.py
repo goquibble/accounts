@@ -20,6 +20,7 @@ ALGORITHM: str = settings.ALGORITHM
 class TokenType(str, Enum):
     ACCESS = "access"
     REFRESH = "refresh"
+    PASSWORD_RESET = "password_reset"
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -32,11 +33,12 @@ def get_password_hash(password: str) -> str:
 
 def create_token(subject: str, token_type: TokenType) -> str:
     now = datetime.now(UTC).replace(tzinfo=None)
-    expires = now + (
-        timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        if token_type == TokenType.ACCESS
-        else timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
-    )
+    if token_type == TokenType.ACCESS:
+        expires = now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    elif token_type == TokenType.REFRESH:
+        expires = now + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+    else:
+        expires = now + timedelta(minutes=15)
 
     to_encode = {"sub": subject, "exp": expires, "token_type": token_type}
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY.get_secret_value(), ALGORITHM)
