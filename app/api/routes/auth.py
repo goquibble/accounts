@@ -3,13 +3,18 @@ from typing import Annotated
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.api.deps import SessionDep
+from app.api.deps import CurrentUser, SessionDep
 from app.auth import authenticate_user
 from app.core.config import settings
-from app.core.security import TokenType, create_token, verify_token
-from app.crud import create_user, get_user_by_email
+from app.core.security import (
+    TokenType,
+    create_token,
+    verify_password,
+    verify_token,
+)
+from app.crud import create_user, get_user_by_email, update_user_password
 from app.models import User
-from app.schemas import Token, UserCreate, UserRead
+from app.schemas import Token, UserCreate, UserPasswordUpdate, UserRead
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -71,6 +76,24 @@ async def register(session: SessionDep, user_create: UserCreate) -> User:
 
     user = await create_user(session=session, user_create=user_create)
     return user
+
+
+@router.post("/update-password")
+async def update_password(
+    current_user: CurrentUser,
+    session: SessionDep,
+    payload: UserPasswordUpdate,
+) -> dict[str, str]:
+    if not verify_password(payload.old_password, current_user.hashed_password):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid old password.")
+
+    await update_user_password(
+        session=session,
+        db_user=current_user,
+        new_password=payload.new_password,
+    )
+
+    return {"message": "Password updated!"}
 
 
 @router.post("/refresh-token", response_model=Token)

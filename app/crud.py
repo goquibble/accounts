@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -26,6 +28,19 @@ async def update_user(
 ) -> User:
     user_data = user_update.model_dump(exclude_unset=True)
     db_user.sqlmodel_update(user_data)
+
+    session.add(db_user)
+    await session.commit()
+    await session.refresh(db_user)
+
+    return db_user
+
+
+async def update_user_password(
+    *, session: AsyncSession, db_user: User, new_password: str
+) -> User:
+    db_user.hashed_password = get_password_hash(new_password)
+    db_user.password_last_changed = datetime.now(timezone.utc)
 
     session.add(db_user)
     await session.commit()

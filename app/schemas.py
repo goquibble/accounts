@@ -23,6 +23,7 @@ class UserRead(SQLModel):
     name: str | None
     avatar_url: str | None
     created_at: datetime
+    password_last_changed: datetime
 
 
 class UserUpdate(SQLModel):
@@ -47,6 +48,11 @@ class UserUpdate(SQLModel):
             examples=["John Doe"],
         ),
     ]
+
+
+class UserPasswordUpdate(SQLModel):
+    old_password: Annotated[str, Field(min_length=8, max_length=128)]
+    new_password: Annotated[str, Field(min_length=8, max_length=128)]
 
 
 # --------------- TOKEN ---------------
