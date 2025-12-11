@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     SECRET_KEY: SecretStr = SecretStr(secrets.token_urlsafe(32))
     ALGORITHM: str = "HS256"
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # 15 mins
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 15  # 15 mins
 
     CLIENT_CACHE_MAX_AGE: int = 60  # 60s
 

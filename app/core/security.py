@@ -37,7 +37,7 @@ def create_token(subject: str, token_type: TokenType) -> str:
         expires = now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     elif token_type == TokenType.REFRESH:
         expires = now + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
-    else:
+    else:  # fallback other token types with 15 min expiry time
         expires = now + timedelta(minutes=15)
 
     to_encode = {"sub": subject, "exp": expires, "token_type": token_type}
