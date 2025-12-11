@@ -52,4 +52,14 @@ async def update_user_password(
 async def get_user_by_email(*, session: AsyncSession, email: str) -> User | None:
     statement = select(User).where(User.email == email)
     user = (await session.exec(statement)).first()
+
     return user
+
+
+async def get_users_by_username(
+    *, session: AsyncSession, usernames: list[str]
+) -> list[User]:
+    statement = select(User).where(User.username.in_(usernames))  # pyright: ignore[reportAttributeAccessIssue]
+    users = (await session.exec(statement)).all()
+
+    return list(users)

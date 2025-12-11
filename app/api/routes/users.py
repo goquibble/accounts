@@ -5,9 +5,9 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.storages import storage
-from app.crud import update_user
+from app.crud import get_users_by_username, update_user
 from app.models import User
-from app.schemas import UserRead, UserUpdate
+from app.schemas import UserRead, UsersBulkRequest, UserUpdate
 from app.utils import process_storage_fields, transform_image
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -63,3 +63,11 @@ async def read_user_by_id(user_id: uuid.UUID, session: SessionDep) -> User:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
     # process user.avatar_url field
     return await process_storage_fields(user, ["avatar_url"])
+
+
+@router.post("/bulk", response_model=list[UserRead])
+async def read_users_by_username(
+    session: SessionDep, users_in: UsersBulkRequest
+) -> list[User]:
+    users = await get_users_by_username(session=session, usernames=users_in.usernames)
+    return [await process_storage_fields(user, ["avatar_url"]) for user in users]
