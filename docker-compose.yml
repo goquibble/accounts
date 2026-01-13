@@ -1,29 +1,29 @@
 services:
-  init-db:
-    image: postgres:17-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-    volumes:
-      - ./scripts/init-db.sh:/init-db.sh:ro
-    entrypoint: ["/bin/sh", "/init-db.sh"]
-    networks:
-      - goquibble_net
+  # init-db:
+  #   image: postgres:17-alpine
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_PORT: ${POSTGRES_PORT}
+  #   volumes:
+  #     - ./scripts/init-db.sh:/init-db.sh:ro
+  #   entrypoint: ["/bin/sh", "/init-db.sh"]
+  #   networks:
+  #     - quibble_net
 
-  init-minio:
+  init-rustfs:
     image: minio/mc
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME}
     volumes:
-      - ./scripts/init-minio.sh:/init-minio.sh:ro
-    entrypoint: ["/bin/sh", "/init-minio.sh"]
+      - ./scripts/init-rustfs.sh:/init-rustfs.sh:ro
+    entrypoint: ["/bin/sh", "/init-rustfs.sh"]
     networks:
-      - goquibble_net
+      - quibble_net
 
 networks:
-  goquibble_net:
+  quibble_net:
     external: true
