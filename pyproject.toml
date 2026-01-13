@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [tool.poe.tasks]
-dev = "uvicorn app.main:app --reload"
+server = "uvicorn app.main:app --reload"
 alembic-upgrade = "alembic upgrade head"
 alembic-revision = "alembic revision --autogenerate"
 

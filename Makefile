@@ -1,4 +1,4 @@
-dev:
+server:
 	uv run uvicorn app.main:app --reload
 
 alembic-upgrade:
