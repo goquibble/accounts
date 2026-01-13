@@ -1,16 +1,17 @@
 services:
-  # init-db:
-  #   image: postgres:17-alpine
-  #   environment:
-  #     POSTGRES_USER: ${POSTGRES_USER}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #     POSTGRES_DB: ${POSTGRES_DB}
-  #     POSTGRES_PORT: ${POSTGRES_PORT}
-  #   volumes:
-  #     - ./scripts/init-db.sh:/init-db.sh:ro
-  #   entrypoint: ["/bin/sh", "/init-db.sh"]
-  #   networks:
-  #     - quibble_net
+  init-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-accounts}
+      PGHOST: ${POSTGRES_HOST:-db}
+      PGPORT: ${POSTGRES_PORT:-5432}
+    volumes:
+      - ./scripts/init-db.sh:/init-db.sh:ro
+    entrypoint: ["/bin/sh", "/init-db.sh"]
+    networks:
+      - quibble_net
 
   init-rustfs:
     image: minio/mc
