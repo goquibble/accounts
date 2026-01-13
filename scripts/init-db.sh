@@ -1,6 +1,16 @@
 #!/bin/sh
-set -ex
+set -e
 
 export PGPASSWORD="$POSTGRES_PASSWORD"
-# create database (ignore error if already exists)
-psql -h db -p "$POSTGRES_PORT" -U "$POSTGRES_USER" -d postgres -c "CREATE DATABASE $POSTGRES_DB;" || true
+
+echo "Waiting for PostgreSQL at $PGHOST:$PGPORT..."
+until pg_isready -h "$PGHOST" -p "$PGPORT" -U "$POSTGRES_USER"; do
+  sleep 2
+done
+
+echo "Creating database (if not exists)..."
+psql -h "$PGHOST" -p "$PGPORT" -U "$POSTGRES_USER" -d postgres <<EOF || true
+CREATE DATABASE "$POSTGRES_DB";
+EOF
+
+echo "Init DB complete"
