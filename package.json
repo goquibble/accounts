@@ -1,6 +1,15 @@
 {
-    "private": true,
-    "workspaces": [
-        "client"
-    ]
+	"private": true,
+	"workspaces": [
+		"client"
+	],
+	"scripts": {
+		"dev": "npm run dev -w client",
+		"build": "npm run build -w client",
+		"preview": "npm run preview -w client",
+		"lint": "npm run lint -w client",
+		"lint:fix": "npm run lint:fix -w client",
+		"format": "npm run format -w client",
+		"ci": "npm run ci -w client"
+	}
 }
