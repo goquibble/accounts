@@ -1,5 +1,10 @@
+import sys
 import asyncio
 import logging
+
+# Windows-specific event loop policy
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from sqlmodel.ext.asyncio.session import AsyncSession
 
