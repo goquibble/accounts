@@ -7,74 +7,64 @@ import { useAuth } from "@/contexts/auth";
 import { useDialog } from "@/contexts/dialog";
 
 export default function Home() {
-  document.title = "Quibble Account";
-  const { user } = useAuth();
-  const { openDialog } = useDialog();
+	document.title = "Quibble Account";
+	const { user } = useAuth();
+	const { openDialog } = useDialog();
 
-  if (!user) {
-    return null;
-  }
+	if (!user) {
+		return null;
+	}
 
-  return (
-    <div className="flex flex-col items-center mx-auto max-w-100 w-full">
-      <button
-        type="button"
-        className="relative"
-        onClick={() => openDialog("profile-picture")}
-      >
-        <Avatar className="size-25">
-          <AvatarImage src={user.avatar_url ?? ""} />
-          <AvatarFallback seed={user.username} />
-        </Avatar>
-        <Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-7 p-1" />
-      </button>
-      <h2 className="text-3xl font-medium mt-5 capitalize">
-        {user.name ?? user.username}
-      </h2>
-      <span className="mt-1">{user.email}</span>
-      <div className="flex items-center justify-between w-full mt-8 overflow-x-scroll scrollbar-hide gap-3 md:gap-0">
-        <a
-          href="https://github.com/orgs/goquibble/discussions"
-          target="_blank"
-          rel="noreferrer"
-          className="whitespace-nowrap border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
-        >
-          <Icons.info className="text-muted-foreground size-4" />
-          Need help?
-        </a>
-        <NavLink
-          to="/password"
-          className="whitespace-nowrap border border-border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
-        >
-          <Icons.password className="text-muted-foreground size-4" />
-          My password
-        </NavLink>
-        <LogoutBtn />
-      </div>
-      <div className="mt-4 border border-border rounded-xl flex flex-col">
-        <div className="flex items-center p-4 border-b border-border gap-4">
-          <div className="flex flex-col">
-            <h4 className="text-lg">Data & personalization</h4>
-            <span className="text-sm text-muted-foreground">
-              Info about you and your preferences across Quibble services
-            </span>
-          </div>
-          <img
-            src="/icons/data-and-personalization.png"
-            alt="Data & personalization"
-            className="size-16"
-          />
-        </div>
-        <div className="p-4 hover:bg-muted transition-colors rounded-b-xl flex items-center">
-          <NavLink to="/personal-info">Manage your personal info</NavLink>
-          <Icons.arrowRight className="text-muted-foreground size-4 ml-auto" />
-        </div>
-      </div>
-      <p className="text-sm text-muted-foreground mt-auto text-center">
-        Only you can see your settings. Review your preferences anytime. Quibble
-        keeps your data private, safe, and secure.
-      </p>
-      <Footer />
-    </div>
-  );
+	return (
+		<div className="flex flex-col items-center mx-auto max-w-150 w-full">
+			<button
+				type="button"
+				className="relative"
+				onClick={() => openDialog("profile-picture")}
+			>
+				<Avatar className="size-25">
+					<AvatarImage src={user.avatar_url ?? ""} />
+					<AvatarFallback seed={user.username} />
+				</Avatar>
+				<Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-8 p-1.5 text-muted-foreground" />
+			</button>
+			<h2 className="text-3xl font-medium mt-5 capitalize">
+				{user.name ?? user.username}
+			</h2>
+			<span className="mt-1">{user.email}</span>
+			<div className="mt-8 relative flex items-center w-full">
+				<Icons.search className="absolute left-4 text-muted-foreground size-5" />
+				<input
+					className="h-14 rounded-full w-full bg-input outline-none px-6 pl-12"
+					placeholder="Search Quibble Account"
+					disabled
+				/>
+			</div>
+			<div className="flex items-center justify-between mt-3 overflow-x-scroll scrollbar-hide gap-3">
+				<a
+					href="https://github.com/orgs/goquibble/discussions"
+					target="_blank"
+					rel="noreferrer"
+					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+				>
+					<Icons.info className="text-muted-foreground size-4" />
+					Need help?
+				</a>
+				<NavLink
+					to="/password"
+					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+				>
+					<Icons.password className="text-muted-foreground size-4" />
+					My password
+				</NavLink>
+				<LogoutBtn />
+			</div>
+			<p className="text-sm text-muted-foreground mt-auto text-center">
+				Only you can see your settings. Review your preferences anytime. You’re
+				always in control of how your information is used. Quibble keeps your
+				data private, safe, and secure.
+			</p>
+			<Footer />
+		</div>
+	);
 }
