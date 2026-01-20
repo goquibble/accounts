@@ -67,7 +67,7 @@ async def get_user_by_email(*, session: AsyncSession, email: str) -> User | None
 async def get_users_by_username(
     *, session: AsyncSession, usernames: list[str]
 ) -> list[User]:
-    statement = select(User).where(User.username.in_(usernames))  # pyright: ignore[reportAttributeAccessIssue]
+    statement = select(User).where(User.username.in_(usernames))  # type: ignore[unresolved-attribute]
     users = (await session.exec(statement)).all()
 
     return list(users)
