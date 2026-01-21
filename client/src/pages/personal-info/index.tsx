@@ -37,6 +37,13 @@ export default function PersonalInfo() {
 			onClick: () => navigate("./name"),
 		},
 		{
+			icon: Icons.user,
+			title: "Username",
+			description: user.username,
+			rounded: "rounded-md",
+			onClick: () => navigate("./username"),
+		},
+		{
 			icon: Icons.cake,
 			title: "Cake day",
 			description: formatTimestamp(user.created_at),

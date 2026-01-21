@@ -9,37 +9,39 @@ import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
 import PersonalInfo from "./pages/personal-info";
 import PersonalInfoName from "./pages/personal-info/name";
+import PersonalInfoUsername from "./pages/personal-info/username";
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    refreshToken()
-      .then(({ access_token }) => tokenStore.set(access_token))
-      .finally(() => setLoading(false));
-  }, []);
+	useEffect(() => {
+		refreshToken()
+			.then(({ access_token }) => tokenStore.set(access_token))
+			.finally(() => setLoading(false));
+	}, []);
 
-  // block rendering
-  // for TOKEN to fetch and set
-  if (loading) {
-    return null;
-  }
+	// block rendering
+	// for TOKEN to fetch and set
+	if (loading) {
+		return null;
+	}
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<BaseLayout />}>
-          <Route index element={<Home />} />
-          <Route path="personal-info">
-            <Route index element={<PersonalInfo />} />
-            <Route path="name" element={<PersonalInfoName />} />
-          </Route>
-        </Route>
-        <Route path="log-in" element={<AuthLayout />}>
-          <Route index element={<Login />} />
-          <Route path="password" element={<LoginPassword />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route element={<BaseLayout />}>
+					<Route index element={<Home />} />
+					<Route path="personal-info">
+						<Route index element={<PersonalInfo />} />
+						<Route path="name" element={<PersonalInfoName />} />
+						<Route path="username" element={<PersonalInfoUsername />} />
+					</Route>
+				</Route>
+				<Route path="log-in" element={<AuthLayout />}>
+					<Route index element={<Login />} />
+					<Route path="password" element={<LoginPassword />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
 }
