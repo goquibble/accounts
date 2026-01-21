@@ -33,6 +33,8 @@ export function ThemeProvider({
 	useEffect(() => {
 		const root = window.document.documentElement;
 
+		// Disable transitions before changing the theme
+		root.classList.add("disable-transitions");
 		root.classList.remove("light", "dark");
 
 		if (theme === "system") {
@@ -44,12 +46,23 @@ export function ThemeProvider({
 			};
 
 			applySystemTheme();
-
 			systemTheme.addEventListener("change", applySystemTheme);
-			return () => systemTheme.removeEventListener("change", applySystemTheme);
+
+			// Enable transitions after the theme is applied
+			requestAnimationFrame(() => {
+				root.classList.remove("disable-transitions");
+			});
+
+			return () => {
+				systemTheme.removeEventListener("change", applySystemTheme);
+			};
 		}
 
 		root.classList.add(theme);
+		// Enable transitions after the theme is applied
+		requestAnimationFrame(() => {
+			root.classList.remove("disable-transitions");
+		});
 	}, [theme]);
 
 	const value = {
