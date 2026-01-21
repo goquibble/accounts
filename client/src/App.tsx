@@ -9,6 +9,7 @@ import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
 import PersonalInfo from "./pages/personal-info";
 import PersonalInfoName from "./pages/personal-info/name";
+import PersonalInfoPassword from "./pages/personal-info/password";
 import PersonalInfoUsername from "./pages/personal-info/username";
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
 						<Route index element={<PersonalInfo />} />
 						<Route path="name" element={<PersonalInfoName />} />
 						<Route path="username" element={<PersonalInfoUsername />} />
+						<Route path="password" element={<PersonalInfoPassword />} />
 					</Route>
 				</Route>
 				<Route path="log-in" element={<AuthLayout />}>

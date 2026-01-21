@@ -54,7 +54,7 @@ export default function AvatarBtn() {
 						type="button"
 						onClick={() => setTheme(isDarkMode ? "light" : "dark")}
 						className={cn(
-							"flex-1 flex items-center gap-2 bg-secondary/15 rounded-l-4xl rounded-r-lg p-3 hover:bg-secondary/25 transition-colors",
+							"flex-1 flex items-center gap-2 bg-secondary/15 rounded-l-4xl rounded-r-md p-3 hover:bg-secondary/25 transition-colors",
 							isDarkMode &&
 								"bg-primary text-primary-foreground hover:bg-primary/90",
 						)}
@@ -69,7 +69,7 @@ export default function AvatarBtn() {
 					</button>
 					<button
 						type="button"
-						className="flex-1 flex items-center gap-2 bg-secondary/15 rounded-r-4xl rounded-l-lg p-3 hover:bg-secondary/25 transition-colors"
+						className="flex-1 flex items-center gap-2 bg-secondary/15 rounded-r-4xl rounded-l-md p-3 hover:bg-secondary/25 transition-colors"
 						onClick={() => openDialog("logout-confirm")}
 					>
 						<Icons.logout className="size-5 text-muted-foreground" />

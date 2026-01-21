@@ -57,6 +57,16 @@ export default function PersonalInfo() {
 		},
 	];
 
+	const passwordItems = [
+		{
+			icon: Icons.password,
+			title: "Quibble Password",
+			description: "Last updated 7 Jan 2026",
+			rounded: "rounded-2xl",
+			onClick: () => navigate("./password"),
+		},
+	];
+
 	return (
 		<div className="flex flex-col gap-4 mx-auto max-w-150 w-full">
 			<h1 className="text-3xl font-medium">Personal info</h1>
@@ -99,6 +109,35 @@ export default function PersonalInfo() {
 						{item.rightElement && (
 							<div className="ml-auto">{item.rightElement}</div>
 						)}
+					</button>
+				))}
+			</div>
+			<div className="flex flex-col gap-1">
+				<h3 className="text-lg font-medium">Password</h3>
+				<p className="text-muted-foreground text-sm">
+					A secure password helps protect your Quibble account.
+				</p>
+			</div>
+			<div className="flex flex-col gap-1">
+				{passwordItems.map((item) => (
+					<button
+						key={item.title}
+						type="button"
+						className={cn(
+							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 transition-colors p-3 pl-5 border",
+							item.rounded,
+						)}
+						onClick={item.onClick}
+					>
+						<item.icon className="size-5" />
+						<div className="flex flex-col">
+							<span className="font-medium">{item.title}</span>
+							{item.description && (
+								<span className="text-sm text-muted-foreground">
+									{item.description}
+								</span>
+							)}
+						</div>
 					</button>
 				))}
 			</div>

@@ -50,6 +50,7 @@ export default function PersonalInfoName() {
 			<Input
 				placeholder="Name"
 				defaultValue={user.name ?? name}
+				autoFocus
 				onChange={(e) => setName(e.target.value)}
 			/>
 			<div className="flex flex-col gap-2">

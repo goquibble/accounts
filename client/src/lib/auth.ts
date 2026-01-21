@@ -31,3 +31,19 @@ export async function refreshToken(): Promise<{ access_token: string }> {
 
   return data;
 }
+
+export async function verifyPassword(password: string): Promise<{ access_token: string }> {
+  const { data } = await api.post<{ access_token: string }>(
+    API_ENDPOINTS.AUTH_VERIFY_PASSWORD,
+    { password },
+  );
+
+  return data;
+}
+
+export async function resetPassword(resetToken: string, newPassword: string): Promise<void> {
+  await api.post(API_ENDPOINTS.AUTH_RESET_PASSWORD, {
+    reset_token: resetToken,
+    new_password: newPassword,
+  });
+}
