@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { useAuth } from "@/contexts/auth";
 import { useDialog } from "@/contexts/dialog";
+import { useTheme } from "@/contexts/theme";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import InteractiveAvatar from "./interactive-avatar";
@@ -21,7 +22,11 @@ interface HeaderProps {
 export default function Header({ className }: HeaderProps) {
 	const { user } = useAuth();
 	const { openDialog } = useDialog();
-	const isDarkMode = true;
+	const { theme, setTheme } = useTheme();
+	const isDarkMode =
+		theme === "dark" ||
+		(theme === "system" &&
+			window.matchMedia("(prefers-color-scheme: dark)").matches);
 
 	return (
 		<header
@@ -59,6 +64,7 @@ export default function Header({ className }: HeaderProps) {
 						<div className="w-full flex items-center gap-1">
 							<button
 								type="button"
+								onClick={() => setTheme(isDarkMode ? "light" : "dark")}
 								className={cn(
 									"flex-1 flex items-center gap-2 bg-secondary/15 rounded-l-4xl rounded-r-lg p-3 hover:bg-secondary/25 transition-colors",
 									isDarkMode &&
