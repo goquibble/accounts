@@ -32,7 +32,7 @@ export default function PersonalInfoUsername() {
 	}
 
 	return (
-		<div className="flex flex-col gap-4 mx-auto max-w-125 w-full">
+		<div className="flex flex-col gap-4 mx-auto max-w-150 w-full">
 			<div className="flex items-center gap-2">
 				<button
 					type="button"
