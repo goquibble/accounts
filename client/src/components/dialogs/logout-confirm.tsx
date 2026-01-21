@@ -1,20 +1,22 @@
 import { useState } from "react";
+import { useDialog } from "@/contexts/dialog";
+import { logOut } from "@/lib/auth";
+import { Icons } from "../icons";
+import Button from "../ui/button";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
-} from "@/components/ui/dialog";
-import { logOut } from "@/lib/auth";
-import { Icons } from "./icons";
-import Button from "./ui/button";
+} from "../ui/dialog";
 
-export default function LogoutBtn() {
+export default function LogoutConfirmDialog() {
+	const { dialog, closeDialog } = useDialog();
 	const [loggingOut, setLoggingOut] = useState(false);
+
+	const isOpen = dialog === "logout-confirm";
 
 	const handleLogOut = async () => {
 		try {
@@ -30,11 +32,7 @@ export default function LogoutBtn() {
 	};
 
 	return (
-		<Dialog>
-			<DialogTrigger className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors">
-				<Icons.logout className="text-muted-foreground size-4" />
-				Log out
-			</DialogTrigger>
+		<Dialog open={isOpen} onOpenChange={(open) => !open && closeDialog()}>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Confirm Log out</DialogTitle>
@@ -44,18 +42,21 @@ export default function LogoutBtn() {
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>
-					<DialogClose asChild>
-						<Button variant="outline" className="h-11">
-							Cancel
-						</Button>
-					</DialogClose>
+					<Button
+						variant="outline"
+						className="h-11"
+						onClick={closeDialog}
+						disabled={loggingOut}
+					>
+						Cancel
+					</Button>
 					<Button
 						className="h-11 gap-2"
 						onClick={handleLogOut}
 						disabled={loggingOut}
 					>
 						<Icons.logout className="size-4" />
-						Log out
+						{loggingOut ? "Logging out..." : "Log out"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

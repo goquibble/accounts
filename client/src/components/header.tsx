@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import { useAuth } from "@/contexts/auth";
+import { useDialog } from "@/contexts/dialog";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import InteractiveAvatar from "./interactive-avatar";
@@ -19,6 +20,7 @@ interface HeaderProps {
 
 export default function Header({ className }: HeaderProps) {
 	const { user } = useAuth();
+	const { openDialog } = useDialog();
 	const isDarkMode = true;
 
 	return (
@@ -74,6 +76,7 @@ export default function Header({ className }: HeaderProps) {
 							<button
 								type="button"
 								className="flex-1 flex items-center gap-2 bg-secondary/15 rounded-r-4xl rounded-l-lg p-3 hover:bg-secondary/25 transition-colors"
+								onClick={() => openDialog("logout-confirm")}
 							>
 								<Icons.logout className="size-5 text-muted-foreground" />
 								<span className="font-medium">Logout</span>

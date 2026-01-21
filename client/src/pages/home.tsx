@@ -2,12 +2,13 @@ import { NavLink } from "react-router";
 import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import InteractiveAvatar from "@/components/interactive-avatar";
-import LogoutBtn from "@/components/logout-btn";
 import { useAuth } from "@/contexts/auth";
+import { useDialog } from "@/contexts/dialog";
 
 export default function Home() {
 	document.title = "Quibble Account";
 	const { user } = useAuth();
+	const { openDialog } = useDialog();
 
 	if (!user) {
 		return null;
@@ -45,7 +46,14 @@ export default function Home() {
 					<Icons.password className="text-muted-foreground size-4" />
 					My password
 				</NavLink>
-				<LogoutBtn />
+				<button
+					type="button"
+					onClick={() => openDialog("logout-confirm")}
+					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+				>
+					<Icons.logout className="text-muted-foreground size-4" />
+					Log out
+				</button>
 			</div>
 			<p className="text-sm text-muted-foreground mt-auto text-center">
 				Only you can see your settings. Review your preferences anytime. You’re
