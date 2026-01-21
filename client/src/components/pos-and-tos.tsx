@@ -5,7 +5,7 @@ export default function PosAndTos() {
 				href="https://legal.goquibble.online/terms-of-use"
 				target="_blank"
 				rel="noreferrer"
-				className="text-xs text-muted-foreground underline"
+				className="text-sm text-muted-foreground underline"
 			>
 				Terms of Use
 			</a>
@@ -14,7 +14,7 @@ export default function PosAndTos() {
 				href="https://legal.goquibble.online/privacy-policy"
 				target="_blank"
 				rel="noreferrer"
-				className="text-xs text-muted-foreground underline"
+				className="text-sm text-muted-foreground underline"
 			>
 				Privacy Policy
 			</a>

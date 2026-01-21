@@ -22,7 +22,7 @@ export default function Input({
 				id={id}
 				placeholder=""
 				className={cn(
-					"peer border focus:border-primary focus:outline-none transition-colors h-13 px-4 rounded-xl w-full",
+					"peer border-2 focus:border-primary! focus:outline-none transition-colors h-13 px-4 rounded-xl w-full",
 					className,
 				)}
 				{...props}
