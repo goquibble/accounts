@@ -17,6 +17,7 @@ export default function PersonalInfoPassword() {
 	const navigate = useNavigate();
 	const [step, setStep] = useState<"verify" | "reset">("verify");
 	const [accessToken, setAccessToken] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 
 	const {
 		register,
@@ -92,12 +93,23 @@ export default function PersonalInfoPassword() {
 							To continue, first verify it's you.
 						</p>
 						<Input
-							type="password"
+							type={showPassword ? "text" : "password"}
 							placeholder="Current Password"
 							{...register("currentPassword")}
 							autoFocus
 							autoComplete="current-password"
-						/>
+						>
+							<button
+								type="button"
+								className="absolute right-2.5 top-1/2 -translate-y-1/2 size-8 rounded-lg hover:bg-muted grid place-items-center transition-colors"
+								onClick={() => setShowPassword((prev) => !prev)}
+							>
+								<Icons.eye
+									className="size-5 text-muted-foreground"
+									open={!showPassword}
+								/>
+							</button>
+						</Input>
 						{errors.currentPassword && (
 							<span className="text-destructive text-sm inline-flex items-center gap-2 -mt-3">
 								<Icons.info className="size-4" />{" "}
@@ -111,12 +123,23 @@ export default function PersonalInfoPassword() {
 							Enter your new password.
 						</p>
 						<Input
-							type="password"
+							type={showPassword ? "text" : "password"}
 							placeholder="New Password"
 							{...register("newPassword")}
 							autoFocus
 							autoComplete="new-password"
-						/>
+						>
+							<button
+								type="button"
+								className="absolute right-2.5 top-1/2 -translate-y-1/2 size-8 rounded-lg hover:bg-muted grid place-items-center transition-colors"
+								onClick={() => setShowPassword((prev) => !prev)}
+							>
+								<Icons.eye
+									className="size-5 text-muted-foreground"
+									open={!showPassword}
+								/>
+							</button>
+						</Input>
 						{errors.newPassword && (
 							<span className="text-destructive text-sm inline-flex items-center gap-2 -mt-3">
 								<Icons.info className="size-4" /> {errors.newPassword.message}
