@@ -19,7 +19,7 @@ const navLinks = [
 
 export default function Sidebar() {
 	return (
-		<aside className="hidden md:flex flex-col gap-2">
+		<aside className="hidden md:flex flex-col gap-2 sticky top-20 h-fit">
 			{navLinks.map(({ href, label, Icon, className }, idx) => (
 				<NavLink
 					key={href + idx.toString()}

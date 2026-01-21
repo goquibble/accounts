@@ -11,7 +11,7 @@ export default function Header({ className }: HeaderProps) {
 	return (
 		<header
 			className={cn(
-				"sticky top-0 inset-x-0 p-4 flex items-center justify-between",
+				"sticky top-0 z-50 inset-x-0 p-4 flex items-center justify-between bg-background",
 				className,
 			)}
 		>
