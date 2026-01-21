@@ -4,20 +4,20 @@ import Header from "@/components/header";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
-  className?: string;
+	className?: string;
 }
 
 export default function AuthLayout({ className }: LayoutProps) {
-  return (
-    <main
-      className={cn(
-        "max-w-90 min-h-dvh mx-auto p-4 pt-[15vh] flex flex-col items-center gap-4",
-        className,
-      )}
-    >
-      <Header className="fixed" />
-      <Outlet />
-      <Footer />
-    </main>
-  );
+	return (
+		<main
+			className={cn(
+				"max-w-90 min-h-dvh mx-auto p-4 pt-[15vh] flex flex-col items-center gap-4",
+				className,
+			)}
+		>
+			<Header className="fixed" />
+			<Outlet />
+			<Footer />
+		</main>
+	);
 }
