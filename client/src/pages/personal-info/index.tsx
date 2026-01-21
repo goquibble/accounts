@@ -32,7 +32,7 @@ export default function PersonalInfo() {
 		{
 			icon: Icons.idCardLanyard,
 			title: "Name",
-			description: user.name ?? "N/A",
+			description: user.name ?? "Not set",
 			rounded: "rounded-md",
 			onClick: () => navigate("./name"),
 		},
@@ -44,14 +44,14 @@ export default function PersonalInfo() {
 		},
 		{
 			icon: Icons.email,
-			title: "Email",
+			title: "Email (private)",
 			description: user.email,
 			rounded: "rounded-b-2xl rounded-t-md",
 		},
 	];
 
 	return (
-		<div className="flex flex-col gap-4 mx-auto max-w-125 w-full">
+		<div className="flex flex-col gap-4 mx-auto max-w-150 w-full">
 			<h1 className="text-3xl font-medium">Personal info</h1>
 			<div className="flex flex-col gap-1">
 				<h2 className="text-xl font-medium">
@@ -75,7 +75,7 @@ export default function PersonalInfo() {
 						key={item.title}
 						type="button"
 						className={cn(
-							"flex items-center gap-4 text-left bg-muted hover:bg-accent transition-colors p-3 pl-5 border",
+							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 transition-colors p-3 pl-5 border",
 							item.rounded,
 						)}
 						onClick={item.onClick}
