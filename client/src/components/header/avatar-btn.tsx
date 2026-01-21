@@ -37,7 +37,7 @@ export default function AvatarBtn() {
 			</PopoverTrigger>
 			<PopoverContent
 				align="end"
-				sideOffset={6}
+				sideOffset={10}
 				className="items-center gap-3 p-3 rounded-2xl w-80"
 			>
 				<PopoverHeader className="text-center">

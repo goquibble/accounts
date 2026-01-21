@@ -7,12 +7,12 @@ const apps = [
 	{
 		name: "Quibble",
 		url: "https://goquibble.online",
-		icon: <img src="/favicon.svg" alt="Quibble" className="size-7 mt-1.5" />,
+		icon: <img src="/favicon.svg" alt="Quibble" className="size-6 mt-1.5" />,
 	},
 	{
 		name: "GitHub",
 		url: "https://github.com/orgs/goquibble",
-		icon: <Icons.github className="size-7 fill-popover-foreground mt-1.5" />,
+		icon: <Icons.github className="size-6 fill-popover-foreground mt-1.5" />,
 	},
 ];
 
@@ -29,16 +29,16 @@ export default function AppsBtn() {
 				<Icons.grip className="size-5" />
 			</PopoverTrigger>
 			<PopoverContent
-				sideOffset={6}
-				className="mr-4 grid grid-cols-3 gap-1.5 rounded-2xl w-60"
+				sideOffset={10}
+				className="mr-4 grid grid-cols-3 gap-1 p-2 rounded-2xl w-60"
 			>
 				<a
 					href="/"
 					target="_blank"
 					rel="noreferrer"
-					className="flex flex-col items-center justify-center gap-1 size-full aspect-square rounded-xl hover:bg-accent transition-colors"
+					className="flex flex-col items-center justify-center gap-1 size-full aspect-square rounded-xl hover:bg-accent/75 transition-colors"
 				>
-					<Avatar className="size-8 mt-1.5">
+					<Avatar className="size-7 mt-1.5">
 						<AvatarImage src={user.avatar_url ?? ""} />
 						<AvatarFallback seed={user.username} />
 					</Avatar>
@@ -49,7 +49,7 @@ export default function AppsBtn() {
 						href={app.url}
 						target="_blank"
 						rel="noreferrer"
-						className="flex flex-col items-center justify-center gap-1.5 size-full aspect-square rounded-xl hover:bg-accent transition-colors"
+						className="flex flex-col items-center justify-center gap-1.5 size-full aspect-square rounded-xl hover:bg-accent/75 transition-colors"
 						key={app.name}
 					>
 						{app.icon}
