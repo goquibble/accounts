@@ -52,10 +52,12 @@ export default function Header({ className }: HeaderProps) {
 					<PopoverContent
 						align="end"
 						sideOffset={6}
-						className="items-center gap-3 p-3 bg-muted/75 rounded-2xl"
+						className="items-center gap-3 p-3 bg-muted/75 rounded-2xl w-80"
 					>
 						<PopoverHeader className="text-center">
-							<PopoverTitle>{user.email}</PopoverTitle>
+							<PopoverTitle className="text-muted-foreground">
+								{user.email}
+							</PopoverTitle>
 						</PopoverHeader>
 						<InteractiveAvatar />
 						<span className="text-center text-xl capitalize">

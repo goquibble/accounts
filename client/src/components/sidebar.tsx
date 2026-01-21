@@ -7,18 +7,20 @@ const navLinks = [
 		href: "/",
 		label: "Home",
 		Icon: Icons.home,
+		className: "bg-blue-400",
 	},
 	{
 		href: "/personal-info",
 		label: "Personal info",
 		Icon: Icons.idCard,
+		className: "bg-green-500",
 	},
 ];
 
 export default function Sidebar() {
 	return (
 		<aside className="hidden md:flex flex-col gap-2">
-			{navLinks.map(({ href, label, Icon }, idx) => (
+			{navLinks.map(({ href, label, Icon, className }, idx) => (
 				<NavLink
 					key={href + idx.toString()}
 					to={href}
@@ -29,8 +31,13 @@ export default function Sidebar() {
 						)
 					}
 				>
-					<div className="size-10 rounded-full bg-secondary/75 grid place-items-center">
-						<Icon className="text-secondary-foreground size-5" />
+					<div
+						className={cn(
+							"size-10 rounded-full grid place-items-center",
+							className,
+						)}
+					>
+						<Icon className="text-background size-5" />
 					</div>
 					<span className="font-medium text-sm">{label}</span>
 				</NavLink>
