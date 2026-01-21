@@ -17,7 +17,7 @@ export default function InteractiveAvatar() {
 				<AvatarImage src={user?.avatar_url ?? ""} />
 				<AvatarFallback seed={user?.username} />
 			</Avatar>
-			<Icons.camera className="absolute bottom-0 right-0 bg-muted rounded-full size-8 p-1.5 text-muted-foreground" />
+			<Icons.camera className="absolute bottom-0 -right-1 bg-muted rounded-full size-8 p-1.5 text-muted-foreground" />
 		</button>
 	);
 }
