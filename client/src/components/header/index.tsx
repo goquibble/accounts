@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import { cn } from "@/lib/utils";
+import AppsBtn from "./apps-btn";
 import AvatarBtn from "./avatar-btn";
 
 interface HeaderProps {
@@ -20,7 +21,8 @@ export default function Header({ className }: HeaderProps) {
 					<span className="font-semibold">Quibble</span> Account
 				</span>
 			</NavLink>
-			<div className="flex items-center gap-2">
+			<div className="flex items-center gap-4">
+				<AppsBtn />
 				<AvatarBtn />
 			</div>
 		</header>
