@@ -7,7 +7,7 @@ import { tokenStore } from "./lib/token-store";
 import CreateAccount from "./pages/create-account";
 import Home from "./pages/home";
 import Login from "./pages/login";
-import LoginPassword from "./pages/login-password";
+import LoginPassword from "./pages/login/password";
 import NotFound from "./pages/not-found";
 import PersonalInfo from "./pages/personal-info";
 import PersonalInfoName from "./pages/personal-info/name";
