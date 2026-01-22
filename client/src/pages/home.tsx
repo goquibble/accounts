@@ -40,7 +40,7 @@ export default function Home() {
 					Need help?
 				</a>
 				<NavLink
-					to="/password"
+					to="/personal-info/password"
 					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
 				>
 					<Icons.password className="text-muted-foreground size-4" />
