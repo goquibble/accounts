@@ -79,8 +79,16 @@ export default function PersonalInfo() {
 			icon: Icons.password,
 			title: "Quibble Password",
 			description: "Last updated 7 Jan 2026",
-			rounded: "rounded-2xl",
+			rounded: "rounded-t-2xl rounded-b-md",
 			onClick: () => navigate("./password"),
+		},
+		{
+			icon: Icons.password,
+			title: "Forgot Password?",
+			description: "Update your password by sending a reset link to your email",
+			rounded: "rounded-b-2xl rounded-t-md",
+			onClick: () => {},
+			disabled: true,
 		},
 	];
 
@@ -185,8 +193,10 @@ export default function PersonalInfo() {
 						type="button"
 						className={cn(
 							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 transition-colors p-3 pl-5 border",
+							item.disabled && "pointer-events-none opacity-75",
 							item.rounded,
 						)}
+						disabled={item.disabled}
 						onClick={item.onClick}
 					>
 						<item.icon className="size-5" />
