@@ -4,6 +4,7 @@ import AuthLayout from "./layouts/auth";
 import BaseLayout from "./layouts/base";
 import { refreshToken } from "./lib/auth";
 import { tokenStore } from "./lib/token-store";
+import CreateAccount from "./pages/create-account";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
@@ -42,6 +43,9 @@ export default function App() {
 				<Route path="log-in" element={<AuthLayout />}>
 					<Route index element={<Login />} />
 					<Route path="password" element={<LoginPassword />} />
+				</Route>
+				<Route path="create-account" element={<AuthLayout />}>
+					<Route index element={<CreateAccount />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

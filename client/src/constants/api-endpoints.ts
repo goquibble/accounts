@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   AUTH_REFRESH_TOKEN: "api/v1/auth/refresh-token",
   AUTH_VERIFY_PASSWORD: "api/v1/auth/verify-password",
   AUTH_RESET_PASSWORD: "api/v1/auth/reset-password",
+  AUTH_REGISTER: "api/v1/auth/register",
   // users endpoints
   USERS_ME: "api/v1/users/me",
 };
