@@ -120,7 +120,7 @@ export default function PersonalInfoPassword() {
 				) : (
 					<>
 						<p className="text-muted-foreground text-sm">
-							Enter your new password.
+							Choose a strong password and don't reuse it for other accounts.
 						</p>
 						<Input
 							type={showPassword ? "text" : "password"}
@@ -145,6 +145,16 @@ export default function PersonalInfoPassword() {
 								<Icons.info className="size-4" /> {errors.newPassword.message}
 							</span>
 						)}
+						<div className="flex flex-col gap-2">
+							<span className="font-medium">Password strength:</span>
+							<div className="flex gap-2">
+								<Icons.password className="size-6 text-muted-foreground" />
+								<p className="text-sm text-muted-foreground">
+									Use at least 8 characters. Don't use a password from another
+									site, or something too obvious like your pet's name.
+								</p>
+							</div>
+						</div>
 					</>
 				)}
 
