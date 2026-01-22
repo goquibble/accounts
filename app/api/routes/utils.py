@@ -17,7 +17,7 @@ class PageRequestMsg(BaseModel):
 
 @router.post("/request-page")
 async def request_page(msg: PageRequestMsg) -> Any:
-    if not settings.DISCORD_WEBHOOK_URL:
+    if not settings.DISCORD_PAGE_REQUEST_WEBHOOK_URL:
         return {"message": "Discord webhook not configured"}
 
     embed = {
@@ -47,7 +47,7 @@ async def request_page(msg: PageRequestMsg) -> Any:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
-                settings.DISCORD_WEBHOOK_URL,
+                settings.DISCORD_PAGE_REQUEST_WEBHOOK_URL,
                 json=payload,
                 headers={"Content-Type": "application/json"},
             )
@@ -72,18 +72,13 @@ class AccountDeleteRequestMsg(BaseModel):
 
 @router.post("/account-delete-request")
 async def account_delete_request(msg: AccountDeleteRequestMsg) -> Any:
-    # Hardcoded dummy Discord webhook URL for now
-    DISCORD_WEBHOOK_URL = (
-        "https://discord.com/api/webhooks/DUMMY_WEBHOOK_ID/DUMMY_TOKEN"
-    )
-
-    if not DISCORD_WEBHOOK_URL:
+    if not settings.DISCORD_ACCOUNT_DELETE_REQUEST_WEBHOOK_URL:
         return {"message": "Discord webhook not configured"}
 
     embed = {
-        "title": "⚠️ Account Deletion Request",
+        "title": "Sayonara-chan: Farewell Request",
         "description": "A user has requested account deletion",
-        "color": 0xFF0000,  # Red color for danger
+        "color": 0xFF0000,
         "fields": [
             {
                 "name": "Username",
@@ -100,11 +95,6 @@ async def account_delete_request(msg: AccountDeleteRequestMsg) -> Any:
                 "value": msg.user_id,
                 "inline": True,
             },
-            {
-                "name": "Time",
-                "value": datetime.now().isoformat(),
-                "inline": True,
-            },
         ],
     }
 
@@ -113,7 +103,7 @@ async def account_delete_request(msg: AccountDeleteRequestMsg) -> Any:
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
-                DISCORD_WEBHOOK_URL,
+                settings.DISCORD_ACCOUNT_DELETE_REQUEST_WEBHOOK_URL,
                 json=payload,
                 headers={"Content-Type": "application/json"},
             )

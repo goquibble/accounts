@@ -73,7 +73,8 @@ class Settings(BaseSettings):
     AWS_S3_BUCKET_NAME: str
     AWS_S3_ENDPOINT_URL: str
 
-    DISCORD_WEBHOOK_URL: str | None = None
+    DISCORD_PAGE_REQUEST_WEBHOOK_URL: str | None = None
+    DISCORD_ACCOUNT_DELETE_REQUEST_WEBHOOK_URL: str | None = None
 
 
 @lru_cache
