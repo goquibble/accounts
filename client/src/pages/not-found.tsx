@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import Button from "@/components/ui/button";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 
 export default function NotFound() {
 	const location = useLocation();
@@ -22,17 +24,9 @@ export default function NotFound() {
 	const handleRequestPage = async () => {
 		setLoading(true);
 		try {
-			// Dummy Discord webhook URL - user will replace this later
-			const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/dummy/link";
-
-			await fetch(DISCORD_WEBHOOK_URL, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					content: `Missing page requested: ${location.pathname}`,
-				}),
+			await api.post(API_ENDPOINTS.UTILS_REQUEST_PAGE, {
+				path: location.pathname,
+				user_agent: navigator.userAgent,
 			});
 
 			// Update local state and localStorage

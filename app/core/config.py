@@ -73,10 +73,12 @@ class Settings(BaseSettings):
     AWS_S3_BUCKET_NAME: str
     AWS_S3_ENDPOINT_URL: str
 
+    DISCORD_WEBHOOK_URL: str | None = None
+
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()  # pyright: ignore[reportCallIssue]
+    return Settings()  # ty:ignore[missing-argument]
 
 
 # use cached result
