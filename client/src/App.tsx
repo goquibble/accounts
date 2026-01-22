@@ -8,6 +8,7 @@ import CreateAccount from "./pages/create-account";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import LoginPassword from "./pages/login-password";
+import NotFound from "./pages/not-found";
 import PersonalInfo from "./pages/personal-info";
 import PersonalInfoName from "./pages/personal-info/name";
 import PersonalInfoPassword from "./pages/personal-info/password";
@@ -47,6 +48,7 @@ export default function App() {
 				<Route path="create-account" element={<AuthLayout />}>
 					<Route index element={<CreateAccount />} />
 				</Route>
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	);
