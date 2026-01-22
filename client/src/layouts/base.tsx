@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import LogoutConfirmDialog from "@/components/dialogs/logout-confirm";
 import ProfilePictureDialog from "@/components/dialogs/profile-picture";
 import Header from "@/components/header";
@@ -13,7 +13,11 @@ import type { User } from "@/types/user";
 export default function BaseLayout() {
 	const { setUser } = useAuth();
 
-	const { data: fetchUser } = useQuery({
+	const {
+		data: fetchUser,
+		isError,
+		isLoading,
+	} = useQuery({
 		queryKey: ["user"],
 		queryFn: async () => {
 			const res = await api.get<User>(API_ENDPOINTS.USERS_ME);
@@ -25,8 +29,12 @@ export default function BaseLayout() {
 		if (fetchUser) setUser(fetchUser);
 	}, [fetchUser, setUser]);
 
-	if (!fetchUser) {
+	if (isLoading) {
 		return null;
+	}
+
+	if (isError || !fetchUser) {
+		return <Navigate to="/log-in" replace />;
 	}
 
 	return (
