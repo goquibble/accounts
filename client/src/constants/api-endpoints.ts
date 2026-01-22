@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
 	USERS_ME: "api/v1/users/me",
 	// utils urls
 	UTILS_REQUEST_PAGE: "api/v1/utils/request-page",
+	UTILS_ACCOUNT_DELETE_REQUEST: "api/v1/utils/account-delete-request",
 };

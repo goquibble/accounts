@@ -1,9 +1,13 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Button from "@/components/ui/button";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useAuth } from "@/contexts/auth";
 import { useDialog } from "@/contexts/dialog";
+import api from "@/lib/api";
 import { cn, formatTimestamp } from "@/lib/utils";
 
 export default function PersonalInfo() {
@@ -11,6 +15,18 @@ export default function PersonalInfo() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const { openDialog } = useDialog();
+	const [deleteRequested, setDeleteRequested] = useState(false);
+	const [deleteLoading, setDeleteLoading] = useState(false);
+
+	useEffect(() => {
+		// Check if account deletion has already been requested
+		const deleteRequestStatus = localStorage.getItem(
+			"account_delete_requested",
+		);
+		if (deleteRequestStatus === "true") {
+			setDeleteRequested(true);
+		}
+	}, []);
 
 	if (!user) {
 		return null;
@@ -65,6 +81,49 @@ export default function PersonalInfo() {
 			description: "Last updated 7 Jan 2026",
 			rounded: "rounded-2xl",
 			onClick: () => navigate("./password"),
+		},
+	];
+
+	const handleDeleteRequest = async () => {
+		setDeleteLoading(true);
+		try {
+			await api.post(API_ENDPOINTS.UTILS_ACCOUNT_DELETE_REQUEST, {
+				username: user.username,
+				email: user.email,
+				user_id: user.id,
+			});
+
+			// Update local state and localStorage
+			localStorage.setItem("account_delete_requested", "true");
+			setDeleteRequested(true);
+		} catch (error) {
+			console.error("Failed to send deletion request", error);
+		} finally {
+			setDeleteLoading(false);
+		}
+	};
+
+	const dangerZoneItems = [
+		{
+			icon: Icons.trash,
+			title: "Delete Account",
+			description: "Request permanent deletion of your account and all data",
+			rounded: "rounded-2xl",
+			rightElement: (
+				<Button
+					type="button"
+					onClick={handleDeleteRequest}
+					disabled={deleteRequested || deleteLoading}
+					variant="destructive"
+					className="w-max h-10"
+				>
+					{deleteLoading
+						? "Sending Request..."
+						: deleteRequested
+							? "Request Sent"
+							: "Request Deletion"}
+				</Button>
+			),
 		},
 	];
 
@@ -140,6 +199,36 @@ export default function PersonalInfo() {
 							)}
 						</div>
 					</button>
+				))}
+			</div>
+			<div className="flex flex-col gap-1">
+				<h3 className="text-lg font-medium text-destructive">Danger Zone</h3>
+				<p className="text-muted-foreground text-sm">
+					Irreversible and destructive actions for your account.
+				</p>
+			</div>
+			<div className="flex flex-col gap-1">
+				{dangerZoneItems.map((item) => (
+					<div
+						key={item.title}
+						className={cn(
+							"flex items-center gap-4 text-left bg-destructive/25 p-3 pl-5 border border-destructive/50",
+							item.rounded,
+						)}
+					>
+						<item.icon className="size-5 text-destructive" />
+						<div className="flex flex-col">
+							<span className="font-medium">{item.title}</span>
+							{item.description && (
+								<span className="text-sm text-muted-foreground line-clamp-1">
+									{item.description}
+								</span>
+							)}
+						</div>
+						{item.rightElement && (
+							<div className="ml-auto">{item.rightElement}</div>
+						)}
+					</div>
 				))}
 			</div>
 			<Footer className="sm:mt-0" />

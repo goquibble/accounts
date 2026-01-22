@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ComponentProps<"button"> {
-	variant?: "default" | "outline";
+	variant?: "default" | "outline" | "destructive";
 }
 
 export default function Button({
@@ -17,7 +17,9 @@ export default function Button({
 				"disabled:opacity-75 disabled:pointer-events-none",
 				variant === "default"
 					? "bg-primary text-primary-foreground hover:bg-primary/90"
-					: "border hover:bg-muted",
+					: variant === "destructive"
+						? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+						: "border hover:bg-muted",
 				className,
 			)}
 			{...props}
