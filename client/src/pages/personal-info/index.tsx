@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth";
@@ -141,6 +142,7 @@ export default function PersonalInfo() {
 					</button>
 				))}
 			</div>
+			<Footer className="sm:mt-0" />
 		</div>
 	);
 }
