@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router";
 import Footer from "@/components/footer";
 import { Icons } from "@/components/icons";
 import InteractiveAvatar from "@/components/interactive-avatar";
+import Button from "@/components/ui/button";
 import {
 	Popover,
 	PopoverAnchor,
@@ -166,6 +167,33 @@ export default function Home() {
 					<Icons.logout className="text-muted-foreground size-4" />
 					Log out
 				</button>
+			</div>
+			<div className="w-full mt-3 border rounded-xl p-4">
+				<h3 className="font-medium mb-3 text-muted-foreground">
+					Connected services
+				</h3>
+				<div className="flex items-center justify-between gap-3">
+					<div className="flex items-center gap-3">
+						<div className="size-10 rounded-lg border grid place-items-center bg-muted/30">
+							<img src="/favicon.svg" alt="Quibble" className="size-6" />
+						</div>
+						<div className="flex flex-col">
+							<span className="font-medium">Quibble</span>
+							<span className="text-muted-foreground text-xs">
+								You are currently logged in to your Quibble account.
+							</span>
+						</div>
+					</div>
+					<Button
+						variant="outline"
+						className="h-10 text-sm w-max"
+						onClick={() => {
+							window.location.href = "https://goquibble.online";
+						}}
+					>
+						Go to Quibble
+					</Button>
+				</div>
 			</div>
 			<p className="text-sm text-muted-foreground mt-auto text-center">
 				Only you can see your settings. Review your preferences anytime. You’re
