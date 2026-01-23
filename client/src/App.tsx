@@ -41,12 +41,12 @@ export default function App() {
 						<Route path="password" element={<PersonalInfoPassword />} />
 					</Route>
 				</Route>
-				<Route path="log-in" element={<AuthLayout />}>
-					<Route index element={<Login />} />
-					<Route path="password" element={<LoginPassword />} />
-				</Route>
-				<Route path="create-account" element={<AuthLayout />}>
-					<Route index element={<CreateAccount />} />
+				<Route element={<AuthLayout />}>
+					<Route path="log-in">
+						<Route index element={<Login />} />
+						<Route path="password" element={<LoginPassword />} />
+					</Route>
+					<Route path="create-account" element={<CreateAccount />} />
 				</Route>
 				<Route path="*" element={<NotFound />} />
 			</Routes>
