@@ -8,7 +8,6 @@ import api from "./lib/api";
 import { refreshToken } from "./lib/auth";
 import { tokenStore } from "./lib/token-store";
 import CreateAccount from "./pages/create-account";
-import GoogleAuth from "./pages/google-auth";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import LoginPassword from "./pages/login/password";
@@ -56,7 +55,6 @@ export default function App() {
 						<Route index element={<Login />} />
 						<Route path="password" element={<LoginPassword />} />
 					</Route>
-					<Route path="auth/google" element={<GoogleAuth />} />
 					<Route path="create-account" element={<CreateAccount />} />
 				</Route>
 				<Route path="*" element={<NotFound />} />

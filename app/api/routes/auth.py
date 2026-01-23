@@ -205,10 +205,8 @@ async def google_auth(request: Request, session: SessionDep, response: Response)
 
     max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
     secure = not settings.DEBUG
-    new_access_token = create_token(str(user.id), TokenType.ACCESS)
-    redirect_response = RedirectResponse(
-        url=f"{settings.FRONTEND_HOST}/auth/google?access_token={new_access_token}"
-    )
+    # new_access_token = create_token(str(user.id), TokenType.ACCESS)
+    redirect_response = RedirectResponse(url=settings.FRONTEND_HOST)
 
     # set refresh token as cookie
     redirect_response.set_cookie(
