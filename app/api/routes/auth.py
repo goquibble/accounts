@@ -1,8 +1,11 @@
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status, Request
+from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from authlib.integrations.starlette_client import OAuth
+import secrets
 
 from app.api.deps import CurrentUser, SessionDep
 from app.auth import authenticate_user
@@ -30,6 +33,15 @@ from app.schemas import (
 )
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
+oauth = OAuth()
+oauth.register(
+    name="google",
+    client_id=settings.GOOGLE_CLIENT_ID,
+    client_secret=settings.GOOGLE_CLIENT_SECRET,
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+    client_kwargs={"scope": "openid email profile"},
+)
 
 
 @router.post("/login", response_model=Token)
@@ -59,7 +71,9 @@ async def login(
         secure=secure,
         samesite="lax",
         max_age=max_age,
-        domain=settings.COOKIE_DOMAIN,
+        domain=settings.COOKIE_DOMAIN
+        if settings.COOKIE_DOMAIN != "localhost"
+        else None,
     )
 
     return Token(access_token=access_token)
@@ -162,3 +176,51 @@ async def check_email(session: SessionDep, email: str) -> bool:
     if user and not user.is_active:
         return False
     return True
+
+
+@router.get("/google/login")
+async def google_login(request: Request):
+    redirect_uri = request.url_for("google_auth")
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.get("/google/callback", name="google_auth")
+async def google_auth(request: Request, session: SessionDep, response: Response):
+    token = await oauth.google.authorize_access_token(request)
+    user_info = token.get("userinfo")
+    if not user_info:
+        user_info = await oauth.google.userinfo(token=token)
+
+    email = user_info.get("email")
+    if not email:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Google account has no email.")
+
+    user = await get_user_by_email(session=session, email=email)
+    if not user:
+        password = secrets.token_urlsafe(16)
+        user_create = UserCreate(email=email, password=password)
+        user = await create_user(session=session, user_create=user_create)
+
+    refresh_token = create_token(str(user.id), TokenType.REFRESH)
+
+    max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
+    secure = not settings.DEBUG
+    new_access_token = create_token(str(user.id), TokenType.ACCESS)
+    redirect_response = RedirectResponse(
+        url=f"{settings.FRONTEND_HOST}/auth/google?access_token={new_access_token}"
+    )
+
+    # set refresh token as cookie
+    redirect_response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=secure,
+        samesite="lax",
+        max_age=max_age,
+        domain=settings.COOKIE_DOMAIN
+        if settings.COOKIE_DOMAIN != "localhost"
+        else None,
+    )
+
+    return redirect_response

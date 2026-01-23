@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
@@ -21,6 +22,7 @@ app = FastAPI(
 # join all routers
 app.include_router(api_router, prefix=settings.API_V1_STR)
 # add middlewares
+app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY.get_secret_value())
 app.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)
 # set all CORS enabled origins
 if settings.all_cors_origins:
