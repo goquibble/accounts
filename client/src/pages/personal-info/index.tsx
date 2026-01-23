@@ -19,14 +19,10 @@ export default function PersonalInfo() {
 	const [deleteLoading, setDeleteLoading] = useState(false);
 
 	useEffect(() => {
-		// Check if account deletion has already been requested
-		const deleteRequestStatus = localStorage.getItem(
-			"account_delete_requested",
-		);
-		if (deleteRequestStatus === "true") {
+		if (user?.is_deletion_requested) {
 			setDeleteRequested(true);
 		}
-	}, []);
+	}, [user]);
 
 	if (!user) {
 		return null;
@@ -101,8 +97,7 @@ export default function PersonalInfo() {
 				user_id: user.id,
 			});
 
-			// Update local state and localStorage
-			localStorage.setItem("account_delete_requested", "true");
+			// Update local state
 			setDeleteRequested(true);
 		} catch (error) {
 			console.error("Failed to send deletion request", error);

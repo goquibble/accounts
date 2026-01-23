@@ -24,6 +24,7 @@ class UserRead(SQLModel):
     avatar_url: str | None
     created_at: datetime
     password_last_changed: datetime
+    is_deletion_requested: bool
 
 
 class UserUpdate(SQLModel):

@@ -5,6 +5,7 @@ import httpx
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
+from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
 
 router = APIRouter(prefix="/utils", tags=["utils"])
@@ -71,7 +72,15 @@ class AccountDeleteRequestMsg(BaseModel):
 
 
 @router.post("/account-delete-request")
-async def account_delete_request(msg: AccountDeleteRequestMsg) -> Any:
+async def account_delete_request(
+    msg: AccountDeleteRequestMsg,
+    session: SessionDep,
+    current_user: CurrentUser,
+) -> Any:
+    current_user.is_deletion_requested = True
+    session.add(current_user)
+    await session.commit()
+
     if not settings.DISCORD_ACCOUNT_DELETE_REQUEST_WEBHOOK_URL:
         return {"message": "Discord webhook not configured"}
 

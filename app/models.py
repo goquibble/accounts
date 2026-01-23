@@ -34,3 +34,4 @@ class User(BaseModel, table=True):
     avatar_url: StorageImage | None = Field(default=None, sa_type=ImageType())
     is_active: bool = True
     is_superuser: bool = False
+    is_deletion_requested: bool = False
