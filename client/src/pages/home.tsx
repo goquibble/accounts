@@ -98,7 +98,7 @@ export default function Home() {
 						<div className="px-3 py-1 text-sm text-muted-foreground">
 							Quibble Account results
 						</div>
-						<div className="flex flex-col p-1 pt-0">
+						<div className="flex flex-col p-1 border-y">
 							{filteredItems.slice(0, 4).map((item) => (
 								<button
 									key={item.href}
