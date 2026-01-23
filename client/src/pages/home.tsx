@@ -92,14 +92,14 @@ export default function Home() {
 					</PopoverAnchor>
 					<PopoverContent
 						avoidCollisions={false}
-						className="p-0 w-[var(--radix-popover-trigger-width)] gap-0 rounded-xl rounded-t-md"
+						className="p-0 w-[var(--radix-popover-trigger-width)] gap-0 rounded-xl rounded-t-md overflow-hidden"
 						onOpenAutoFocus={(e) => e.preventDefault()}
 					>
 						<div className="px-3 py-1 text-sm text-muted-foreground">
 							Quibble Account results
 						</div>
 						<div className="flex flex-col p-1 pt-0">
-							{filteredItems.map((item) => (
+							{filteredItems.slice(0, 4).map((item) => (
 								<button
 									key={item.href}
 									type="button"
@@ -127,6 +127,16 @@ export default function Home() {
 									</div>
 								</button>
 							))}
+						</div>
+						<div className="p-3 py-1.5 text-sm">
+							<a
+								href="https://github.com/orgs/goquibble/discussions"
+								target="_blank"
+								rel="noreferrer"
+								className="text-muted-foreground underline"
+							>
+								Search Help Center {query && `for "${query}"`}
+							</a>
 						</div>
 					</PopoverContent>
 				</Popover>
