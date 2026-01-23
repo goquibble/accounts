@@ -1,6 +1,7 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { useAuth } from "@/contexts/auth";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
@@ -8,6 +9,12 @@ interface LayoutProps {
 }
 
 export default function AuthLayout({ className }: LayoutProps) {
+	const { user } = useAuth();
+
+	if (user) {
+		return <Navigate to="/" replace />;
+	}
+
 	return (
 		<main
 			className={cn(
