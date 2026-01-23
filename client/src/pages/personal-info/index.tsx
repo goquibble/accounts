@@ -78,7 +78,7 @@ export default function PersonalInfo() {
 		{
 			icon: Icons.password,
 			title: "Quibble Password",
-			description: "Last updated 7 Jan 2026",
+			description: `Last updated ${formatTimestamp(user.password_last_changed)}`,
 			rounded: "rounded-t-2xl rounded-b-md",
 			onClick: () => navigate("./password"),
 		},
