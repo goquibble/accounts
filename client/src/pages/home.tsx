@@ -77,7 +77,7 @@ export default function Home() {
 					<PopoverAnchor asChild>
 						<input
 							className={cn(
-								"h-14 w-full bg-input outline-none px-6 pl-12",
+								"h-12 md:h-14 w-full bg-input outline-none px-6 pl-12",
 								open && filteredItems.length > 0
 									? "rounded-t-3xl rounded-b-md"
 									: "rounded-full",
@@ -142,19 +142,19 @@ export default function Home() {
 					</PopoverContent>
 				</Popover>
 			</div>
-			<div className="flex items-center justify-between mt-3 overflow-x-scroll scrollbar-hide gap-3">
+			<div className="flex items-center justify-between mt-3 overflow-x-scroll max-w-full scrollbar-hide gap-3">
 				<a
 					href="https://github.com/orgs/goquibble/discussions"
 					target="_blank"
 					rel="noreferrer"
-					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+					className="whitespace-nowrap border rounded-xl text-sm md:text-base px-2.5 py-1.5 md:px-3 md:py-2 flex items-center gap-2 hover:bg-muted transition-colors"
 				>
 					<Icons.info className="text-muted-foreground size-4" />
 					Need help?
 				</a>
 				<NavLink
 					to="/personal-info/password"
-					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+					className="whitespace-nowrap border rounded-xl text-sm md:text-base px-2.5 py-1.5 md:px-3 md:py-2 flex items-center gap-2 hover:bg-muted transition-colors"
 				>
 					<Icons.password className="text-muted-foreground size-4" />
 					My password
@@ -162,24 +162,28 @@ export default function Home() {
 				<button
 					type="button"
 					onClick={() => openDialog("logout-confirm")}
-					className="whitespace-nowrap border rounded-xl px-3 py-2 flex items-center gap-2 hover:bg-muted transition-colors"
+					className="whitespace-nowrap border rounded-xl text-sm md:text-base px-2.5 py-1.5 md:px-3 md:py-2 flex items-center gap-2 hover:bg-muted transition-colors"
 				>
 					<Icons.logout className="text-muted-foreground size-4" />
 					Log out
 				</button>
 			</div>
-			<div className="w-full mt-3 border rounded-xl p-4">
-				<h3 className="font-medium mb-3 text-muted-foreground">
+			<div className="w-full my-3 border rounded-xl p-4">
+				<h3 className="font-medium mb-3 text-muted-foreground leading-none">
 					Connected services
 				</h3>
-				<div className="flex items-center justify-between gap-3">
+				<div className="flex items-end justify-between gap-3 flex-wrap">
 					<div className="flex items-center gap-3">
-						<div className="size-10 rounded-lg border grid place-items-center bg-muted/30">
-							<img src="/favicon.svg" alt="Quibble" className="size-6" />
+						<div className="size-13 md:size-12 shrink-0 rounded-lg border grid place-items-center bg-muted/75">
+							<img
+								src="/favicon.svg"
+								alt="Quibble"
+								className="size-8 md:size-7"
+							/>
 						</div>
 						<div className="flex flex-col">
 							<span className="font-medium">Quibble</span>
-							<span className="text-muted-foreground text-xs">
+							<span className="text-muted-foreground text-sm">
 								You are currently logged in to your Quibble account.
 							</span>
 						</div>
@@ -200,7 +204,7 @@ export default function Home() {
 				always in control of how your information is used. Quibble keeps your
 				data private, safe, and secure.
 			</p>
-			<Footer />
+			<Footer className="mt-2" />
 		</div>
 	);
 }

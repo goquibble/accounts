@@ -38,7 +38,7 @@ export default function AvatarBtn() {
 			<PopoverContent
 				align="end"
 				sideOffset={10}
-				className="items-center gap-3 p-3 rounded-2xl w-80"
+				className="items-center gap-3 p-3 rounded-2xl w-70 md:w-80"
 			>
 				<PopoverHeader className="text-center">
 					<PopoverTitle className="text-muted-foreground">
