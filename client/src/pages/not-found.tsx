@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Button from "@/components/ui/button";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 
 export default function NotFound() {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const [requested, setRequested] = useState(false);
 	const [loading, setLoading] = useState(false);
 
@@ -71,12 +72,19 @@ export default function NotFound() {
 						: "Request This Page"}
 			</Button>
 
-			<a
-				href="/"
-				className="mt-2 text-muted-foreground hover:text-foreground transition-colors text-sm underline underline-offset-4"
+			<button
+				type="button"
+				className="mt-2 text-muted-foreground hover:text-foreground transition-colors text-sm underline underline-offset-4 bg-transparent border-none cursor-pointer"
+				onClick={() => {
+					if (window.history.length > 1) {
+						navigate(-1);
+					} else {
+						navigate("/");
+					}
+				}}
 			>
-				Return to Home
-			</a>
+				Go Back
+			</button>
 		</div>
 	);
 }
