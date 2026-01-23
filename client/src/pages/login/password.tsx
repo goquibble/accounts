@@ -4,14 +4,19 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import { Icons } from "@/components/icons";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { useAuth } from "@/contexts/auth";
+import api from "@/lib/api";
 import { authenticate } from "@/lib/auth";
 import { tokenStore } from "@/lib/token-store";
+import type { User } from "@/types/user";
 
 export default function LoginPassword() {
 	document.title = "Log in — Quibble";
 
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { setUser } = useAuth();
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
@@ -29,6 +34,8 @@ export default function LoginPassword() {
 			});
 
 			tokenStore.set(access_token);
+			const res = await api.get<User>(API_ENDPOINTS.USERS_ME);
+			setUser(res.data);
 			navigate("/");
 		} catch (err) {
 			// @ts-expect-error: error response isn't typed
