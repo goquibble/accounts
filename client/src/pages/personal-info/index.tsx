@@ -155,7 +155,7 @@ export default function PersonalInfo() {
 						key={item.title}
 						type="button"
 						className={cn(
-							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 transition-colors p-3 pl-5 border",
+							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 p-3 pl-5 border",
 							item.rounded,
 						)}
 						onClick={item.onClick}
@@ -187,7 +187,7 @@ export default function PersonalInfo() {
 						key={item.title}
 						type="button"
 						className={cn(
-							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 transition-colors p-3 pl-5 border",
+							"flex items-center gap-4 text-left bg-muted hover:bg-accent dark:hover:bg-accent/75 p-3 pl-5 border",
 							item.disabled && "pointer-events-none opacity-75",
 							item.rounded,
 						)}
