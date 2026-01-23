@@ -9,9 +9,9 @@ interface LayoutProps {
 }
 
 export default function AuthLayout({ className }: LayoutProps) {
-	const { user } = useAuth();
+	const { isAuthenticated } = useAuth();
 
-	if (user) {
+	if (isAuthenticated) {
 		return <Navigate to="/" replace />;
 	}
 

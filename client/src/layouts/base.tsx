@@ -6,9 +6,9 @@ import Sidebar from "@/components/sidebar";
 import { useAuth } from "@/contexts/auth";
 
 export default function BaseLayout() {
-	const { user } = useAuth();
+	const { isAuthenticated } = useAuth();
 
-	if (!user) {
+	if (!isAuthenticated) {
 		return <Navigate to="/log-in" replace />;
 	}
 
