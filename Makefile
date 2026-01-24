@@ -1,5 +1,7 @@
+PORT ?= 8000
+
 server:
-	uv run uvicorn app.main:app --reload
+	uv run uvicorn app.main:app --reload --port $(PORT)
 
 alembic-upgrade:
 	uv run alembic upgrade head
