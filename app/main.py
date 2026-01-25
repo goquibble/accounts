@@ -2,15 +2,49 @@ from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from sqladmin import Admin, ModelView
+from markupsafe import Markup
+
+from app.core.db import async_engine
+from app.core.config import settings
+from app.models import User
 
 from app.api.main import api_router
-from app.core.config import settings
 from app.middleware.client_cache_middleware import ClientCacheMiddleware
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
     tag = route.tags[0] if route.tags else "default"
     return f"{tag}-{route.name}"
+
+
+class UserAdmin(ModelView, model=User):
+    form_excluded_columns = [User.avatar_url]
+    column_list = [
+        User.id,
+        User.email,
+        User.username,
+        User.avatar_url,
+        User.is_active,
+        User.is_superuser,
+        User.is_deletion_requested,
+    ]
+
+    column_formatters = {
+        "avatar_url": lambda m, a: Markup(
+            f'<img src="{"https" if not settings.DEBUG else "http"}://{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_S3_BUCKET_NAME}/{m.avatar_url.name}" width="50" />'
+        )
+        if m.avatar_url
+        else ""
+    }
+
+    column_formatters_detail = {
+        "avatar_url": lambda m, a: Markup(
+            f'<img src="{"https" if not settings.DEBUG else "http"}://{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_S3_BUCKET_NAME}/{m.avatar_url.name}" width="100" />'
+        )
+        if m.avatar_url
+        else ""
+    }
 
 
 app = FastAPI(
@@ -33,3 +67,7 @@ if settings.all_cors_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+
+admin = Admin(app, async_engine)
+admin.add_view(UserAdmin)
