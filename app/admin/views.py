@@ -6,6 +6,12 @@ from app.models import User
 
 
 class UserAdmin(ModelView, model=User):
+    name = "User"
+    name_plural = "Users"
+    icon = "fa-solid fa-user"
+
+    column_searchable_list = [User.username, User.email]
+
     form_excluded_columns = [User.avatar_url]
     column_list = [
         User.id,

@@ -7,5 +7,12 @@ from app.admin.views import UserAdmin
 
 
 def setup_admin(app: FastAPI, engine: AsyncEngine):
-    admin = Admin(app, engine, authentication_backend=authentication_backend)
+    admin = Admin(
+        app,
+        engine,
+        # logo_url="https://github.com/goquibble.png",
+        # favicon_url="https://github.com/goquibble.png",
+        title="Accounts Admin",
+        authentication_backend=authentication_backend,
+    )
     admin.add_view(UserAdmin)
