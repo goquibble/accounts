@@ -37,4 +37,5 @@ if settings.all_cors_origins:
     )
 
 
-setup_admin(app, async_engine)
+if settings.DEBUG:
+    setup_admin(app, async_engine)
