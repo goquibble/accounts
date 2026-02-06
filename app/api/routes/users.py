@@ -1,6 +1,6 @@
 import uuid
 from typing import Annotated
-
+from sqlmodel import select
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 
 from app.api.deps import CurrentUser, SessionDep
@@ -59,6 +59,15 @@ async def update_users_me(
 @router.get("/{user_id}", response_model=UserRead)
 async def read_user_by_id(user_id: uuid.UUID, session: SessionDep) -> User:
     user = await session.get(User, user_id)
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
+    # process user.avatar_url field
+    return await process_storage_fields(user, ["avatar_url"])
+
+
+@router.get("/username/{username}", response_model=UserRead)
+async def read_user_by_username(username: str, session: SessionDep) -> User:
+    user = (await session.exec(select(User).where(User.username == username))).first()
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found.")
     # process user.avatar_url field
