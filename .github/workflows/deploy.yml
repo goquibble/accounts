@@ -9,31 +9,63 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: goquibble/accounts
+  # LAMBDA_FUNCTION: quibble_accounts_service
+
 jobs:
-  lambda:
-    name: Deploy to Lambda
+  deploy:
+    name: Build, Migrate & Deploy
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version-file: ".python-version"
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: arn:aws:iam::903050880736:role/github-quibble-accounts-lambda-deploy-role
-          aws-region: ap-south-1
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build function.zip
-        run: python scripts/package.py
+      # - name: Set up Python
+      #   uses: actions/setup-python@v6
+      #   with:
+      #     python-version-file: ".python-version"
 
-      - name: Deploy to AWS Lambda
+      # - name: Install migration dependencies
+      #   run: pip install alembic sqlalchemy psycopg pydantic pydantic-settings python-dotenv sqlmodel
+
+      # - name: Run Alembic migrations
+      #   env:
+      #     DATABASE_URI: ${{ secrets.DATABASE_URI }}
+      #   run: alembic upgrade head
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          aws lambda update-function-code \
-            --function-name quibble_accounts_service \
-            --zip-file fileb://function.zip
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+                       -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      # - name: Update Lambda function
+      #   env:
+      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      #     IMAGE_TAG: ${{ github.sha }}
+      #   run: |
+      #     aws lambda update-function-code \
+      #       --function-name $LAMBDA_FUNCTION \
+      #       --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      # - name: Wait for Lambda update
+      #   run: |
+      #     aws lambda wait function-updated \
+      #       --function-name $LAMBDA_FUNCTION
