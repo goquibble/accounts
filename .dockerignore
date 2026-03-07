@@ -1,0 +1,48 @@
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[codz]
+*.pyo
+.venv
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+function.zip
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (frontend client)
+node_modules/
+client/
+package.json
+package-lock.json
+
+# Docker
+docker-compose*.yml
+Dockerfile
+
+# Tests / dev tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# Misc
+.bruno/
+scripts/
+*.md
+LICENSE
+Makefile
