@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from mangum import Mangum
 
 from app.admin import setup_admin
 from app.api.main import api_router
@@ -36,6 +37,9 @@ if settings.all_cors_origins:
         allow_headers=["*"],
     )
 
-
+# add admin if debug mode
 if settings.DEBUG:
     setup_admin(app, async_engine)
+
+# for aws lambda
+handler = Mangum(app)
