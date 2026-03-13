@@ -12,8 +12,9 @@ def get_storage() -> S3Storage:
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
         bucket_name=settings.AWS_S3_BUCKET_NAME,
         endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
         use_ssl=not settings.DEBUG,
-        default_acl="public-read",
+        default_acl=settings.AWS_S3_DEFAULT_ACL,
     )
 
 

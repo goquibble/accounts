@@ -68,10 +68,12 @@ class Settings(BaseSettings):
 
     DATABASE_URI: PostgresDsn
 
-    AWS_ACCESS_KEY_ID: str
-    AWS_SECRET_ACCESS_KEY: str
+    AWS_ACCESS_KEY_ID: str | None = None
+    AWS_SECRET_ACCESS_KEY: str | None = None
+    AWS_S3_ENDPOINT_URL: str | None = None
     AWS_S3_BUCKET_NAME: str
-    AWS_S3_ENDPOINT_URL: str
+    AWS_S3_REGION_NAME: str = "ap-south-1"
+    AWS_S3_DEFAULT_ACL: str = "public-read"
 
     GOOGLE_CLIENT_ID: str
     GOOGLE_CLIENT_SECRET: str
