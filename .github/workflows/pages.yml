@@ -41,7 +41,9 @@ jobs:
           echo "VITE_PUBLIC_AVATARS_API_URL=${{ vars.VITE_PUBLIC_AVATARS_API_URL }}" >> .env
 
       - name: Build
-        run: npm run build
+        run: |
+            npm run build
+            cp dist/index.html dist/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
