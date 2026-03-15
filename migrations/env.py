@@ -9,6 +9,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from app.core.config import settings
 from app.models import SQLModel
 
 # this is the Alembic Config object, which provides
@@ -33,13 +34,7 @@ target_metadata = SQLModel.metadata
 
 
 def get_url() -> str:
-    url = os.environ.get("DATABASE_URI")
-    if not url:
-        # fallback to app settings for local dev (e.g. alembic revision --autogenerate)
-        from app.core.config import settings
-
-        return str(settings.DATABASE_URI)
-    return url
+    return str(settings.DATABASE_URI)
 
 
 def run_migrations_offline() -> None:
