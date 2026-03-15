@@ -9,7 +9,6 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from app.core.config import settings
 from app.models import SQLModel
 
 # this is the Alembic Config object, which provides
@@ -34,7 +33,13 @@ target_metadata = SQLModel.metadata
 
 
 def get_url() -> str:
-    return str(settings.DATABASE_URI)
+    url = os.environ.get("DATABASE_URI")
+    if not url:
+        # fallback to app settings for local dev (e.g. alembic revision --autogenerate)
+        from app.core.config import settings
+
+        return str(settings.DATABASE_URI)
+    return url
 
 
 def run_migrations_offline() -> None:
@@ -69,10 +74,10 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = get_url()  # pyright: ignore[reportOptionalSubscript]
+    configuration["sqlalchemy.url"] = get_url()  # ty:ignore[invalid-assignment]
 
     connectable = engine_from_config(
-        configuration,  # pyright: ignore[reportArgumentType]
+        configuration,  # ty:ignore[invalid-argument-type]
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

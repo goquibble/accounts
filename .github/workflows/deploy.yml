@@ -33,14 +33,15 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version-file: ".python-version"
+          cache: "pip"
 
-      # - name: Install migration dependencies
-      #   run: pip install alembic sqlalchemy psycopg pydantic pydantic-settings python-dotenv sqlmodel
+      - name: Install migration dependencies
+        run: pip install .
 
-      # - name: Run Alembic migrations
-      #   env:
-      #     DATABASE_URI: ${{ secrets.DATABASE_URI }}
-      #   run: alembic upgrade head
+      - name: Run Alembic migrations
+        env:
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+        run: alembic upgrade head
 
       - name: Login to Amazon ECR
         id: login-ecr
