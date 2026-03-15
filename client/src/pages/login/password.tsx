@@ -12,7 +12,7 @@ import { tokenStore } from "@/lib/token-store";
 import type { User } from "@/types/user";
 
 export default function LoginPassword() {
-	document.title = "Log in — Quibble";
+	document.title = "Log in - Quibble";
 
 	const navigate = useNavigate();
 	const location = useLocation();
