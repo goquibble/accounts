@@ -25,6 +25,8 @@ app = FastAPI(
 # join all routers
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
+app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY.get_secret_value())  # ty:ignore[invalid-argument-type]
+app.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)  # ty:ignore[invalid-argument-type]
 # set all CORS enabled origins
 app.add_middleware(
     CORSMiddleware,  # ty:ignore[invalid-argument-type]
@@ -33,9 +35,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# other middlewares
-app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY.get_secret_value())  # ty:ignore[invalid-argument-type]
-app.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)  # ty:ignore[invalid-argument-type]
 
 # add admin if debug mode
 if settings.DEBUG:
