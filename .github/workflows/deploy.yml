@@ -41,6 +41,11 @@ jobs:
       - name: Run Alembic migrations
         env:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          # dummy values for bypassing pydantic validation
+          AWS_S3_BUCKET_NAME: xxxxx
+          AWS_S3_REGION_NAME: xxxxx
+          GOOGLE_CLIENT_ID: xxxxx
+          GOOGLE_CLIENT_SECRET: xxxxx
         run: alembic upgrade head
 
       - name: Login to Amazon ECR
