@@ -26,14 +26,13 @@ app = FastAPI(
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 # set all CORS enabled origins
-if settings.all_cors_origins:
-    app.add_middleware(
-        CORSMiddleware,  # ty:ignore[invalid-argument-type]
-        allow_origins=settings.all_cors_origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+app.add_middleware(
+    CORSMiddleware,  # ty:ignore[invalid-argument-type]
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # other middlewares
 app.add_middleware(SessionMiddleware, secret_key=settings.SECRET_KEY.get_secret_value())  # ty:ignore[invalid-argument-type]
 app.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)  # ty:ignore[invalid-argument-type]
