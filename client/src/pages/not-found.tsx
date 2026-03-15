@@ -11,7 +11,7 @@ export default function NotFound() {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		document.title = "404 — Not Found";
+		document.title = "404 - Not Found";
 
 		// Check if this path has already been requested
 		const requestedPages = JSON.parse(
