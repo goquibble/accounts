@@ -10,7 +10,7 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 
 export default function Login() {
-	document.title = "Log in - Quibble";
+	document.title = "Log in – Quibble";
 	const navigate = useNavigate();
 
 	const {

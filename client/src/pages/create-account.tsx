@@ -12,7 +12,7 @@ import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 
 export default function CreateAccount() {
-	document.title = "Create Account - Quibble";
+	document.title = "Create Account – Quibble";
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
 
