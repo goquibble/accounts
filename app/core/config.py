@@ -65,10 +65,9 @@ class Settings(BaseSettings):
 
     DATABASE_URI: PostgresDsn
 
-    AWS_ACCESS_KEY_ID: str | None = None
-    AWS_SECRET_ACCESS_KEY: str | None = None
+    AWS_S3_ACCESS_KEY_ID: str | None = None
+    AWS_S3_SECRET_ACCESS_KEY: str | None = None
     AWS_S3_ENDPOINT_URL: str | None = None
-
     AWS_S3_BUCKET_NAME: str
     AWS_S3_REGION_NAME: str
 
