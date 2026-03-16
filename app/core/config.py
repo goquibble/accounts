@@ -4,7 +4,6 @@ from functools import lru_cache
 from typing import Annotated, Any, ClassVar
 
 from pydantic import (
-    AnyUrl,
     BeforeValidator,
     EmailStr,
     PostgresDsn,
@@ -51,9 +50,7 @@ class Settings(BaseSettings):
 
     COOKIE_DOMAIN: str = "localhost"
     FRONTEND_HOST: str = "http://localhost:5173"
-    BACKEND_CORS_ORIGINS: Annotated[
-        list[AnyUrl] | str, BeforeValidator(parse_cors)
-    ] = []
+    BACKEND_CORS_ORIGINS: Annotated[list[str] | str, BeforeValidator(parse_cors)] = []
 
     @computed_field
     @property
@@ -89,3 +86,4 @@ def get_settings() -> Settings:
 
 # use cached result
 settings = get_settings()
+print(settings.BACKEND_CORS_ORIGINS)
