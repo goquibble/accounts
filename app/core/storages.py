@@ -14,7 +14,6 @@ def get_storage() -> S3Storage:
         bucket_name=settings.AWS_S3_BUCKET_NAME,
         region_name=settings.AWS_S3_REGION_NAME,
         use_ssl=not settings.DEBUG,
-        default_acl="public-read",
     )
 
 
