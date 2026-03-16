@@ -86,4 +86,3 @@ def get_settings() -> Settings:
 
 # use cached result
 settings = get_settings()
-print(settings.BACKEND_CORS_ORIGINS)
