@@ -36,9 +36,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# add admin if debug mode
-if settings.DEBUG:
-    setup_admin(app, async_engine)
-
+setup_admin(app, async_engine)
 # for aws lambda
 handler = Mangum(app)
