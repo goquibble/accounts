@@ -8,6 +8,9 @@ from app.core.config import settings
 
 
 def setup_admin(app: FastAPI, engine: AsyncEngine):
+    app.add_api_route(
+        "/admin/auth/google", login_google, methods=["GET"], include_in_schema=False
+    )
     admin = Admin(
         app,
         engine,
@@ -19,6 +22,3 @@ def setup_admin(app: FastAPI, engine: AsyncEngine):
         ),
     )
     admin.add_view(UserAdmin)
-    app.add_api_route(
-        "/admin/auth/google", login_google, methods=["GET"], include_in_schema=False
-    )
