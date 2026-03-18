@@ -4,12 +4,12 @@ from typing import Annotated
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status, Request
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
-from authlib.integrations.starlette_client import OAuth
 import secrets
 
 from app.api.deps import CurrentUser, SessionDep
 from app.auth import authenticate_user
 from app.core.config import settings
+from app.core.oauth import oauth
 from app.core.security import (
     TokenType,
     create_token,
@@ -33,16 +33,6 @@ from app.schemas import (
 )
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-
-oauth = OAuth()
-oauth.register(
-    name="google",
-    client_id=settings.GOOGLE_CLIENT_ID,
-    client_secret=settings.GOOGLE_CLIENT_SECRET,
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_kwargs={"scope": "openid email profile"},
-)
-
 
 @router.post("/login", response_model=Token)
 async def login(
@@ -205,7 +195,6 @@ async def google_auth(request: Request, session: SessionDep, response: Response)
 
     max_age = settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
     secure = not settings.DEBUG
-    # new_access_token = create_token(str(user.id), TokenType.ACCESS)
     redirect_response = RedirectResponse(url=settings.FRONTEND_HOST)
 
     # set refresh token as cookie
