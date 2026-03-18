@@ -19,4 +19,4 @@ def setup_admin(app: FastAPI, engine: AsyncEngine):
         ),
     )
     admin.add_view(UserAdmin)
-    admin.app.router.add_route("/admin/auth/google", login_google)
+    admin.app.router.add_route("/auth/google", login_google)
