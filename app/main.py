@@ -4,7 +4,6 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from mangum import Mangum
 
-from app.admin import setup_admin
 from app.api.main import api_router
 from app.core.config import settings
 from app.core.db import async_engine
@@ -36,6 +35,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 if settings.DEBUG:
+    from app.admin import setup_admin
+
     setup_admin(app, async_engine)
 # for aws lambda
 handler = Mangum(app)
