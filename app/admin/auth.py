@@ -4,6 +4,8 @@ from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 from starlette.responses import RedirectResponse, Response
 
+from authlib.integrations.base_client.errors import MismatchingStateError, OAuthError
+
 from app.core.db import async_session
 from app.crud import get_user_by_email
 from app.core.oauth import oauth
@@ -28,7 +30,13 @@ class AdminAuth(AuthenticationBackend):
 
 
 async def login_google(request: Request) -> Response:
-    token = await oauth.google.authorize_access_token(request)
+    try:
+        token = await oauth.google.authorize_access_token(request)
+    except (MismatchingStateError, OAuthError):
+        # If there's a state mismatch (e.g. from multiple rapid clicks or a browser prefetch),
+        # simply redirect back to admin to cleanly restart the OAuth flow.
+        return RedirectResponse("/admin/")
+
     if user_info := token.get("userinfo"):
         if email := user_info.get("email"):
             async with async_session() as session:
