@@ -20,9 +20,10 @@ class AdminAuth(AuthenticationBackend):
     async def authenticate(self, request: Request) -> Union[bool, RedirectResponse]:
         user = request.session.get("user")
         if not user:
-            redirect_uri = str(request.url_for("login_google"))
+            redirect_uri = str(request.base_url) + "admin/auth/google"
             return await oauth.google.authorize_redirect(request, redirect_uri)
         return True
+
 
 
 async def login_google(request: Request) -> Response:
@@ -33,7 +34,7 @@ async def login_google(request: Request) -> Response:
                 user = await get_user_by_email(session=session, email=email)
                 if user and getattr(user, "is_superuser", False):
                     request.session["user"] = user_info
-                    return RedirectResponse(request.url_for("admin:index"))
+                    return RedirectResponse("/admin/")
 
     # Clean the session if unauthorized
     request.session.clear()
