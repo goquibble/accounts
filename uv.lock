@@ -26,12 +26,12 @@ dependencies = [
     { name = "pyjwt" },
     { name = "python-dotenv" },
     { name = "python-multipart" },
-    { name = "sqladmin" },
     { name = "sqlmodel" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "sqladmin" },
     { name = "uvicorn", extra = ["standard"] },
 ]
 
@@ -52,12 +52,14 @@ requires-dist = [
     { name = "pyjwt", specifier = ">=2.10.1" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "python-multipart", specifier = ">=0.0.20" },
-    { name = "sqladmin", specifier = ">=0.22.0" },
     { name = "sqlmodel", specifier = ">=0.0.27" },
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "uvicorn", extras = ["standard"], specifier = ">=0.41.0" }]
+dev = [
+    { name = "sqladmin", specifier = ">=0.22.0" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.41.0" },
+]
 
 [[package]]
 name = "aioboto3"

@@ -20,23 +20,13 @@ dependencies = [
   "pyjwt>=2.10.1",
   "python-dotenv>=1.1.1",
   "python-multipart>=0.0.20",
-  "sqladmin>=0.22.0",
   "sqlmodel>=0.0.27",
 ]
 
 [dependency-groups]
-dev = ["uvicorn[standard]>=0.41.0"]
+dev = ["uvicorn[standard]>=0.41.0", "sqladmin>=0.22.0"]
 
 [tool.poe.tasks]
 server = "uvicorn app.main:app --reload"
 alembic-upgrade = "alembic upgrade head"
 alembic-revision = "alembic revision --autogenerate"
-
-[tool.pyright]
-reportExplicitAny = "none"
-reportAny = "none"
-reportUnknownVariableType = "none"
-reportUnknownMemberType = "none"
-reportMissingTypeStubs = "none"
-reportUnusedCallResult = "none"
-reportUnknownArgumentType = "none"
