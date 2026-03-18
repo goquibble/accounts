@@ -35,7 +35,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-setup_admin(app, async_engine)
+if settings.DEBUG:
+    setup_admin(app, async_engine)
 # for aws lambda
 handler = Mangum(app)
