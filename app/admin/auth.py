@@ -20,10 +20,11 @@ class AdminAuth(AuthenticationBackend):
     async def authenticate(self, request: Request) -> Union[bool, RedirectResponse]:
         user = request.session.get("user")
         if not user:
-            redirect_uri = str(request.base_url) + "admin/auth/google"
+            redirect_uri = (
+                f"{request.url.scheme}://{request.url.netloc}/admin/auth/google"
+            )
             return await oauth.google.authorize_redirect(request, redirect_uri)
         return True
-
 
 
 async def login_google(request: Request) -> Response:
